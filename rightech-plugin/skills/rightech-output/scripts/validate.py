@@ -1,0 +1,527 @@
+#!/usr/bin/env python3
+"""Локальная проверка JSON сущностей Rightech IoT Core до отправки в API.
+
+Правила взяты из references/rules.md (выведены из 24 рабочих образцов).
+Скрипт не обращается к сети и не требует зависимостей.
+
+Режимы:
+  export  объект как в экспорте платформы (служебные поля допустимы);
+  new     объект, подготовленный к POST (служебные поля запрещены).
+
+Уровни сообщений:
+  ERROR  объект заведомо некорректен (нарушает структуру или ссылки);
+  WARN   подозрительно, требует решения пользователя;
+  INFO   наблюдавшееся в рабочих образцах расхождение, не ошибка.
+
+Код возврата: 0 — ошибок нет; 1 — есть ERROR; 2 — есть WARN при --strict.
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import re
+import sys
+from dataclasses import dataclass, field
+from pathlib import Path
+
+SERVICE_FIELDS = ("_id", "_at", "owner", "group", "time", "user", "store", "origin")
+NODE_SERVICE_FIELDS = ("_parentId", "_inactive", "copy", "_isRoot", "_levels", "_dataPath")
+NODE_TYPES = {"subsystem", "argument", "action", "config", "event-logic"}
+DATA_TYPES = {"number", "string", "boolean", "object"}
+BASE_VALUES = {"mqtt", "nidd", "teltonika", "lora"}
+ACTION_SERVICES = {"ric-gate", "ric-logic-v3.user-event"}
+LANGUAGES = {"javascript", "typescript"}
+STATE_TYPES = {"init", "state", "final"}
+GEOFENCE_SHAPES = {"polygon"}
+
+SECRET_PATTERNS = (
+    ("JWT", re.compile(r"eyJ[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}")),
+    ("AWS key", re.compile(r"AKIA[0-9A-Z]{16}")),
+    ("private key", re.compile(r"-----BEGIN [A-Z ]*PRIVATE KEY-----")),
+    ("API key", re.compile(r"\bsk-[A-Za-z0-9]{20,}")),
+    ("password literal", re.compile(r"(?i)\bpassword\s*[:=]\s*['\"][^'\"]+['\"]")),
+)
+
+
+@dataclass
+class Report:
+    errors: list[str] = field(default_factory=list)
+    warnings: list[str] = field(default_factory=list)
+    infos: list[str] = field(default_factory=list)
+
+    def error(self, message: str) -> None:
+        self.errors.append(message)
+
+    def warn(self, message: str) -> None:
+        self.warnings.append(message)
+
+    def info(self, message: str) -> None:
+        self.infos.append(message)
+
+    @property
+    def ok(self) -> bool:
+        return not self.errors
+
+
+def load_entity(path: Path, store_hint: str | None) -> tuple[str, dict]:
+    """Возвращает (тип сущности, объект сущности) из экспорта или из голого JSON."""
+    raw = json.loads(path.read_text(encoding="utf-8-sig"))
+    if not isinstance(raw, dict):
+        raise ValueError("ожидался JSON-объект")
+    if isinstance(raw.get("data"), dict) and raw.get("store"):
+        return str(raw["store"]), raw["data"]
+    if store_hint is None:
+        raise ValueError("не удалось определить тип сущности: укажите --store")
+    return store_hint, raw
+
+
+def is_number(value: object) -> bool:
+    return isinstance(value, (int, float)) and not isinstance(value, bool)
+
+
+def scan_secrets(text: str) -> list[str]:
+    return [name for name, pattern in SECRET_PATTERNS if pattern.search(text)]
+
+
+# --------------------------------------------------------------------------- модели
+
+
+def validate_model(entity: dict, mode: str, report: Report) -> None:
+    if not isinstance(entity.get("name"), str) or not entity.get("name", "").strip():
+        report.error("models: не заполнено имя (name)")
+    base = entity.get("base")
+    if not isinstance(base, str) or not base.strip():
+        report.error("models: не заполнено base")
+    elif base not in BASE_VALUES:
+        report.warn(f"models: base={base!r} не встречался в образцах — подтвердите по документации")
+
+    tree = entity.get("data")
+    if not isinstance(tree, dict):
+        report.error("models: нет дерева data")
+        return
+    for key in ("id", "type", "active"):
+        if key not in tree:
+            report.error(f"models: корневой узел не содержит {key}")
+    if tree.get("type") != "subsystem":
+        report.warn("models: корневой узел обычно type=subsystem")
+
+    seen: dict[str, str] = {}
+
+    def walk(node: object, path: str) -> None:
+        if not isinstance(node, dict):
+            report.error(f"models: {path} — узел не объект")
+            return
+        node_type = node.get("type")
+        if node_type not in NODE_TYPES:
+            report.error(f"models: {path} — неизвестный type={node_type!r}")
+        for key in ("id", "type", "active"):
+            if key not in node:
+                report.error(f"models: {path} — нет поля {key}")
+        node_id = node.get("id")
+        if isinstance(node_id, str) and node_id:
+            if node_id in seen and node_id != "root":
+                report.error(f"models: повторяющийся id={node_id!r} ({seen[node_id]} и {path})")
+            seen.setdefault(node_id, path)
+        elif node_type is not None:
+            report.error(f"models: {path} — пустой или нестроковый id")
+
+        if "name" not in node:
+            report.info(f"models: {path} — узел без name (встречается в рабочих экспортах)")
+        if node_type == "argument":
+            if node.get("dataType") not in DATA_TYPES:
+                report.error(
+                    f"models: {path} — dataType={node.get('dataType')!r} вне {sorted(DATA_TYPES)}"
+                )
+            if "unit" in node and node["unit"] is not None and not str(node["unit"]).strip():
+                report.error(f"models: {path} — пустая единица измерения unit")
+        if node_type == "action":
+            service = node.get("service")
+            if service not in ACTION_SERVICES:
+                report.warn(f"models: {path} — service={service!r} не встречался в образцах")
+            if service == "ric-gate":
+                params = node.get("params")
+                if not node.get("command"):
+                    report.warn(f"models: {path} — действие ric-gate без command")
+                if not isinstance(params, dict):
+                    report.warn(f"models: {path} — действие ric-gate без params")
+                elif "topic" not in params:
+                    report.info(f"models: {path} — params без topic (встречается в экспортах)")
+            if not isinstance(node.get("params", {}), dict):
+                report.error(f"models: {path} — params должен быть объектом")
+
+        if mode == "new":
+            for key in NODE_SERVICE_FIELDS:
+                if key in node:
+                    report.warn(f"models: {path} — служебное поле {key} перед отправкой")
+
+        children = node.get("children", [])
+        if not isinstance(children, list):
+            report.error(f"models: {path} — children должен быть списком")
+            return
+        for index, child in enumerate(children):
+            walk(child, f"{path}.children[{index}]")
+
+    walk(tree, "data")
+
+
+# ------------------------------------------------------------------------- сценарии
+
+
+def validate_scenario(entity: dict, mode: str, report: Report) -> None:
+    if not isinstance(entity.get("name"), str) or not entity.get("name", "").strip():
+        report.error("automatons: не заполнено имя (name)")
+
+    model_id = entity.get("model")
+    models = entity.get("models")
+    if not isinstance(model_id, str) or not model_id:
+        report.error("automatons: не заполнено model (идентификатор модели)")
+    if not isinstance(models, list) or not models:
+        report.error("automatons: не заполнен список models")
+    elif isinstance(model_id, str) and model_id and model_id not in models:
+        report.error("automatons: model отсутствует в models")
+
+    encoded = entity.get("data")
+    if not isinstance(encoded, str):
+        report.error("automatons: data должен быть строкой с вложенным JSON")
+        return
+    try:
+        scene = json.loads(encoded)
+    except json.JSONDecodeError as exc:
+        report.error(f"automatons: вложенный JSON в data не разбирается: {exc}")
+        return
+    if not isinstance(scene, dict):
+        report.error("automatons: вложенный JSON должен быть объектом")
+        return
+
+    states = scene.get("states")
+    transitions = scene.get("transitions")
+    if not isinstance(states, dict) or not states:
+        report.error("automatons: во вложенном JSON нет непустых states")
+        return
+    if not isinstance(transitions, dict):
+        report.error("automatons: во вложенном JSON нет transitions")
+        return
+
+    state_ids: set[str] = set()
+    has_init = False
+    has_final = False
+    for state_key, state in states.items():
+        if not isinstance(state, dict):
+            report.error(f"automatons: states.{state_key} — не объект")
+            continue
+        state_ids.add(state_key)
+        data = state.get("data")
+        if not isinstance(data, dict):
+            report.error(f"automatons: states.{state_key}.data отсутствует")
+            continue
+        state_type = data.get("type")
+        if state_type not in STATE_TYPES:
+            report.error(f"automatons: states.{state_key} — type={state_type!r} вне {sorted(STATE_TYPES)}")
+        has_init |= state_type == "init"
+        has_final |= state_type == "final"
+        if data.get("id") != state_key:
+            report.warn(f"automatons: states.{state_key} — data.id={data.get('id')!r} не совпадает с ключом")
+        for hook in ("onenter", "onexit"):
+            actions = data.get(hook, [])
+            if not isinstance(actions, list):
+                report.error(f"automatons: states.{state_key}.{hook} должен быть списком")
+                continue
+            for index, action in enumerate(actions):
+                if not isinstance(action, dict) or not action.get("id"):
+                    report.error(f"automatons: states.{state_key}.{hook}[{index}] без id действия")
+                elif not isinstance(action.get("args", {}), dict):
+                    report.error(f"automatons: states.{state_key}.{hook}[{index}].args должен быть объектом")
+    if not has_init:
+        report.warn("automatons: нет состояния type=init")
+    if not has_final:
+        report.warn("automatons: нет состояния type=final")
+
+    for transition_key, transition in transitions.items():
+        if not isinstance(transition, dict):
+            report.error(f"automatons: transitions.{transition_key} — не объект")
+            continue
+        data = transition.get("data")
+        if not isinstance(data, dict):
+            report.error(f"automatons: transitions.{transition_key}.data отсутствует")
+            continue
+        if data.get("id") != transition_key:
+            report.warn(
+                f"automatons: transitions.{transition_key} — data.id={data.get('id')!r} не совпадает с ключом"
+            )
+        if not data.get("event"):
+            report.error(f"automatons: transitions.{transition_key} — нет event")
+        for side in ("owner", "target"):
+            ref = data.get(side)
+            if not isinstance(ref, dict) or "id" not in ref:
+                report.error(f"automatons: transitions.{transition_key} — нет {side}.id")
+                continue
+            if ref["id"] not in state_ids:
+                report.error(
+                    f"automatons: transitions.{transition_key} — {side}.id={ref['id']!r} отсутствует в states"
+                )
+        if not isinstance(transition.get("points", []), list):
+            report.error(f"automatons: transitions.{transition_key}.points должен быть списком")
+        condition = data.get("condition")
+        if condition is not None and not isinstance(condition, str):
+            report.error(f"automatons: transitions.{transition_key}.condition должен быть строкой")
+        if isinstance(data.get("userCode"), str):
+            for name in scan_secrets(data["userCode"]):
+                report.error(f"automatons: transitions.{transition_key}.userCode содержит секрет ({name})")
+
+    if mode == "new":
+        if "processId" not in entity:
+            report.warn("automatons: нет processId — уточните, требуется ли он при создании")
+
+
+# --------------------------------------------------------------------------- геозоны
+
+
+def validate_geofence(entity: dict, mode: str, report: Report) -> None:
+    if not isinstance(entity.get("name"), str) or not entity.get("name", "").strip():
+        report.error("geofences: не заполнено имя (name)")
+    color = entity.get("color")
+    if color is not None and not re.fullmatch(r"#[0-9A-Fa-f]{6}", str(color)):
+        report.warn(f"geofences: color={color!r} не в формате #RRGGBB")
+
+    shape = entity.get("shape")
+    if not isinstance(shape, dict):
+        report.error("geofences: нет shape")
+        return
+    shape_type = shape.get("type")
+    if shape_type not in GEOFENCE_SHAPES:
+        report.error(
+            f"geofences: shape.type={shape_type!r}; в образцах подтверждён только polygon, "
+            "для других форм нужен эталон из аккаунта"
+        )
+
+    def check_ring(points: object, path: str) -> None:
+        if not isinstance(points, list) or not points:
+            report.error(f"geofences: {path} должен быть непустым списком точек")
+            return
+        for index, point in enumerate(points):
+            if (
+                not isinstance(point, list)
+                or len(point) != 2
+                or not all(is_number(value) for value in point)
+            ):
+                report.error(f"geofences: {path}[{index}] должен быть парой чисел [широта, долгота]")
+                continue
+            lat, lon = point
+            if not -90 <= lat <= 90:
+                report.error(f"geofences: {path}[{index}] широта {lat} вне -90..90")
+            if not -180 <= lon <= 180:
+                report.error(f"geofences: {path}[{index}] долгота {lon} вне -180..180")
+        if len(points) < 3:
+            report.warn(f"geofences: {path} содержит меньше трёх точек")
+
+    check_ring(shape.get("points"), "shape.points")
+    cutouts = shape.get("cutouts", [])
+    if not isinstance(cutouts, list):
+        report.error("geofences: shape.cutouts должен быть списком")
+    else:
+        for index, cutout in enumerate(cutouts):
+            if not isinstance(cutout, dict) or cutout.get("type") != "polygon":
+                report.error(f"geofences: shape.cutouts[{index}] должен быть polygon")
+                continue
+            check_ring(cutout.get("points"), f"shape.cutouts[{index}].points")
+
+    if not isinstance(entity.get("floors", []), list):
+        report.error("geofences: floors должен быть списком")
+    if not isinstance(entity.get("props", {}), dict):
+        report.error("geofences: props должен быть объектом")
+
+
+# ----------------------------------------------------------------------- обработчики
+
+
+REGEX_PRECEDERS = set("([{=,:;!&|?+*-%~^<>")
+
+
+def js_bracket_balance(code: str) -> str | None:
+    """Проверяет баланс скобок, пропуская строки, шаблоны, комментарии и regex-литералы."""
+    pairs = {")": "(", "]": "[", "}": "{"}
+    stack: list[str] = []
+    index = 0
+    length = len(code)
+    while index < length:
+        char = code[index]
+        nxt = code[index + 1] if index + 1 < length else ""
+        if char == "/" and nxt not in ("/", "*"):
+            previous = index - 1
+            while previous >= 0 and code[previous].isspace():
+                previous -= 1
+            opener = code[previous] if previous >= 0 else ""
+            is_regex = previous < 0 or opener in REGEX_PRECEDERS or code[: previous + 1].rstrip().endswith("return")
+            if is_regex:
+                index += 1
+                in_class = False
+                while index < length:
+                    current = code[index]
+                    if current == "\\":
+                        index += 2
+                        continue
+                    if current == "[":
+                        in_class = True
+                    elif current == "]":
+                        in_class = False
+                    elif current == "/" and not in_class:
+                        break
+                    elif current == "\n":
+                        return "незакрытый regex-литерал"
+                    index += 1
+                else:
+                    return "незакрытый regex-литерал"
+                index += 1
+                continue
+        if char == "/" and nxt == "/":
+            end = code.find("\n", index)
+            index = length if end == -1 else end
+            continue
+        if char == "/" and nxt == "*":
+            end = code.find("*/", index + 2)
+            if end == -1:
+                return "незакрытый блочный комментарий"
+            index = end + 2
+            continue
+        if char in "\"'`":
+            quote = char
+            index += 1
+            while index < length:
+                current = code[index]
+                if current == "\\":
+                    index += 2
+                    continue
+                if current == quote:
+                    break
+                index += 1
+            else:
+                return f"незакрытая строка {quote}"
+            index += 1
+            continue
+        if char in "([{":
+            stack.append(char)
+        elif char in ")]}":
+            if not stack or stack[-1] != pairs[char]:
+                return f"лишняя или перепутанная скобка {char!r} на позиции {index}"
+            stack.pop()
+        index += 1
+    if stack:
+        return f"не закрыто {len(stack)} скобок"
+    return None
+
+
+def validate_handler(entity: dict, mode: str, report: Report) -> None:
+    if not isinstance(entity.get("name"), str) or not entity.get("name", "").strip():
+        report.error("handlers: не заполнено имя (name)")
+    language = entity.get("language")
+    if language not in LANGUAGES:
+        report.error(f"handlers: language={language!r} вне {sorted(LANGUAGES)}")
+    code = entity.get("userCode")
+    if not isinstance(code, str) or not code.strip():
+        report.error("handlers: не заполнен userCode")
+        return
+    for name in scan_secrets(code):
+        report.error(f"handlers: в userCode найден секрет ({name})")
+    problem = js_bracket_balance(code)
+    if problem:
+        report.error(f"handlers: синтаксическая проблема в userCode — {problem}")
+    if not re.search(r"export\s+(?:async\s+)?function\s+process\s*\(", code):
+        report.error("handlers: нет точки входа export function process(...)")
+
+    parameters = entity.get("parameters")
+    cross_mappings = entity.get("crossMappings")
+    if parameters is None and cross_mappings is None:
+        report.warn("handlers: нет ни parameters, ни crossMappings — связь с моделью не задана")
+    if parameters is not None and not isinstance(parameters, dict):
+        report.error("handlers: parameters должен быть объектом")
+    if cross_mappings is not None and not isinstance(cross_mappings, dict):
+        report.error("handlers: crossMappings должен быть объектом")
+    for index, element in enumerate(entity.get("crossElements", []) or []):
+        if not isinstance(element, dict) or not element.get("id"):
+            report.error(f"handlers: crossElements[{index}] без id")
+    if mode == "new" and isinstance(parameters, dict):
+        for model_key, handlers in parameters.items():
+            if not re.fullmatch(r"m-[0-9a-f]{24}", str(model_key)):
+                report.warn(f"handlers: ключ parameters {model_key!r} не вида m-<id модели>")
+            if not isinstance(handlers, dict):
+                report.error(f"handlers: parameters[{model_key!r}] должен быть объектом")
+
+
+VALIDATORS = {
+    "models": validate_model,
+    "automatons": validate_scenario,
+    "geofences": validate_geofence,
+    "handlers": validate_handler,
+}
+
+
+def validate_entity(store: str, entity: dict, mode: str = "export") -> Report:
+    report = Report()
+    validator = VALIDATORS.get(store)
+    if validator is None:
+        report.error(f"неизвестный тип сущности {store!r}; ожидается один из {sorted(VALIDATORS)}")
+        return report
+    if mode == "new":
+        present = [key for key in SERVICE_FIELDS if key in entity]
+        if present:
+            report.error(f"{store}: служебные поля нужно удалить перед отправкой: {', '.join(present)}")
+    validator(entity, mode, report)
+    return report
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description="Проверка JSON сущностей Rightech")
+    parser.add_argument("paths", nargs="+", help="файлы или каталоги с JSON")
+    parser.add_argument("--store", choices=sorted(VALIDATORS), help="тип сущности для голого JSON")
+    parser.add_argument("--mode", choices=("export", "new"), default="export")
+    parser.add_argument("--strict", action="store_true", help="считать WARN ошибками")
+    parser.add_argument("--quiet", action="store_true", help="не печатать INFO")
+    args = parser.parse_args(argv)
+
+    files: list[Path] = []
+    for raw_path in args.paths:
+        path = Path(raw_path)
+        if path.is_dir():
+            files.extend(sorted(path.rglob("*.json")))
+        else:
+            files.append(path)
+    if not files:
+        print("не найдено JSON-файлов", file=sys.stderr)
+        return 1
+
+    total_errors = 0
+    total_warnings = 0
+    for path in files:
+        try:
+            store, entity = load_entity(path, args.store)
+        except (OSError, ValueError, json.JSONDecodeError) as exc:
+            print(f"[ERROR] {path}: {exc}")
+            total_errors += 1
+            continue
+        report = validate_entity(store, entity, args.mode)
+        total_errors += len(report.errors)
+        total_warnings += len(report.warnings)
+        if not report.errors and not report.warnings:
+            print(f"[OK]    {path} ({store})")
+            continue
+        status = "ERROR" if report.errors else "WARN "
+        print(f"[{status}] {path} ({store})")
+        for message in report.errors:
+            print(f"        ERROR: {message}")
+        for message in report.warnings:
+            print(f"        WARN:  {message}")
+        if not args.quiet:
+            for message in report.infos:
+                print(f"        INFO:  {message}")
+
+    print(f"\nфайлов: {len(files)}, ошибок: {total_errors}, предупреждений: {total_warnings}")
+    if total_errors:
+        return 1
+    if args.strict and total_warnings:
+        return 2
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

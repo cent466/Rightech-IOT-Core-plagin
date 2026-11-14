@@ -8,6 +8,16 @@
 
 Нужны Git и соответствующий клиент Claude Code или Codex.
 
+### Claude Desktop / Claude.ai — загрузить ZIP
+
+1. Скачайте [готовый архив плагина `rightech-plugin-claude.zip`](https://github.com/cent466/Rightech-IOT-Core-plagin/raw/refs/heads/main/rightech-plugin-claude.zip).
+2. В Claude откройте **Персонализация → Плагины → Добавить → Загрузить плагин**.
+3. Выберите ZIP-архив. Внутри него находится папка `rightech-plugin/` с `.claude-plugin/plugin.json`.
+4. Включите **Code execution and file creation** в **Настройки → Возможности** Claude (иначе скрипты проверки и выдача файлов недоступны).
+5. Убедитесь, что навыки плагина включены в **Персонализация → Навыки**, затем начните новый чат и попросите Claude, например: «Изучи документацию моего устройства и подготовь JSON-модель для импорта в Rightech».
+
+Для загрузки ZIP нужны план, поддерживающий навыки (Pro, Max, Ultra, Team или Enterprise), и разрешённое выполнение кода/создание файлов. Плагин устанавливается в аккаунт Claude; для ZIP-установки не нужны Git или терминал.
+
 ### Claude Code — установить из GitHub Marketplace
 
 В терминале Claude Code выполните:

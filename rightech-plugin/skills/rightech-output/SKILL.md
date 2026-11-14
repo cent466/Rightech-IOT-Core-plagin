@@ -18,8 +18,18 @@ description: Выдача готовых файлов для ручного им
 
 ## Сборка файла
 
+В ZIP скрипты лежат в папке этого навыка: `scripts/make_import_file.py` и `scripts/validate.py`. В Claude Desktop/чате код и ресурсы каждого навыка могут быть доступны в его собственной sandbox-копии, поэтому из навыка `rightech-output` не предполагай доступ к путям другого навыка.
+
+- В Claude Desktop/чате запускай скрипт как путь `scripts/make_import_file.py` относительно папки навыка, например:
+
 ```bash
-python3 "${CLAUDE_PLUGIN_ROOT}/scripts/make_import_file.py" entity.json --store models
+python3 scripts/make_import_file.py entity.json --store models --out-dir rightech-output
+```
+
+- В Claude Code/Cowork используй абсолютный путь навыка:
+
+```bash
+python3 "${CLAUDE_SKILL_DIR}/scripts/make_import_file.py" entity.json --store models --out-dir rightech-output
 ```
 
 В Codex путь к плагину — `${PLUGIN_ROOT}`. Скрипт валидирует сущность, убирает служебные поля (`_id`, `owner`, `group`, `time`, `_at`, а в дереве модели — `_parentId`, `_inactive`, `copy`, `_isRoot`, `_levels`, `_dataPath`), заворачивает результат в оболочку экспорта и сохраняет в `rightech-output/`.
@@ -51,7 +61,7 @@ python3 "${CLAUDE_PLUGIN_ROOT}/scripts/make_import_file.py" entity.json --store 
 
 ## Проверка перед выдачей
 
-1. Валидатор: `python3 "${CLAUDE_PLUGIN_ROOT}/scripts/validate.py" entity.json --store models --mode new` — без ошибок.
+1. Запусти `scripts/validate.py` из ресурсов `rightech-output` в той же sandbox-копии навыка (или `${CLAUDE_SKILL_DIR}/scripts/validate.py` в Claude Code/Cowork). Если Claude Desktop держит активные ресурсы в отдельных изолированных копиях и файл не виден, не утверждай, что запускаемый валидатор выполнен: проверь JSON по инструкции и сообщи об ограничении.
 2. Покажи, что вошло в файл: имя, тип, число узлов/состояний/точек, отличия от ближайшего образца.
 3. Предупреди, что файл не отправлялся в аккаунт и что импорт выполняет пользователь.
 
