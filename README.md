@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/rightech-logo.png" alt="Rightech IoT Services" width="240">
+</p>
+
 # Rightech IoT Core — плагин генерации файлов сущностей
 
 Плагин помогает Claude Code и Codex создавать JSON-файлы сущностей Rightech IoT Core по локальным образцам и доступной документации. Результат — готовый файл для ручного импорта или переноса через интерфейс Rightech.
