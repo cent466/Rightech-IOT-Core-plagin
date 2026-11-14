@@ -30,7 +30,7 @@
 ### Обязательные поля (наблюдались во всех 10)
 
 `name`, `base`, `description`, `props`, `data` — верхний уровень `data`-объекта.
-Ссылки: `primer_model/2026-11-14_Модель_MQTT3.json → $.name, $.base, $.description, $.props, $.data`.
+Ссылки: `primer_model/model_mqtt3.json → $.name, $.base, $.description, $.props, $.data`.
 
 `props` во всех 10 содержит: `bots` (bool), `hardwareEvents` (bool), `idPattern` (str), `order` (int), `prefix` (str), `protocol` (str); `helper` — 10/10, но типом различается (`dict` в 5, `str` в 5) — противоречие, см. «Нерешённые вопросы».
 
@@ -41,7 +41,7 @@
 ### Корень дерева `data`
 
 Во всех 10: `data.id = "root"`, `data.type = "subsystem"`, `data.active` (bool), `data.children` (list), `data.name` (совпадает с `name` модели в 10/10), `data.description`.
-Один образец содержит `_isRoot: true` (`primer_model/…Динамограф_Автон.json → $.data._isRoot`).
+Один образец содержит `_isRoot: true` (`primer_model/model_avton_dynamograph.json → $.data._isRoot`).
 
 ### Типы узлов, реально встречающиеся в дереве
 
@@ -51,7 +51,7 @@
 | `argument` | 439 | обязательно `id`, `name`, `type`, `active`, `dataType`; часто `children`, `unit`, `reference`, `source`, `factor`, `linear`, `levels`, `display`, `decimalPlaces`, `description` |
 | `action` | 34 | `id`, `name`, `type`, `active`, `service`, `command`, `params`; иногда `confirm`, `dataType`, `description`, `source`, `children` |
 | `config` | 6 | `id`, `name`, `type`, `active`, `dataType`, `ctrl`, `opts`, `source`, `defaultValue` (3), `_dataPath`, `_inactive`, `_parentId` |
-| `event-logic` | 4 | только `id`, `name`, `type`, `active` (`primer_model/2026-11-14_Модель_Умный_дом.json`) |
+| `event-logic` | 4 | только `id`, `name`, `type`, `active` (`primer_model/model_smart_home.json`) |
 
 **Тип `event`, упомянутый в ТЗ, в образцах не встретился ни разу.** События в сценариях ссылаются на узлы по `id`, но узел-событие надо получить эталоном.
 
@@ -76,9 +76,9 @@
 
 ### Типовые шаблоны
 
-- Простейшая модель для разбора: `primer_model/2026-11-14_Модель_Термометр_«Автон»_A845…_(NIDD).json` (15 узлов).
-- Модель с действиями MQTT: `primer_model/2026-11-14_Модель_Automatic_aqwa.json`.
-- Модель с `config`/`event-logic`: `primer_model/2026-11-14_Модель_Умный_дом.json`.
+- Простейшая модель для разбора: `primer_model/model_avton_a845_a855_thermometer_nidd.json` (15 узлов).
+- Модель с действиями MQTT: `primer_model/model_automatic_aqwa.json`.
+- Модель с `config`/`event-logic`: `primer_model/model_smart_home.json`.
 
 ### Запрещено / опасно
 
@@ -106,7 +106,7 @@
 
 ### Ключевая особенность
 
-`$.data` — **строка**, внутри которой лежит JSON-документ с ключами `states` и `transitions` (6/6). Пример: `primer_scena/2026-11-14_Сценарий_day_night.json → $.data`.
+`$.data` — **строка**, внутри которой лежит JSON-документ с ключами `states` и `transitions` (6/6). Пример: `primer_scena/scenario_day_night.json → $.data`.
 Валидатор обязан: распарсить строку, проверить вложенный JSON, и только потом проверять ссылки. Отправлять `data` нужно строкой (это то, что видно в экспорте), но **не подтверждено** API-контрактом.
 
 ### Структура вложенного JSON
@@ -144,11 +144,11 @@
 
 Наблюдались `id`: `send-push-message` (13), `send-telegram` (5), `change-value` (7), `create-task` (3), `gen-user-event` (2), `timer#N-start`/`-stop`, `schedule-timer#N-start`/`-stop`, а также пользовательские `<node-id>-<суффикс>` (`output_controlon-vq8f6`), соответствующие действиям модели.
 
-Аргументы действий в `args` всегда в форме `{ "<argName>": { "id": ..., "value": ..., "dataType": ... } }`; для строковых аргументов без метаданных встречается `{"value": ...}`. Пример: `primer_scena/2026-11-14_Сценарий_day_night.json → states.2.data.onenter[0].args.period`.
+Аргументы действий в `args` всегда в форме `{ "<argName>": { "id": ..., "value": ..., "dataType": ... } }`; для строковых аргументов без метаданных встречается `{"value": ...}`. Пример: `primer_scena/scenario_day_night.json → states.2.data.onenter[0].args.period`.
 
 ### Cross-сценарий (1/6)
 
-`primer_scena/2026-11-14_Сценарий_Сигнализатор_A555-10.2581.json` содержит `elementType: "cross"` и `crossElements: [{type:"argument", tag:"import", id, name, dataType}]`. Отличие от «по параметрам модели» — именно эти поля; `model`/`models` присутствуют и там.
+`primer_scena/scenario_a555_10_2581_alarm.json` содержит `elementType: "cross"` и `crossElements: [{type:"argument", tag:"import", id, name, dataType}]`. Отличие от «по параметрам модели» — именно эти поля; `model`/`models` присутствуют и там.
 
 ### Необязательные
 
@@ -174,7 +174,7 @@
 ### Обязательные поля (2/2)
 
 `name`, `color`, `style`, `shape`, `floors`, `props` (+ служебные).
-Ссылки: `primer_geo/2026-11-14_Геозона_Ленинградская_область.json → $.name, $.color, $.style, $.shape, $.floors, $.props`.
+Ссылки: `primer_geo/geo_leningradskaya_oblast.json → $.name, $.color, $.style, $.shape, $.floors, $.props`.
 
 ### Формат
 
@@ -234,13 +234,13 @@
 ### `parameters` — связь обработчика с моделью
 
 Структура: `parameters["m-<modelId>"]["h-<handlerId>"].import|export`, где значения — строки вида `"model.payload"` (импорт) и `"temperature"` (экспорт, имя аргумента модели).
-Ссылка: `primer_obrabotka/2026-11-14_Обработчик_AQWA_control.json → $.parameters`.
+Ссылка: `primer_obrabotka/handler_aqwa_control.json → $.parameters`.
 В 1/6 (`cross`-вариант) `parameters` отсутствует, его роль выполняют `crossMappings`.
 
 ### Стиль кода (подтверждён 6/6)
 
 - Точка входа — `export function process(...)`.
-  - JavaScript: `export function process(payload)` — `primer_obrabotka/…AQWA_control.json`.
+  - JavaScript: `export function process(payload)` — `primer_obrabotka/handler_aqwa_control.json`.
   - TypeScript: `export function process(payload: string, topic: string)` или `process(payload: unknown, topic = "")`.
 - JS-обработчики парсят JSON: `JSON.parse(payload)`; отсутствующие поля удаляются, чтобы не затирать состояние (`Object.keys(result).forEach(k => result[k] === undefined && delete result[k])`).
 - TS-обработчики декодируют бинарные пакеты: `ric.base64.decode(payload)`, `DataView`, чтение little-endian (`getUint32(offset, true)`), диспетчеризация по `classId`.

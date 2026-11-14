@@ -29,12 +29,23 @@ claude --plugin-dir ./rightech-plugin
 
 ### Codex
 
+В Codex нет установки ZIP-файлом: плагин подключается через marketplace — из GitHub или из локального клона.
+
 ```bash
+# из GitHub
+codex plugin marketplace add cent466/Rightech-IOT-Core-plagin --ref main
+codex plugin add rightech@rightech-plugins
+
+# из локального клона
 codex plugin marketplace add ./
 codex plugin add rightech@rightech-plugins
 ```
 
-Плагины Codex поддерживаются в CLI и приложении; расширение IDE может их не поддерживать.
+Дальше `codex /plugins` открывает браузер плагинов с вкладкой **Rightech Plugins**; в приложении ChatGPT/Codex тот же маркетплейс открывается на вкладке **Plugins**. После установки начните новый чат.
+
+Имена файлов образцов сокращены до ASCII, потому что длинные русские имена не проходят `git checkout` на Windows (лимит длины пути) и установка из GitHub теряла часть образцов. Содержимое образцов и `name` сущностей внутри файлов не менялись.
+
+Плагины Codex поддерживаются в CLI и приложении; расширение IDE их не поддерживает.
 
 ### Локально без плагина
 

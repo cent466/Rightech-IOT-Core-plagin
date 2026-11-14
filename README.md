@@ -38,14 +38,16 @@ claude plugin list
 
 ### Codex — установить из GitHub Marketplace
 
-В терминале Codex выполните:
+В Codex нет загрузки ZIP через интерфейс: пользовательские плагины подключаются через marketplace. В терминале выполните:
 
 ```bash
-codex plugin marketplace add cent466/Rightech-IOT-Core-plagin
+codex plugin marketplace add cent466/Rightech-IOT-Core-plagin --ref main
 codex plugin add rightech@rightech-plugins
 ```
 
-После установки перезапустите Codex. Возможности плагинов зависят от используемого приложения/клиента Codex.
+Либо после первой команды запустите `codex /plugins`, выберите маркетплейс **Rightech Plugins** и установите `rightech`. В приложении ChatGPT/Codex откройте **Plugins**, выберите тот же маркетплейс и нажмите установку. После установки начните новый чат или сессию. Расширение IDE плагины не поддерживает.
+
+Для навигации и возврата к установке: `codex plugin marketplace list`, `codex plugin list --marketplace rightech-plugins`. Обновление после изменений: `codex plugin marketplace upgrade rightech-plugins`.
 
 ### Локальная установка из клона
 
