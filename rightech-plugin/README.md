@@ -90,7 +90,8 @@ rightech-plugin/
 │   └── samples/primer_*           копии рабочих экспортов
 ├── scripts/
 │   ├── validate.py                офлайн-валидатор
-│   └── make_import_file.py        сборка файла импорта и файла кода
+│   ├── make_import_file.py        сборка файла импорта и файла кода
+│   └── geojson_zone.py            полигон геозоны из GeoJSON/выгрузки Overpass
 └── tests/                         36 тестов без сети
 ```
 
@@ -102,6 +103,9 @@ python3 rightech-plugin/scripts/validate.py path/to/entity.json
 
 # 2. Собрать файл для импорта (появится в rightech-output/)
 python3 rightech-plugin/scripts/make_import_file.py entity.json --store models
+
+# 3. Свести выгрузку Overpass к одному полигону для вкладки «Код»
+python3 rightech-plugin/scripts/geojson_zone.py overpass.json -o zone.geojson
 ```
 
 Для своего сервера: добавьте `--origin your.rightech.host`.
