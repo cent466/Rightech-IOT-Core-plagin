@@ -1,0 +1,25 @@
+# local platform metadata
+.freebuff/
+
+# secrets
+.env
+.env.*
+*.token
+secrets/
+*.pem
+*.key
+
+# generated files from local runs
+/rightech-output/
+report.json
+reports/
+
+# Python
+__pycache__/
+*.py[cod]
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

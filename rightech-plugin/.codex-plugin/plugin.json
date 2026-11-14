@@ -1,0 +1,30 @@
+{
+  "name": "rightech",
+  "version": "0.1.0",
+  "description": "Генерация готовых JSON моделей, сценариев, геозон и обработчиков Rightech IoT Core для ручного импорта",
+  "author": {
+    "name": "cent466"
+  },
+  "license": "MIT",
+  "keywords": [
+    "rightech",
+    "iot",
+    "райтек",
+    "модели",
+    "сценарии",
+    "геозоны",
+    "обработчики"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Rightech IoT Core",
+    "shortDescription": "Модели, сценарии, геозоны и обработчики Rightech",
+    "longDescription": "Плагин задаёт уточняющие вопросы, собирает JSON сущностей Rightech по правилам из рабочих образцов, проверяет его локально и отдаёт готовый файл для импорта в интерфейсе платформы. Подключение к API не требуется.",
+    "developerName": "cent466",
+    "category": "Productivity",
+    "capabilities": [
+      "Read",
+      "Write"
+    ]
+  }
+}

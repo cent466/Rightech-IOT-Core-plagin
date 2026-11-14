@@ -1,0 +1,15 @@
+{
+  "name": "rightech-plugins",
+  "description": "Плагины для интеграции с Rightech IoT Core",
+  "owner": {
+    "name": "cent466"
+  },
+  "plugins": [
+    {
+      "name": "rightech",
+      "source": "./rightech-plugin",
+      "description": "Готовые JSON моделей, сценариев, геозон и обработчиков Rightech для ручного импорта",
+      "version": "0.1.0"
+    }
+  ]
+}

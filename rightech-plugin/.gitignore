@@ -1,0 +1,16 @@
+# секреты
+.env
+.env.*
+*.token
+secrets/
+!*.token.example
+
+# python
+__pycache__/
+*.pyc
+
+# служебное
+.DS_Store
+
+# готовые файлы конкретного проекта обычно не коммитят
+# rightech-output/

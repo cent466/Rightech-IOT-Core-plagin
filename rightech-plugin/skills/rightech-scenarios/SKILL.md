@@ -1,0 +1,40 @@
+---
+name: rightech-scenarios
+description: Создание сценариев автоматизации Rightech (automatons): состояния, переходы, условия, действия, уведомления. Использовать при запросах «сценарий», «автомат», «автоматизация», «логика», «уведомление при событии», "rightech scenario", "automaton states transitions".
+---
+
+# Сценарии
+
+## Перед генерацией
+
+Сначала пройди `rightech-research`: поищи официальную документацию Rightech для запрошенных `event`, действий, условий и их аргументов; проверь, что найденное относится к сценарию пользователя. Затем `rightech-questions` — определи модель и спроси только неразрешённую логику. Ближайший образец — `references/samples/primer_scena`.
+
+## Ключевая особенность формата
+
+Поле `data` — **строка**, внутри которой JSON с `states` и `transitions`. Не объект. Сценарий без `model` и `models` не создаётся: `model` — `_id` модели, `models` — список с тем же идентификатором.
+
+```
+states:      { "<id>": { "data": { "type": "init|state|final", "id", "name", "width", "height", "onenter": [...], "onexit": [...] }, "position": {"top", "left"} } }
+transitions: { "<id>": { "data": { "id", "event", "owner": {"id", "point"}, "target": {"id", "point"}, "condition", "eventParameters" }, "points": [...], "block": {...}, "version": 3, "drawMode": "rou" } }
+```
+
+- `owner.id` и `target.id` обязаны существовать в `states`.
+- `type` состояния: `init` (начальное), `state` (обычное), `final` (конечное). Начальное и конечное в образцах присутствуют всегда.
+- `event` — имя события перехода. В образцах встречались `init`, `es-recive-device-data`, `immediate-transition`, таймеры `schedule-timer#N-done`, `es-control-timer#N-done` и пользовательские события вида `1st`, `Canteen_exit`.
+- `condition` — строка-выражение; `eventParameters` — параметры события.
+- Действия в `onenter`/`onexit`: `[{"id": "<id действия>", "name": "...", "args": {"<аргумент>": {"id": ..., "value": ..., "dataType": ...}}}]`. В образцах: `send-push-message`, `send-telegram`, `change-value`, `create-task`, `gen-user-event`, `timer#N-start|stop`, `schedule-timer#N-start|stop`, а также идентификаторы действий модели.
+- Кросс-режим: `elementType: "cross"` + `crossElements` (импортируемые элементы по `tag: "import"`). Без этого — обычный сценарий «по параметрам из модели».
+
+## Что нельзя придумывать
+
+- Каталог доступных `event` и аргументов действий: сначала исследуй официальную документацию Rightech и примеры Rightech. Если нужное действие/событие не найдено или его аргументы не расписаны, попроси конкретную ссылку на документацию или экспорт похожего сценария из аккаунта.
+- `processId`: в образцах короткая строка, правило формирования неизвестно. Уточни, требуется ли он при создании.
+- Координаты редактора (`position`, `points`, `block`) — собери разумную раскладку, но не меняй формат.
+
+## Проверка
+
+```bash
+python3 "${CLAUDE_PLUGIN_ROOT}/scripts/validate.py" scenario.json --store automatons --mode new
+```
+
+Валидатор разбирает вложенную строку, проверяет `states`/`transitions`, наличие `init`/`final`, ссылки `owner`/`target`, `event` и отсутствие секретов в `userCode` переходов. Покажи пользователю список состояний, переходов и действий, затем собери файл для импорта через `rightech-output`. В файле `model`/`models` должны указывать на уже созданную модель — уточни её идентификатор у пользователя.

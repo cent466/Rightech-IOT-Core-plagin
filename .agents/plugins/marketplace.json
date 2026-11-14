@@ -1,0 +1,20 @@
+{
+  "name": "rightech-plugins",
+  "interface": {
+    "displayName": "Rightech Plugins"
+  },
+  "plugins": [
+    {
+      "name": "rightech",
+      "source": {
+        "source": "local",
+        "path": "./rightech-plugin"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}
