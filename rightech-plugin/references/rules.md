@@ -56,7 +56,7 @@
 - аргументы: `source: "state"`, `dataType`, `reference` (`well/pump/voltage`), `unit`, `factor: 1`, `linear: true`, `usage: null`, `description`; у `boolean`-аргумента нет `unit`/`factor`;
 - команды — дочерние `action` внутри подсистемы `commands`: `service: "ric-gate"`, `command: "text_command"`, `source: "state"`, `dataType: "string"`, `params: {"command": "{\"pump_control\": \"ON\"}"}`, `children: []`, `description`, `_inactive: false`;
 - `id` узлов — `snake_case` (`liquid_level`, `pump_voltage`, `pump_on`);
-- `name`/`description` — по-русски, хотя правило пользователя требует английский (расхождение, см. «Нерешённые вопросы»).
+- `name`/`description` — по-русски; это закреплённый стандарт плагина (подтверждён пользователем 2026-11-15).
 
 Ссылки: `primer_model/model_smart_well_mqtt.json → $.data.data.children[*]`.
 
@@ -104,7 +104,7 @@
 - Придумывать `unit`: единицы брать из `GET /api/v1/locale` (ТЗ) или из образца.
 - Угадывать `base` для протокола, которого нет в образцах.
 - Удалять блок `external-software-modules` или класть в него параметры: он первый во всех 11 моделях.
-- Молча переводить `name`/`description` или менять язык модели: созданная модель на русском, правило требует английский.
+- Переводить `name`/`description` на английский или менять язык модели без просьбы: стандарт — русский.
 - Менять `text_command` на `publish` (и обратно) без подтверждения формата команды устройства.
 
 ### Нерешённые вопросы
@@ -113,7 +113,7 @@
 2. `props.protocol` в образцах повторяет `base` (`mqtt`, `nidd`, `teltonika`, `lora`); совпадает ли он с `base` всегда и какие ещё значения допустимы — неизвестно.
 3. Нужны ли `_parentId`/`_inactive`/`copy`/`_isRoot` в `POST /models`, или дерево собирается только через `/nodes?attachTo=`? ТЗ описывает оба пути. В созданной модели `_inactive` и `copy` присутствуют, поэтому плагин сохраняет эти два поля в импортируемом файле, а `_parentId`/`_isRoot`/`_levels`/`_dataPath` — по-прежнему убирает.
 4. Формат узла `event` отсутствует в образцах.
-5. Язык `name`/`description`: правило требует английский, но все платформенные экспорты и созданная модель используют русский. Валидатор язык не проверяет.
+5. ~~Язык `name`/`description`~~ — решено 2026-11-15: русский. Валидатор язык не проверяет.
 
 ---
 
