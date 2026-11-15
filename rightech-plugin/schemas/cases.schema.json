@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Explicit local replay assertions",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "cases"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "cases": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "kind",
+          "synthetic"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "kind": {
+            "type": "string",
+            "minLength": 1
+          },
+          "synthetic": {
+            "type": "boolean"
+          },
+          "packet": {
+            "type": "object"
+          },
+          "object": {
+            "type": "object"
+          },
+          "inputs": {
+            "type": "object"
+          },
+          "action": {
+            "type": "string",
+            "minLength": 1
+          },
+          "payload_format": {
+            "enum": [
+              "json",
+              "text"
+            ]
+          },
+          "bit_sources": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "expected": {
+            "type": "object"
+          },
+          "absent": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "expected_command": {
+            "type": "object",
+            "required": [
+              "service",
+              "command",
+              "params"
+            ],
+            "properties": {
+              "service": {
+                "type": "string",
+                "minLength": 1
+              },
+              "command": {
+                "type": "string",
+                "minLength": 1
+              },
+              "params": {
+                "type": "object"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "kind": {
+                  "const": "command"
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            },
+            "then": {
+              "required": [
+                "action",
+                "expected_command"
+              ]
+            }
+          }
+        ]
+      }
+    }
+  },
+  "additionalProperties": false
+}

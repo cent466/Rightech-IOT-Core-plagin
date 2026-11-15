@@ -91,6 +91,11 @@ rightech-plugin/
 
 ## Быстрый старт
 
+Для SVG и локального replay моделей прочитайте
+[правила и команды](references/model-tools.md). Примеры в `examples/model-tools/`
+полностью синтетические. Дополнительные зависимости перечислены в
+`requirements-tools.txt`; основной валидатор их не требует.
+
 ```bash
 # 1. Проверить любой экспорт или подготовленный JSON
 python3 rightech-plugin/scripts/validate.py path/to/entity.json

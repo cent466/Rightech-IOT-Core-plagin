@@ -112,9 +112,14 @@ class ModelContractTests(unittest.TestCase):
             self.assertFalse(list(target.glob('*')))
 
     def test_distributed_script_copies_match(self):
-        for name in ('validate.py', 'make_import_file.py'):
+        sys.path.insert(0, str(ROOT/'scripts'))
+        from build_plugin import SHARED_SCRIPTS, SHARED_RESOURCES
+        for name in SHARED_SCRIPTS:
             self.assertEqual((ROOT/'rightech-plugin/scripts'/name).read_bytes(),
                              (ROOT/'rightech-plugin/skills/rightech-output/scripts'/name).read_bytes())
+        for name in SHARED_RESOURCES:
+            self.assertEqual((ROOT/'rightech-plugin'/name).read_bytes(),
+                             (ROOT/'rightech-plugin/skills/rightech-output'/name).read_bytes())
 
     def test_archive_matches_tracked_plugin_resources(self):
         tracked = subprocess.run(['git', '-C', str(ROOT), 'ls-files', '-z', '--', 'rightech-plugin'],

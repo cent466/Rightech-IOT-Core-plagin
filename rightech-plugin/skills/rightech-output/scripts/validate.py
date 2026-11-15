@@ -24,6 +24,7 @@ import re
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
+from validate_svg import validate as validate_svg
 
 SERVICE_FIELDS = ("_id", "_at", "owner", "group", "time", "user", "store", "origin")
 NODE_SERVICE_FIELDS = ("_parentId", "_isRoot", "_levels", "_dataPath")
@@ -228,6 +229,17 @@ def validate_model(entity: dict, mode: str, report: Report) -> None:
             for key in NODE_SERVICE_FIELDS:
                 if key in node:
                     report.warn(f"models: {path} — служебное поле {key} перед отправкой")
+
+        icons = []
+        for field in ("display", "levels"):
+            container = node.get(field)
+            if isinstance(container, dict) and "svg" in container:
+                icons.append(container["svg"])
+                for finding in validate_svg(container["svg"], legacy=mode == "export"):
+                    message = f"models: {path}.{field}.svg — {finding['code']}: {finding['message']}"
+                    (report.error if finding["severity"] == "error" else report.warn)(message)
+        if len(icons) == 2 and icons[0] != icons[1]:
+            report.error(f"models: {path} — SVG_COPIES: display.svg и levels.svg различаются")
 
         children = node.get("children", [])
         if not isinstance(children, list):

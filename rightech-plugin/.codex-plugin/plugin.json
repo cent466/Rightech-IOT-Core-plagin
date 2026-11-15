@@ -1,6 +1,6 @@
 {
   "name": "rightech",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Генерация готовых JSON моделей, сценариев, геозон и обработчиков Rightech IoT Core для ручного импорта",
   "author": {
     "name": "cent466"

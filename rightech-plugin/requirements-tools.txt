@@ -1,0 +1,4 @@
+# Optional SVG drawing/rasterization and local replay; the base validator is stdlib-only.
+jsonschema>=4.18,<5
+Pillow>=10,<15
+CairoSVG>=2.7,<3
