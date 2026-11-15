@@ -227,13 +227,17 @@ def validate_model(entity: dict, mode: str, report: Report) -> None:
 def validate_scenario(entity: dict, mode: str, report: Report) -> None:
     if not isinstance(entity.get("name"), str) or not entity.get("name", "").strip():
         report.error("automatons: не заполнено имя (name)")
+    if mode == "new" and not str(entity.get("description") or "").strip():
+        report.warn("automatons: нет description — опиши назначение сценария")
 
     model_id = entity.get("model")
     models = entity.get("models")
+    cross_scenario = entity.get("elementType") == "cross"
+    missing_link = report.warn if mode == "new" and cross_scenario else report.error
     if not isinstance(model_id, str) or not model_id:
-        report.error("automatons: не заполнено model (идентификатор модели)")
+        missing_link("automatons: не заполнено model (для cross-сценария модель назначается/сопоставляется при импорте; не выдумывай ID)")
     if not isinstance(models, list) or not models:
-        report.error("automatons: не заполнен список models")
+        missing_link("automatons: не заполнен список models (для cross-сценария модели назначаются при импорте)")
     elif isinstance(model_id, str) and model_id and model_id not in models:
         report.error("automatons: model отсутствует в models")
 
@@ -278,6 +282,16 @@ def validate_scenario(entity: dict, mode: str, report: Report) -> None:
         has_final |= state_type == "final"
         if data.get("id") != state_key:
             report.warn(f"automatons: states.{state_key} — data.id={data.get('id')!r} не совпадает с ключом")
+        for dimension in ("width", "height"):
+            value = data.get(dimension)
+            if not is_number(value) or value <= 0:
+                message = f"automatons: states.{state_key}.data.{dimension} должен быть положительным числом"
+                if mode == "new":
+                    report.error(message)
+                else:
+                    report.warn(message)
+        if mode == "new" and state_type == "state" and not str(data.get("name") or "").strip():
+            report.warn(f"automatons: states.{state_key} — добавь понятное имя обычному состоянию")
         for hook in ("onenter", "onexit"):
             actions = data.get(hook, [])
             if not isinstance(actions, list):
@@ -286,12 +300,15 @@ def validate_scenario(entity: dict, mode: str, report: Report) -> None:
             for index, action in enumerate(actions):
                 if not isinstance(action, dict) or not action.get("id"):
                     report.error(f"automatons: states.{state_key}.{hook}[{index}] без id действия")
-                elif not isinstance(action.get("args", {}), dict):
-                    report.error(f"automatons: states.{state_key}.{hook}[{index}].args должен быть объектом")
+                else:
+                    if mode == "new" and not str(action.get("name") or "").strip():
+                        report.warn(f"automatons: states.{state_key}.{hook}[{index}] ({action.get('id')}) — добавь понятное имя действия")
+                    if not isinstance(action.get("args", {}), dict):
+                        report.error(f"automatons: states.{state_key}.{hook}[{index}].args должен быть объектом")
     if not has_init:
-        report.warn("automatons: нет состояния type=init")
+        (report.error if mode == "new" else report.warn)("automatons: нет состояния type=init")
     if not has_final:
-        report.warn("automatons: нет состояния type=final")
+        report.warn("automatons: нет состояния type=final — допустимо для циклического сценария; подтверди, что автомат должен работать бесконечно")
 
     for transition_key, transition in transitions.items():
         if not isinstance(transition, dict):
@@ -305,7 +322,9 @@ def validate_scenario(entity: dict, mode: str, report: Report) -> None:
             report.warn(
                 f"automatons: transitions.{transition_key} — data.id={data.get('id')!r} не совпадает с ключом"
             )
-        if not data.get("event"):
+        if mode == "new" and not str(data.get("name") or "").strip():
+            report.warn(f"automatons: transitions.{transition_key} — добавь понятное имя перехода")
+        if not isinstance(data.get("event"), str) or not data.get("event").strip():
             report.error(f"automatons: transitions.{transition_key} — нет event")
         for side in ("owner", "target"):
             ref = data.get(side)
@@ -326,8 +345,9 @@ def validate_scenario(entity: dict, mode: str, report: Report) -> None:
                 report.error(f"automatons: transitions.{transition_key}.userCode содержит секрет ({name})")
 
     if mode == "new":
-        if "processId" not in entity:
-            report.warn("automatons: нет processId — уточните, требуется ли он при создании")
+        process_id = entity.get("processId")
+        if not isinstance(process_id, str) or not process_id.strip():
+            report.warn("automatons: нет processId — он есть во всех экспортированных сценариях, но способ получения неизвестен; не подставляй случайное значение, уточни формат создания")
 
 
 # --------------------------------------------------------------------------- геозоны
