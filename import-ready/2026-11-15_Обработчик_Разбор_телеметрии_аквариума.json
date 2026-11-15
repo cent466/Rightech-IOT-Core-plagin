@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "origin": "dev.rightech.io",
+  "time": "2026-11-15T08:50:26.501Z",
+  "user": "65dc8b32d164fb3fdc0fd843",
+  "group": "65dc8b32d164fb3fdc0fd842",
+  "store": "handlers",
+  "data": {
+    "_id": "6af97252c33139739408b1c5",
+    "name": "Разбор телеметрии аквариума",
+    "description": "Преобразует JSON-сообщение аквариума в параметры модели: вода, воздух, подсветка и выходы",
+    "language": "javascript",
+    "userCode": "export function process(payload) {\n  // Сообщение устройства приходит JSON-строкой.\n  const data = JSON.parse(payload);\n  const result = {};\n\n  // Числовые показатели: null и отсутствующие поля пропускаем,\n  // чтобы не затирать предыдущее значение (props.setUndefinedParamTo = \"prev\").\n  const numbers = [\"temperature\", \"tds\", \"turbidity_raw\", \"clarity_percent\",\n                   \"air_temperature\", \"air_humidity\", \"brightness_level\"];\n  for (const key of numbers) {\n    if (typeof data[key] === \"number\" && Number.isFinite(data[key])) {\n      result[key] = data[key];\n    }\n  }\n\n  // Выходы приходят числами 0/1, в модели это boolean.\n  for (const key of [\"output1\", \"output2\", \"output3\"]) {\n    if (data[key] === 0 || data[key] === 1) {\n      result[key] = data[key] === 1;\n    }\n  }\n\n  return result;\n}\n",
+    "props": {
+      "setUndefinedParamTo": "prev"
+    }
+  }
+}

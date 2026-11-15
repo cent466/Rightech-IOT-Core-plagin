@@ -1,0 +1,221 @@
+{
+  "version": 1,
+  "origin": "dev.rightech.io",
+  "time": "2026-11-15T08:50:26.020Z",
+  "user": "65dc8b32d164fb3fdc0fd843",
+  "group": "65dc8b32d164fb3fdc0fd842",
+  "store": "models",
+  "data": {
+    "_id": "6af972522b716be1fe40fc01",
+    "name": "Мониторинг аквариума",
+    "base": "mqtt",
+    "description": "Параметры воды и воздуха, выходы контроллера и последнее сообщение объекта мониторинга аквариума",
+    "props": {
+      "bots": true,
+      "hardwareEvents": false,
+      "idPattern": "mqtt-$tagname-$nanoid",
+      "order": 1,
+      "prefix": "",
+      "protocol": "mqtt",
+      "helper": ""
+    },
+    "data": {
+      "id": "root",
+      "name": "Мониторинг аквариума",
+      "type": "subsystem",
+      "active": true,
+      "_inactive": false,
+      "description": "Модель собрана по фактическим полям состояния объекта",
+      "children": [
+        {
+          "id": "external-software-modules",
+          "name": "Внешние программные модули",
+          "active": true,
+          "copy": true,
+          "type": "subsystem",
+          "children": [],
+          "_inactive": false
+        },
+        {
+          "id": "water",
+          "name": "Параметры воды",
+          "type": "subsystem",
+          "active": true,
+          "description": "Показатели воды из сообщения контроллера",
+          "children": [
+            {
+              "id": "temperature",
+              "name": "Температура воды",
+              "type": "argument",
+              "active": true,
+              "source": "state",
+              "dataType": "number",
+              "reference": "temperature",
+              "description": "Температура воды; в сообщении может приходить null, если датчик не отдал значение",
+              "_inactive": false,
+              "unit": "temperature-celsius"
+            },
+            {
+              "id": "tds",
+              "name": "Общая минерализация воды",
+              "type": "argument",
+              "active": true,
+              "source": "state",
+              "dataType": "number",
+              "reference": "tds",
+              "description": "TDS: концентрация растворённых веществ",
+              "_inactive": false,
+              "unit": "concentr-part-per-million"
+            },
+            {
+              "id": "turbidity_raw",
+              "name": "Мутность, сырое значение",
+              "type": "argument",
+              "active": true,
+              "source": "state",
+              "dataType": "number",
+              "reference": "turbidity_raw",
+              "description": "Сырое показание датчика мутности; пересчёт в проценты не подтверждён",
+              "_inactive": false
+            },
+            {
+              "id": "clarity_percent",
+              "name": "Прозрачность воды",
+              "type": "argument",
+              "active": true,
+              "source": "state",
+              "dataType": "number",
+              "reference": "clarity_percent",
+              "description": "Прозрачность воды в процентах от максимума",
+              "_inactive": false,
+              "unit": "percent"
+            }
+          ],
+          "_inactive": false
+        },
+        {
+          "id": "air",
+          "name": "Параметры воздуха",
+          "type": "subsystem",
+          "active": true,
+          "description": "Температура и влажность рядом с аквариумом",
+          "children": [
+            {
+              "id": "air_temperature",
+              "name": "Температура воздуха",
+              "type": "argument",
+              "active": true,
+              "source": "state",
+              "dataType": "number",
+              "reference": "air_temperature",
+              "description": "Температура воздуха у аквариума",
+              "_inactive": false,
+              "unit": "temperature-celsius"
+            },
+            {
+              "id": "air_humidity",
+              "name": "Влажность воздуха",
+              "type": "argument",
+              "active": true,
+              "source": "state",
+              "dataType": "number",
+              "reference": "air_humidity",
+              "description": "Относительная влажность воздуха",
+              "_inactive": false,
+              "unit": "percent"
+            }
+          ],
+          "_inactive": false
+        },
+        {
+          "id": "controller",
+          "name": "Состояние контроллера",
+          "type": "subsystem",
+          "active": true,
+          "description": "Выходы, связь и последнее сообщение",
+          "children": [
+            {
+              "id": "brightness_level",
+              "name": "Уровень подсветки",
+              "type": "argument",
+              "active": true,
+              "source": "state",
+              "dataType": "number",
+              "reference": "brightness_level",
+              "description": "Текущий уровень подсветки в процентах",
+              "_inactive": false,
+              "unit": "percent"
+            },
+            {
+              "id": "output1",
+              "name": "Выход 1",
+              "type": "argument",
+              "active": true,
+              "source": "state",
+              "dataType": "boolean",
+              "reference": "output1",
+              "description": "Состояние выхода 1; в сообщении приходит числом 0/1, обработчик приводит к boolean",
+              "_inactive": false
+            },
+            {
+              "id": "output2",
+              "name": "Выход 2",
+              "type": "argument",
+              "active": true,
+              "source": "state",
+              "dataType": "boolean",
+              "reference": "output2",
+              "description": "Состояние выхода 2; в сообщении приходит числом 0/1, обработчик приводит к boolean",
+              "_inactive": false
+            },
+            {
+              "id": "output3",
+              "name": "Выход 3",
+              "type": "argument",
+              "active": true,
+              "source": "state",
+              "dataType": "boolean",
+              "reference": "output3",
+              "description": "Состояние выхода 3; в сообщении приходит числом 0/1, обработчик приводит к boolean",
+              "_inactive": false
+            },
+            {
+              "id": "online",
+              "name": "Признак связи",
+              "type": "argument",
+              "active": true,
+              "source": "state",
+              "dataType": "boolean",
+              "reference": "online",
+              "description": "Признак наличия связи с объектом",
+              "_inactive": false
+            },
+            {
+              "id": "topic",
+              "name": "Топик последнего сообщения",
+              "type": "argument",
+              "active": true,
+              "source": "state",
+              "dataType": "string",
+              "reference": "topic",
+              "description": "MQTT-топик, из которого получено последнее сообщение",
+              "_inactive": false
+            },
+            {
+              "id": "payload",
+              "name": "Последнее сообщение",
+              "type": "argument",
+              "active": true,
+              "source": "state",
+              "dataType": "string",
+              "reference": "payload",
+              "description": "Исходная строка сообщения устройства",
+              "_inactive": false
+            }
+          ],
+          "_inactive": false
+        }
+      ]
+    }
+  }
+}
