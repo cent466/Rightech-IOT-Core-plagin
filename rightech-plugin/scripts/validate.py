@@ -224,6 +224,55 @@ def validate_model(entity: dict, mode: str, report: Report) -> None:
 # ------------------------------------------------------------------------- сценарии
 
 
+def _scenario_segment_hits_rect(start: tuple[float, float], end: tuple[float, float], rect: tuple[float, float, float, float]) -> bool:
+    """True when a route segment passes through the strict interior of a state card."""
+    x1, y1 = start
+    x2, y2 = end
+    left, top, right, bottom = rect
+    epsilon = 1e-7
+    left += epsilon
+    top += epsilon
+    right -= epsilon
+    bottom -= epsilon
+    dx, dy = x2 - x1, y2 - y1
+    lower, upper = 0.0, 1.0
+    for p, q in ((-dx, x1 - left), (dx, right - x1), (-dy, y1 - top), (dy, bottom - y1)):
+        if abs(p) < 1e-12:
+            if q < 0:
+                return False
+            continue
+        ratio = q / p
+        if p < 0:
+            lower = max(lower, ratio)
+        else:
+            upper = min(upper, ratio)
+        if lower > upper:
+            return False
+    return upper >= 0 and lower <= 1 and upper >= lower
+
+
+def _scenario_segments_overlap_interior(a: tuple[tuple[float, float], tuple[float, float]], b: tuple[tuple[float, float], tuple[float, float]]) -> bool:
+    """Detect proper route crossings or positive-length collinear overlap, not endpoint joins."""
+    (ax, ay), (bx, by) = a
+    (cx, cy), (dx, dy) = b
+    abx, aby = bx - ax, by - ay
+    cdx, cdy = dx - cx, dy - cy
+    cross = abx * cdy - aby * cdx
+    acx, acy = cx - ax, cy - ay
+    epsilon = 1e-8
+    if abs(cross) > epsilon:
+        t = (acx * cdy - acy * cdx) / cross
+        u = (acx * aby - acy * abx) / cross
+        return epsilon < t < 1 - epsilon and epsilon < u < 1 - epsilon
+    if abs(acx * aby - acy * abx) > epsilon:
+        return False
+    if abs(abx) >= abs(aby):
+        a0, a1, b0, b1 = sorted((ax, bx))[0], sorted((ax, bx))[1], sorted((cx, dx))[0], sorted((cx, dx))[1]
+    else:
+        a0, a1, b0, b1 = sorted((ay, by))[0], sorted((ay, by))[1], sorted((cy, dy))[0], sorted((cy, dy))[1]
+    return min(a1, b1) - max(a0, b0) > epsilon
+
+
 def validate_scenario(entity: dict, mode: str, report: Report) -> None:
     if not isinstance(entity.get("name"), str) or not entity.get("name", "").strip():
         report.error("automatons: не заполнено имя (name)")
@@ -264,6 +313,7 @@ def validate_scenario(entity: dict, mode: str, report: Report) -> None:
         return
 
     state_ids: set[str] = set()
+    state_rects: dict[str, tuple[float, float, float, float]] = {}
     has_init = False
     has_final = False
     for state_key, state in states.items():
@@ -292,6 +342,13 @@ def validate_scenario(entity: dict, mode: str, report: Report) -> None:
                     report.warn(message)
         if mode == "new" and state_type == "state" and not str(data.get("name") or "").strip():
             report.warn(f"automatons: states.{state_key} — добавь понятное имя обычному состоянию")
+        position = state.get("position")
+        if not isinstance(position, dict) or not is_number(position.get("left")) or not is_number(position.get("top")):
+            if mode == "new":
+                report.error(f"automatons: states.{state_key}.position должен задавать числовые left и top")
+        elif is_number(data.get("width")) and data["width"] > 0 and is_number(data.get("height")) and data["height"] > 0:
+            left, top = float(position["left"]), float(position["top"])
+            state_rects[state_key] = (left, top, left + float(data["width"]), top + float(data["height"]))
         for hook in ("onenter", "onexit"):
             actions = data.get(hook, [])
             if not isinstance(actions, list):
@@ -309,7 +366,14 @@ def validate_scenario(entity: dict, mode: str, report: Report) -> None:
         (report.error if mode == "new" else report.warn)("automatons: нет состояния type=init")
     if not has_final:
         report.warn("automatons: нет состояния type=final — допустимо для циклического сценария; подтверди, что автомат должен работать бесконечно")
+    if mode == "new":
+        for index, (state_id, rect) in enumerate(state_rects.items()):
+            for other_id, other_rect in list(state_rects.items())[index + 1:]:
+                if max(rect[0], other_rect[0]) < min(rect[2], other_rect[2]) and max(rect[1], other_rect[1]) < min(rect[3], other_rect[3]):
+                    report.error(f"automatons: карточки состояний {state_id!r} и {other_id!r} перекрываются по position/width/height")
 
+    route_segments: list[tuple[str, tuple[tuple[float, float], tuple[float, float]]]] = []
+    transition_block_rects: dict[str, tuple[float, float, float, float]] = {}
     for transition_key, transition in transitions.items():
         if not isinstance(transition, dict):
             report.error(f"automatons: transitions.{transition_key} — не объект")
@@ -335,14 +399,67 @@ def validate_scenario(entity: dict, mode: str, report: Report) -> None:
                 report.error(
                     f"automatons: transitions.{transition_key} — {side}.id={ref['id']!r} отсутствует в states"
                 )
-        if not isinstance(transition.get("points", []), list):
-            report.error(f"automatons: transitions.{transition_key}.points должен быть списком")
+        points = transition.get("points")
+        if not isinstance(points, list) or len(points) < 2:
+            if mode == "new":
+                report.error(f"automatons: transitions.{transition_key}.points должен содержать маршрут минимум из двух координат")
+            elif points is not None and not isinstance(points, list):
+                report.error(f"automatons: transitions.{transition_key}.points должен быть списком")
+        elif any(not isinstance(point, dict) or not is_number(point.get("x")) or not is_number(point.get("y")) for point in points):
+            report.error(f"automatons: transitions.{transition_key}.points — каждая координата должна иметь числовые x и y")
+        else:
+            route = [(float(point["x"]), float(point["y"])) for point in points]
+            segments = list(zip(route, route[1:]))
+            route_segments.extend((transition_key, segment) for segment in segments)
+            if mode == "new":
+                owner_id = data.get("owner", {}).get("id") if isinstance(data.get("owner"), dict) else None
+                target_id = data.get("target", {}).get("id") if isinstance(data.get("target"), dict) else None
+                for other_state_id, rect in state_rects.items():
+                    if other_state_id in {owner_id, target_id}:
+                        continue
+                    if any(_scenario_segment_hits_rect(segment[0], segment[1], rect) for segment in segments):
+                        report.error(f"automatons: маршрут transitions.{transition_key} проходит через карточку несвязанного состояния {other_state_id!r}")
+
+        block = transition.get("block")
+        layout = block.get("layout") if isinstance(block, dict) else None
+        block_position = layout.get("position") if isinstance(layout, dict) else None
+        block_ok = (
+            isinstance(layout, dict)
+            and isinstance(block_position, dict)
+            and all(is_number(block_position.get(key)) for key in ("x", "y"))
+            and is_number(layout.get("width")) and layout["width"] > 0
+            and is_number(layout.get("height")) and layout["height"] > 0
+        )
+        if not block_ok:
+            if mode == "new":
+                report.error(f"automatons: transitions.{transition_key}.block.layout должен иметь собственные position.x/y и положительные width/height")
+        else:
+            # block.layout is stored in grid units; one layout unit is 20 editor pixels.
+            x, y = float(block_position["x"]) * 20, float(block_position["y"]) * 20
+            block_width, block_height = float(layout["width"]) * 20, float(layout["height"]) * 20
+            block_rect = (x, y, x + block_width, y + block_height)
+            transition_block_rects[transition_key] = block_rect
+            if mode == "new":
+                for state_id, state_rect in state_rects.items():
+                    if max(block_rect[0], state_rect[0]) < min(block_rect[2], state_rect[2]) and max(block_rect[1], state_rect[1]) < min(block_rect[3], state_rect[3]):
+                        report.error(f"automatons: метка перехода {transition_key!r} перекрывает карточку состояния {state_id!r}")
         condition = data.get("condition")
         if condition is not None and not isinstance(condition, str):
             report.error(f"automatons: transitions.{transition_key}.condition должен быть строкой")
         if isinstance(data.get("userCode"), str):
             for name in scan_secrets(data["userCode"]):
                 report.error(f"automatons: transitions.{transition_key}.userCode содержит секрет ({name})")
+
+    if mode == "new":
+        block_items = list(transition_block_rects.items())
+        for index, (transition_id, rect) in enumerate(block_items):
+            for other_id, other_rect in block_items[index + 1:]:
+                if max(rect[0], other_rect[0]) < min(rect[2], other_rect[2]) and max(rect[1], other_rect[1]) < min(rect[3], other_rect[3]):
+                    report.error(f"automatons: метки переходов {transition_id!r} и {other_id!r} перекрываются по block.layout.position")
+        for index, (transition_id, segment) in enumerate(route_segments):
+            for other_id, other_segment in route_segments[index + 1:]:
+                if transition_id != other_id and _scenario_segments_overlap_interior(segment, other_segment):
+                    report.error(f"automatons: маршруты переходов {transition_id!r} и {other_id!r} пересекаются или идут по одному участку")
 
     if mode == "new":
         process_id = entity.get("processId")
