@@ -1,6 +1,6 @@
 ---
 name: rightech-output
-description: Выдача готовых файлов для ручного импорта в Rightech вместо работы через API. Использовать после генерации любой сущности, при запросах «отдай готовый JSON», «файл для импорта», «как загрузить в Rightech», «сохрани модель в файл», "export json", "import file", "give me the json". Подключение к аккаунту и токен не нужны.
+description: Выдача готовых файлов для ручного импорта в Rightech, проверка SVG и локальный replay моделей. Использовать после генерации сущности, для «файла для импорта», «как загрузить в Rightech», «проверь SVG», «прогони пакеты по модели», "export json", "replay model". Подключение к аккаунту и токен не нужны.
 ---
 
 # Готовые файлы вместо API
@@ -70,3 +70,22 @@ python3 "${CLAUDE_SKILL_DIR}/scripts/make_import_file.py" entity.json --store mo
 - Считать, что у геозон нет импорта: вкладка «Импорт» есть в интерфейсе и проверена (2026-11-15), а в документации Rightech её нет.
 - Оставлять в файле служебные поля и идентификаторы чужого аккаунта.
 - Класть в файлы токены, пароли, ключи.
+
+## SVG и replay моделей
+
+Для иконок или проверки пакетов прочитай [references/model-tools.md](references/model-tools.md).
+Все необходимые скрипты, схемы, зависимости и синтетические примеры есть внутри
+этого навыка, включая изолированную установку. Запускай из его собственной папки:
+
+```bash
+python3 scripts/validate_svg.py icons --strict
+python3 scripts/draw_svg.py examples/model-tools/drawings/temperature.json -o icons/temperature.svg
+python3 scripts/render_svg.py icons -o rightech-output/svg-preview.png
+python3 scripts/replay_cases.py model.json cases.json --out rightech-output/replay.json
+```
+
+Кроме XML-проверки, эти инструменты используют зависимости `requirements-tools.txt`.
+PNG проверяется просмотром; HTML без PNG не означает успешный рендер.
+Replay — ограниченная локальная проверка ожиданий, а не запуск RIC или обработчика.
+В ответе раздели статическую проверку, replay, SVG-рендер, RIC и устройство;
+`not_tested` не заменяется на `passed` при недоступном инструменте или поведении.

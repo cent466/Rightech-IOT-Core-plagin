@@ -20,6 +20,7 @@ reports/
 # Python
 __pycache__/
 *.py[cod]
+.venv/
 
 # OS/editor files
 .DS_Store

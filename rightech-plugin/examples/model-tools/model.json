@@ -1,0 +1,204 @@
+{
+  "base": "mqtt",
+  "name": "Демонстрационная модель датчика",
+  "data": {
+    "id": "root",
+    "name": "Датчик",
+    "type": "subsystem",
+    "active": true,
+    "children": [
+      {
+        "id": "external-software-modules",
+        "name": "Внешние программные модули",
+        "type": "subsystem",
+        "active": true,
+        "copy": true,
+        "children": [],
+        "_inactive": false
+      },
+      {
+        "id": "telemetry",
+        "name": "Пакет телеметрии",
+        "type": "argument",
+        "active": true,
+        "source": "state",
+        "dataType": "object",
+        "reference": "devices/{{object.id}}/telemetry",
+        "children": [
+          {
+            "id": "temperature",
+            "name": "Температура",
+            "type": "argument",
+            "active": true,
+            "source": "state",
+            "dataType": "number",
+            "reference": "telemetry.temperature",
+            "unit": "temperature-celsius",
+            "factor": 0.1,
+            "linear": true,
+            "decimalPlaces": 1,
+            "display": {
+              "indicator": true,
+              "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 16 16\"><g transform=\"translate(1 1) scale(.875)\"><path fill-rule=\"evenodd\" d=\"M6 3a2 2 0 0 1 4 0v6.2a3.5 3.5 0 1 1-4 0V3zm1.5 0v7l-.7.5a2 2 0 1 0 2.4 0l-.7-.5V3a.5.5 0 0 0-1 0z\" /><rect x=\"11\" y=\"3\" width=\"3\" height=\"1.5\" /><rect x=\"11\" y=\"6\" width=\"2\" height=\"1.5\" /></g></svg>"
+            },
+            "_inactive": false,
+            "description": "Тестовая температура: входное значение в десятых долях градуса Цельсия.",
+            "levels": {
+              "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 16 16\"><g transform=\"translate(1 1) scale(.875)\"><path fill-rule=\"evenodd\" d=\"M6 3a2 2 0 0 1 4 0v6.2a3.5 3.5 0 1 1-4 0V3zm1.5 0v7l-.7.5a2 2 0 1 0 2.4 0l-.7-.5V3a.5.5 0 0 0-1 0z\" /><rect x=\"11\" y=\"3\" width=\"3\" height=\"1.5\" /><rect x=\"11\" y=\"6\" width=\"2\" height=\"1.5\" /></g></svg>",
+              "type": "range",
+              "value": [
+                {
+                  "name": "Норма",
+                  "color": "#2a9d64",
+                  "value": {
+                    "a": -100,
+                    "b": 20
+                  }
+                },
+                {
+                  "name": "Предупреждение",
+                  "color": "#d89b16",
+                  "value": {
+                    "a": 20,
+                    "b": 30
+                  }
+                },
+                {
+                  "name": "Авария",
+                  "color": "#de4c55",
+                  "value": {
+                    "a": 30,
+                    "b": 100
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "id": "device_online",
+            "name": "Признак устройства",
+            "type": "argument",
+            "active": true,
+            "source": "state",
+            "dataType": "boolean",
+            "reference": "telemetry.online",
+            "linear": false,
+            "display": {
+              "indicator": true,
+              "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 16 16\"><circle cx=\"8\" cy=\"12.3\" r=\"1.7\" /><path d=\"M3.6 8.7a6.2 6.2 0 0 1 8.8 0L11.3 9.8a4.6 4.6 0 0 0-6.6 0zM1.2 5.6a9.6 9.6 0 0 1 13.6 0l-1.1 1.2a8 8 0 0 0-11.4 0z\" /></svg>"
+            },
+            "_inactive": false,
+            "description": "Синтетический флаг из payload, отдельный от системного online.",
+            "levels": {
+              "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 16 16\"><circle cx=\"8\" cy=\"12.3\" r=\"1.7\" /><path d=\"M3.6 8.7a6.2 6.2 0 0 1 8.8 0L11.3 9.8a4.6 4.6 0 0 0-6.6 0zM1.2 5.6a9.6 9.6 0 0 1 13.6 0l-1.1 1.2a8 8 0 0 0-11.4 0z\" /></svg>",
+              "type": "boolean",
+              "value": [
+                {
+                  "name": "Флаг выключен",
+                  "color": "#de4c55",
+                  "value": false
+                },
+                {
+                  "name": "Флаг включён",
+                  "color": "#2a9d64",
+                  "value": true
+                }
+              ]
+            }
+          },
+          {
+            "id": "serial",
+            "name": "Код устройства",
+            "type": "argument",
+            "active": true,
+            "source": "state",
+            "dataType": "string",
+            "reference": "telemetry.serial",
+            "description": "Код хранится строкой, ведущие нули значимы.",
+            "display": {
+              "indicator": true,
+              "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 16 16\"><path fill-rule=\"evenodd\" d=\"M1 3h14v10H1V3zm1.5 1.5v7h11v-7h-11z\" /><rect x=\"4\" y=\"6\" width=\"1.5\" height=\"4\" /><rect x=\"7.25\" y=\"6\" width=\"1.5\" height=\"4\" /><rect x=\"10.5\" y=\"6\" width=\"1.5\" height=\"4\" /></svg>"
+            },
+            "_inactive": false,
+            "levels": {
+              "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 16 16\"><path fill-rule=\"evenodd\" d=\"M1 3h14v10H1V3zm1.5 1.5v7h11v-7h-11z\" /><rect x=\"4\" y=\"6\" width=\"1.5\" height=\"4\" /><rect x=\"7.25\" y=\"6\" width=\"1.5\" height=\"4\" /><rect x=\"10.5\" y=\"6\" width=\"1.5\" height=\"4\" /></svg>"
+            }
+          },
+          {
+            "id": "channel",
+            "name": "Первый канал",
+            "type": "argument",
+            "active": true,
+            "source": "state",
+            "dataType": "number",
+            "reference": "telemetry.channels.0",
+            "description": "Безразмерное значение первого канала.",
+            "display": {
+              "indicator": true,
+              "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 16 16\"><path fill-rule=\"evenodd\" d=\"M1 3h14v10H1V3zm1.5 1.5v7h11v-7h-11z\" /><rect x=\"4\" y=\"6\" width=\"1.5\" height=\"4\" /><rect x=\"7.25\" y=\"6\" width=\"1.5\" height=\"4\" /><rect x=\"10.5\" y=\"6\" width=\"1.5\" height=\"4\" /></svg>"
+            },
+            "_inactive": false,
+            "levels": {
+              "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 16 16\"><path fill-rule=\"evenodd\" d=\"M1 3h14v10H1V3zm1.5 1.5v7h11v-7h-11z\" /><rect x=\"4\" y=\"6\" width=\"1.5\" height=\"4\" /><rect x=\"7.25\" y=\"6\" width=\"1.5\" height=\"4\" /><rect x=\"10.5\" y=\"6\" width=\"1.5\" height=\"4\" /></svg>"
+            }
+          }
+        ],
+        "_inactive": false,
+        "description": "Синтетический JSON-пакет; поля извлекаются через ID контейнера."
+      },
+      {
+        "id": "target",
+        "name": "Порог объекта",
+        "type": "config",
+        "active": true,
+        "dataType": "number",
+        "defaultValue": 20,
+        "ctrl": "number",
+        "opts": {
+          "min": 0,
+          "max": 100,
+          "step": 1
+        },
+        "_inactive": false
+      },
+      {
+        "id": "set_target",
+        "name": "Установить порог",
+        "type": "action",
+        "active": true,
+        "service": "ric-gate",
+        "command": "publish",
+        "params": {
+          "topic": "devices/{{object.id}}/command",
+          "payload": "{\"target\":{{set_target_value}}}"
+        },
+        "children": [
+          {
+            "id": "set_target_value",
+            "name": "Порог",
+            "type": "argument",
+            "active": true,
+            "source": "config",
+            "dataType": "number",
+            "ctrl": "number",
+            "opts": {
+              "min": 0,
+              "max": 100,
+              "step": 1
+            },
+            "_inactive": false,
+            "description": "Числовой вход тестовой команды, диапазон 0–100."
+          }
+        ],
+        "_inactive": false,
+        "description": "Публикация синтетической MQTT-команды; на устройство не отправляется.",
+        "source": "state"
+      }
+    ],
+    "_inactive": false
+  },
+  "description": "Синтетическая модель для локального replay; не экспорт аккаунта",
+  "props": {
+    "protocol": "mqtt"
+  }
+}

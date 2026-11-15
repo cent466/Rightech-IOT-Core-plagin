@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0",
+  "cases": [
+    {
+      "name": "zero_false_and_leading_zeros",
+      "kind": "mqtt",
+      "synthetic": true,
+      "object": {
+        "id": "sensor-01"
+      },
+      "packet": {
+        "topic": "devices/sensor-01/telemetry",
+        "payload": "{\"temperature\":0,\"online\":false,\"serial\":\"0017\",\"channels\":[0,2]}"
+      },
+      "expected": {
+        "temperature": 0,
+        "serial": "0017",
+        "channel": 0,
+        "device_online": false
+      }
+    },
+    {
+      "name": "scale_tenths",
+      "kind": "mqtt",
+      "synthetic": true,
+      "object": {
+        "id": "sensor-01"
+      },
+      "packet": {
+        "topic": "devices/sensor-01/telemetry",
+        "payload": {
+          "temperature": 235,
+          "online": true,
+          "serial": "0017",
+          "channels": [
+            42
+          ]
+        }
+      },
+      "expected": {
+        "temperature": 23.5,
+        "channel": 42,
+        "device_online": true
+      }
+    },
+    {
+      "name": "missing_measurement",
+      "kind": "mqtt",
+      "synthetic": true,
+      "object": {
+        "id": "sensor-01"
+      },
+      "packet": {
+        "topic": "devices/sensor-01/telemetry",
+        "payload": {
+          "online": true
+        }
+      },
+      "expected": {
+        "device_online": true
+      },
+      "absent": [
+        "temperature",
+        "serial",
+        "channel"
+      ]
+    },
+    {
+      "name": "form_command",
+      "kind": "command",
+      "synthetic": true,
+      "object": {
+        "id": "sensor-01"
+      },
+      "action": "set_target",
+      "inputs": {
+        "set_target_value": 25
+      },
+      "payload_format": "json",
+      "expected_command": {
+        "service": "ric-gate",
+        "command": "publish",
+        "params": {
+          "topic": "devices/sensor-01/command",
+          "payload": "{\"target\":25}"
+        }
+      }
+    }
+  ]
+}

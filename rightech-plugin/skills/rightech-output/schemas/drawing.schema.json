@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Agent-designed SVG geometry",
+  "type": "object",
+  "required": [
+    "viewBox",
+    "elements"
+  ],
+  "properties": {
+    "viewBox": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      },
+      "minItems": 4,
+      "maxItems": 4
+    },
+    "elements": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/element"
+      },
+      "minItems": 1
+    }
+  },
+  "$defs": {
+    "element": {
+      "type": "object",
+      "required": [
+        "tag"
+      ],
+      "properties": {
+        "tag": {
+          "enum": [
+            "g",
+            "path",
+            "circle",
+            "ellipse",
+            "rect",
+            "line",
+            "polyline",
+            "polygon",
+            "title",
+            "desc"
+          ]
+        },
+        "attrs": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number"
+            ]
+          }
+        },
+        "text": {
+          "type": "string"
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/element"
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
