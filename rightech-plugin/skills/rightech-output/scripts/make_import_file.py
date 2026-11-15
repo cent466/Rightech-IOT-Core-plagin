@@ -100,6 +100,10 @@ def build_envelope(
     entity_id: str | None = None,
     moment: dt.datetime | None = None,
 ) -> dict:
+    if entity_id is not None and (
+        not isinstance(entity_id, str) or not re.fullmatch(r"[0-9a-f]{24}", entity_id)
+    ):
+        raise ValueError("--id должен содержать 24 шестнадцатеричных символа в нижнем регистре")
     stamp = (moment or dt.datetime.now(dt.timezone.utc)).astimezone(dt.timezone.utc)
     envelope = {
         "version": 1,
@@ -163,6 +167,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--group", help="ID группы аккаунта для поля group в оболочке (из любого своего экспорта)")
     parser.add_argument("--id", dest="entity_id", help="явный _id сущности (по умолчанию генерируется)")
     args = parser.parse_args(argv)
+    if args.entity_id is not None and not re.fullmatch(r"[0-9a-f]{24}", args.entity_id):
+        parser.error("--id должен содержать 24 шестнадцатеричных символа в нижнем регистре")
 
     path = Path(args.file)
     try:
