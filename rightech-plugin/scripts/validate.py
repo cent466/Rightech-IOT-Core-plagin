@@ -36,6 +36,7 @@ STATE_TYPES = {"init", "state", "final"}
 GEOFENCE_SHAPES = {"polygon"}
 EXTERNAL_MODULE_IDS = {"external-software-modules", "external_software_modules"}
 SNAKE_CASE_ID = re.compile(r"[a-z][a-z0-9_]*")
+VAGUE_ID = re.compile(r"(?:param|arg|argument|value|val|data|field|node|item|p|a)\d*", re.IGNORECASE)
 
 SECRET_PATTERNS = (
     ("JWT", re.compile(r"eyJ[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}")),
@@ -158,13 +159,24 @@ def validate_model(entity: dict, mode: str, report: Report) -> None:
         elif node_type is not None:
             report.error(f"models: {path} — пустой или нестроковый id")
 
+        name = node.get("name")
         if "name" not in node:
-            report.info(f"models: {path} — узел без name (встречается в рабочих экспортах)")
+            if mode == "new":
+                report.warn(f"models: {path} — нет name: по имени должно быть понятно, что это за параметр")
+            else:
+                report.info(f"models: {path} — узел без name (встречается в рабочих экспортах)")
+        elif mode == "new" and isinstance(node_id, str) and str(name).strip() == node_id:
+            report.warn(f"models: {path} — name повторяет id={node_id!r}; нужно человекочитаемое название")
+        if mode == "new" and node_type in {"argument", "action"}:
+            if not str(node.get("description") or "").strip():
+                report.warn(f"models: {path} — нет description: укажи назначение и диапазон/расшифровку")
         if mode == "new" and "_inactive" not in node:
             report.warn(f"models: {path} — нет _inactive (в генерируемых моделях ставится false)")
         if mode == "new" and isinstance(node_id, str) and node_id not in EXTERNAL_MODULE_IDS | {"root"}:
             if not SNAKE_CASE_ID.fullmatch(node_id):
                 report.warn(f"models: {path} — id={node_id!r} не в snake_case")
+            if VAGUE_ID.fullmatch(node_id):
+                report.warn(f"models: {path} — id={node_id!r} невнятный: назови параметр по смыслу")
         if node_type == "argument":
             if node.get("dataType") not in DATA_TYPES:
                 report.error(
