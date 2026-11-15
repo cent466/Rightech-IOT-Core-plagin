@@ -9,6 +9,9 @@ secrets/
 *.pem
 *.key
 
+# private plugin assets (separate private repository)
+/private-repo/
+
 # generated files from local runs
 /rightech-output/
 report.json

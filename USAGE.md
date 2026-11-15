@@ -345,7 +345,7 @@ python3 rightech-plugin/scripts/validate.py export.json
 python3 rightech-plugin/scripts/validate.py entity.json --store models --mode new
 
 # каталог целиком, предупреждения считать ошибками
-python3 rightech-plugin/scripts/validate.py rightech-plugin/references/samples --strict
+python3 rightech-plugin/scripts/validate.py rightech-output/acceptance --strict
 ```
 
 Тип можно указать явно: `--store models|automatons|geofences|handlers`. Код возврата: `0` — ошибок нет, `1` — есть ошибки, `2` — есть предупреждения при `--strict`.
@@ -433,5 +433,4 @@ python3 rightech-plugin/scripts/geojson_zone.py multi.geojson --polygon-index 0 
 - [README](./README.md) — установка и обзор.
 - [`rightech-plugin/references/import-guide.md`](./rightech-plugin/references/import-guide.md) — что и как импортируется.
 - [`rightech-plugin/references/rules.md`](./rightech-plugin/references/rules.md) — правила формата, выведенные из рабочих экспортов.
-- [`rightech-plugin/references/samples-index.md`](./rightech-plugin/references/samples-index.md) — индекс 25 образцов.
 - [`rightech-plugin/references/open-questions.md`](./rightech-plugin/references/open-questions.md) — что пока не подтверждено.

@@ -139,10 +139,9 @@ claude plugin install rightech@rightech-plugins
 | `rightech-geofences` | геозоны, полигоны, GeoJSON |
 | `rightech-questions` | обязательные уточняющие вопросы до генерации |
 | `rightech-research` | самостоятельный поиск документации, если её не дали |
-| `rightech-samples` | разбор рабочих экспортов и правила формата |
 | `rightech-output` | сборка файла, проверка и инструкция по импорту |
 
-В комплект входят 25 рабочих экспортов (модели, сценарии, геозоны, обработчики) и офлайн-валидатор, который проверяет структуру, ссылки, координаты сценариев и секреты в коде.
+В комплект входят офлайн-валидатор, который проверяет структуру, ссылки, координаты сценариев и секреты в коде, и правила, выведенные из рабочих экспортов. Сами экспорты и тесты на них в публичный репозиторий не входят — они лежат в закрытой части.
 
 ---
 
@@ -166,10 +165,10 @@ python3 rightech-plugin/scripts/geojson_zone.py zone.json -o rightech-zone.json
 ### Проверки проекта
 
 ```bash
-python3 rightech-plugin/scripts/validate.py rightech-plugin/references/samples   # 25 файлов, 0 ошибок
-python3 -m unittest discover -s rightech-plugin/tests                            # 64 теста
 claude plugin validate ./rightech-plugin
 ```
+
+Проверки на 25 эталонных образцах и 64 теста выполняются в закрытой части плагина: образцы не публикуются.
 
 ---
 
@@ -187,7 +186,7 @@ claude plugin validate ./rightech-plugin
 - Плагин не запрашивает и не хранит токены, пароли и ключи.
 - В готовые файлы не попадают служебные поля аккаунта: `_id`, `owner`, `group`, `time` и подобные.
 - Всё, что уходит в Rightech, пользователь загружает сам через интерфейс.
-- Не публикуйте в открытом репозитории свои экспорты и payload с данными устройств, адресами или персональными сведениями. Рабочие образцы в `primer_*` входят в комплект — перед публикацией проверьте, что их можно раскрывать.
+- Экспорты из вашего аккаунта и эталонные образцы в этот репозиторий не попадают: они хранятся в закрытой части, а публикуются только сам плагин, документация и готовые файлы в `import-ready/`.
 
 ---
 
@@ -197,20 +196,15 @@ claude plugin validate ./rightech-plugin
 .
 ├── .claude-plugin/marketplace.json   каталог Claude Code
 ├── .agents/plugins/marketplace.json  каталог Codex
-├── primer_model/                     исходные экспорты моделей
-├── primer_scena/                     исходные экспорты сценариев
-├── primer_geo/                       исходные экспорты геозон
-├── primer_obrabotka/                 исходные экспорты обработчиков
-├── references/                       аудит и правила по исходным образцам
+├── import-ready/                     готовые файлы для импорта по ссылке
+├── references/                       правила и открытые вопросы
 ├── rightech-plugin-claude.zip        архив для Claude Desktop
 └── rightech-plugin/                  устанавливаемый плагин
-    ├── skills/                       восемь навыков
-    ├── references/samples/           копии образцов внутри пакета
-    ├── scripts/                      валидатор и сборщик файлов
-    └── tests/                        офлайн-тесты
+    ├── skills/                       семь навыков
+    └── scripts/                      валидатор и сборщик файлов
 ```
 
-Технические подробности пакета — в [`rightech-plugin/README.md`](./rightech-plugin/README.md). Файл `rightech-plugin-prompt.md` — первоначальный бриф; его требования к API и токену устарели и не описывают текущий режим работы.
+Технические подробности пакета — в [`rightech-plugin/README.md`](./rightech-plugin/README.md). Внутренний бриф, рабочие экспорты и тесты на образцах хранятся в закрытой части плагина.
 
 ## Лицензия
 
@@ -222,5 +216,4 @@ MIT.
 - [Устанавливаемый плагин](./rightech-plugin/README.md)
 - [Что и как импортируется](./rightech-plugin/references/import-guide.md)
 - [Правила, выведенные из образцов](./rightech-plugin/references/rules.md)
-- [Индекс 25 образцов](./rightech-plugin/references/samples-index.md)
 - [Открытые вопросы](./rightech-plugin/references/open-questions.md)
