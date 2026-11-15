@@ -27,8 +27,8 @@ from pathlib import Path
 
 SERVICE_FIELDS = ("_id", "_at", "owner", "group", "time", "user", "store", "origin")
 NODE_SERVICE_FIELDS = ("_parentId", "_isRoot", "_levels", "_dataPath")
-NODE_TYPES = {"subsystem", "argument", "action", "config", "event-logic"}
-DATA_TYPES = {"number", "string", "boolean", "object"}
+NODE_TYPES = {"subsystem", "argument", "action", "config", "event", "event-logic"}
+DATA_TYPES = {"number", "string", "boolean", "object", "number[]", "string[]", "boolean[]"}
 BASE_VALUES = {"mqtt", "nidd", "teltonika", "lora"}
 ACTION_SERVICES = {"ric-gate", "ric-logic-v3.user-event"}
 LANGUAGES = {"javascript", "typescript"}
@@ -142,23 +142,33 @@ def validate_model(entity: dict, mode: str, report: Report) -> None:
         if module_block.get("copy") is not True:
             report.warn("models: у блока external-software-modules обычно copy=true")
 
-    seen: dict[str, str] = {}
+    seen: dict[tuple[str, str], str] = {}
+    actions: list[tuple[str, dict]] = []
+    form_inputs: dict[str, set[str]] = {}
 
-    def walk(node: object, path: str) -> None:
+    def walk(node: object, path: str, action_scope: str | None = None) -> None:
         if not isinstance(node, dict):
             report.error(f"models: {path} — узел не объект")
             return
         node_type = node.get("type")
-        if node_type not in NODE_TYPES:
+        if not isinstance(node_type, str) or node_type not in NODE_TYPES:
             report.error(f"models: {path} — неизвестный type={node_type!r}")
+            return
         for key in ("id", "type", "active"):
             if key not in node:
                 report.error(f"models: {path} — нет поля {key}")
+        if "active" in node and not isinstance(node["active"], bool):
+            report.error(f"models: {path} — active должен быть boolean")
         node_id = node.get("id")
         if isinstance(node_id, str) and node_id:
-            if node_id in seen and node_id != "root":
-                report.error(f"models: повторяющийся id={node_id!r} ({seen[node_id]} и {path})")
-            seen.setdefault(node_id, path)
+            in_form = node_type == "argument" and node.get("source") == "config" and action_scope is not None
+            scope = action_scope if in_form else "$model"
+            key = (scope, node_id)
+            if key in seen:
+                report.error(f"models: повторяющийся id={node_id!r} ({seen[key]} и {path})")
+            seen.setdefault(key, path)
+            if in_form:
+                form_inputs.setdefault(action_scope, set()).update((node_id, node_id.rsplit('.', 1)[-1]))
         elif node_type is not None:
             report.error(f"models: {path} — пустой или нестроковый id")
 
@@ -181,20 +191,21 @@ def validate_model(entity: dict, mode: str, report: Report) -> None:
             if VAGUE_ID.fullmatch(node_id):
                 report.warn(f"models: {path} — id={node_id!r} невнятный: назови параметр по смыслу")
         if node_type == "argument":
-            if node.get("dataType") not in DATA_TYPES:
+            if not isinstance(node.get("dataType"), str) or node.get("dataType") not in DATA_TYPES:
                 report.error(
                     f"models: {path} — dataType={node.get('dataType')!r} вне {sorted(DATA_TYPES)}"
                 )
             if "unit" in node and node["unit"] is not None and not str(node["unit"]).strip():
                 report.error(f"models: {path} — пустая единица измерения unit")
             if mode == "new":
-                if node.get("source") != "state":
-                    report.warn(f"models: {path} — у аргумента ожидается source=\"state\"")
-                if not node.get("reference"):
-                    report.warn(f"models: {path} — у аргумента нет reference (ключ параметра устройства)")
+                if not isinstance(node.get("source", "state"), str) or node.get("source", "state") not in {"state", "config"}:
+                    report.warn(f"models: {path} — source требует подтверждения контекста")
+                if node.get("source", "state") == "state" and not node.get("reference"):
+                    report.info(f"models: {path} — reference отсутствует: проверь выход обработчика или источник")
         if node_type == "action":
+            actions.append((path, node))
             service = node.get("service")
-            if service not in ACTION_SERVICES:
+            if not isinstance(service, str) or service not in ACTION_SERVICES:
                 report.warn(f"models: {path} — service={service!r} не встречался в образцах")
             if service == "ric-gate":
                 params = node.get("params")
@@ -208,6 +219,10 @@ def validate_model(entity: dict, mode: str, report: Report) -> None:
                     report.warn(f"models: {path} — у действия ожидается source=\"state\"")
             if not isinstance(node.get("params", {}), dict):
                 report.error(f"models: {path} — params должен быть объектом")
+            elif node.get("command") == "publish" and not all(
+                isinstance(node.get("params", {}).get(key), str) for key in ("topic", "payload")
+            ):
+                report.error(f"models: {path} — publish требует строковые params.topic и params.payload")
 
         if mode == "new":
             for key in NODE_SERVICE_FIELDS:
@@ -219,9 +234,20 @@ def validate_model(entity: dict, mode: str, report: Report) -> None:
             report.error(f"models: {path} — children должен быть списком")
             return
         for index, child in enumerate(children):
-            walk(child, f"{path}.children[{index}]")
+            walk(child, f"{path}.children[{index}]", path if node_type == "action" else action_scope)
 
     walk(tree, "data")
+    for path, action in actions:
+        params = action.get("params", {})
+        if not isinstance(params, dict):
+            continue
+        for value in params.values():
+            if not isinstance(value, str):
+                continue
+            for expression in re.findall(r"{{\s*([^{}]+?)\s*}}", value):
+                # object.* belongs to the platform context, not to the command form.
+                if not expression.startswith("object.") and expression not in form_inputs.get(path, set()):
+                    report.error(f"models: {path} — переменная команды {expression!r} не объявлена во входах формы")
 
 
 # ------------------------------------------------------------------------- сценарии
