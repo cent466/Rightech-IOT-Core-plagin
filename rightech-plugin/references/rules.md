@@ -1,13 +1,14 @@
 # Правила Rightech, выведенные из образцов
 
-Документ составлен 2026-11-14 по 24 файлам из `primer_model`, `primer_scena`, `primer_geo`, `primer_obrabotka` (инвентарь — `references/samples-index.md`). Каждое правило сопровождается ссылкой на образец и путь к полю.
+Документ составлен 2026-11-14 по 24 файлам из `primer_model`, `primer_scena`, `primer_geo`, `primer_obrabotka`; 2026-04-10 добавлена модель `smart_well_mqtt`, созданная в аккаунте пользователя (итого 25 файлов, инвентарь — `references/samples-index.md`). Каждое правило сопровождается ссылкой на образец и путь к полю.
 
 ## Как читать этот документ
 
 - **Наблюдалось во всех образцах** — поле присутствует во всех файлах типа. Это статистика экспортов, **не** доказательство, что API требует поле при `POST`.
 - **Наблюдалось частично** — поле есть в части файлов; считать необязательным.
 - **Не подтверждено** — формат отсутствует в образцах; требуется эталон из аккаунта или документация. Выдумывать значение запрещено.
-- Все 24 файла имеют внешнюю оболочку экспорта с полями `version`, `origin`, `time`, `user`, `group`, `store`, `data`. Во всех 24: `version = 1`, `origin = "dev.rightech.io"`, а `store` совпадает с типом (`models`, `automatons`, `geofences`, `handlers`). Оболочка — формат экспорта; **не подтверждено**, что она отправляется в `POST` целиком.
+- Все 25 файлов имеют внешнюю оболочку экспорта с полями `version`, `origin`, `time`, `user`, `group`, `store`, `data`. Во всех 25: `version = 1`, `origin = "dev.rightech.io"`, а `store` совпадает с типом (`models`, `automatons`, `geofences`, `handlers`). Оболочка — формат экспорта; **не подтверждено**, что она отправляется в `POST` целиком.
+- Исключение по составу полей: в `model_smart_well_mqtt.json` (создана в аккаунте, не платформенный пример) нет `user`/`group`, а `data._id` — не 24-символьный ObjectId, а строка `smart_well_mqtt_model`. Значит `_id` в экспорте не обязан быть ObjectId; при создании его всё равно выдаёт платформа.
 
 ## Служебные поля (удалять при создании)
 
@@ -27,12 +28,12 @@
 
 ## 1. Модели (`store = "models"`)
 
-### Обязательные поля (наблюдались во всех 10)
+### Обязательные поля (наблюдались во всех 11)
 
 `name`, `base`, `description`, `props`, `data` — верхний уровень `data`-объекта.
-Ссылки: `primer_model/model_mqtt3.json → $.name, $.base, $.description, $.props, $.data`.
+Ссылки: `primer_model/model_mqtt3.json → $.name, $.base, $.description, $.props, $.data`; `primer_model/model_smart_well_mqtt.json` — тот же набор.
 
-`props` во всех 10 содержит: `bots` (bool), `hardwareEvents` (bool), `idPattern` (str), `order` (int), `prefix` (str), `protocol` (str); `helper` — 10/10, но типом различается (`dict` в 5, `str` в 5) — противоречие, см. «Нерешённые вопросы».
+`props` в 10 платформенных образцах содержит: `bots` (bool), `hardwareEvents` (bool), `idPattern` (str), `order` (int), `prefix` (str), `protocol` (str); `helper` — 10/10, но типом различается (`dict` в 5, `str` в 5) — противоречие, см. «Нерешённые вопросы». В созданной модели `prefix` нет, зато есть `typeInput`, `statusInput`, `descriptionInput` с `{hidden: false}` и `helper: ""` — значит `props` допускает расширения.
 
 ### Необязательные / частично
 
@@ -40,8 +41,24 @@
 
 ### Корень дерева `data`
 
-Во всех 10: `data.id = "root"`, `data.type = "subsystem"`, `data.active` (bool), `data.children` (list), `data.name` (совпадает с `name` модели в 10/10), `data.description`.
+Во всех 11: `data.id = "root"`, `data.type = "subsystem"`, `data.active` (bool), `data.children` (list), `data.name`; `data.description` есть во всех, кроме созданной модели. `data.name` совпадает с `name` модели в 10 из 11 — в `model_smart_well_mqtt.json` они разные (`"Умная скважина MQTT"` против `"smart_well_mqtt"`), поэтому совпадение не требование.
 Один образец содержит `_isRoot: true` (`primer_model/model_avton_dynamograph.json → $.data._isRoot`).
+
+### Шаблон модели, созданной в аккаунте (`model_smart_well_mqtt.json`, 2026-04-10)
+
+Пользователь подтвердил этот файл как пример созданной модели; он задаёт целевой шаблон для генерации:
+
+- оболочка: `version: 1`, `origin: "dev.rightech.io"`, `time`, `store: "models"`, `data`;
+- `data`: `_id` (в экспорте), `name`, `base: "mqtt"`, `mixins: []`, `data` (дерево), `props`, `description`;
+- корень: `id: "root"`, `name`, `active: true`, `type: "subsystem"`, `_inactive: false`, `children`; у корня также `base: "mqtt"` (как в `model_kr_tm_2_0.json`, `model_smart_home.json`);
+- первый ребёнок — `external-software-modules` (`type: "subsystem"`, `active: true`, `copy: true`, `children: []`, `_inactive: false`, `name: "Внешние программные модули"`);
+- `_inactive: false` стоит на каждом узле;
+- аргументы: `source: "state"`, `dataType`, `reference` (`well/pump/voltage`), `unit`, `factor: 1`, `linear: true`, `usage: null`, `description`; у `boolean`-аргумента нет `unit`/`factor`;
+- команды — дочерние `action` внутри подсистемы `commands`: `service: "ric-gate"`, `command: "text_command"`, `source: "state"`, `dataType: "string"`, `params: {"command": "{\"pump_control\": \"ON\"}"}`, `children: []`, `description`, `_inactive: false`;
+- `id` узлов — `snake_case` (`liquid_level`, `pump_voltage`, `pump_on`);
+- `name`/`description` — по-русски, хотя правило пользователя требует английский (расхождение, см. «Нерешённые вопросы»).
+
+Ссылки: `primer_model/model_smart_well_mqtt.json → $.data.data.children[*]`.
 
 ### Типы узлов, реально встречающиеся в дереве
 
@@ -62,12 +79,13 @@
 - `source`: `state` (305), `config` (5).
 - `action.service`: `ric-gate` (30), `ric-logic-v3.user-event` (4).
 - `action.command` для `ric-gate`: `publish` (27), `text_command` (5) + устройства-специфичные `getinfo`, `getio`, `setdigout …` (Teltonika).
-- `params` действия: `topic` и `payload` (27/27 с `params`), `qos` (11).
+- `params` действия: `topic` и `payload` (27/27 с `params`), `qos` (11). При `command: "text_command"` в `params` лежит только `command` — тело команды JSON-строкой (`model_smart_well_mqtt.json → $.data.data.children[3].children[0].params.command`).
+- `usage`: `null` у аргументов созданной модели; других значений в образцах нет.
 
 ### Идентификаторы
 
-- Дубликатов `id` внутри одной модели не обнаружено (проверены все 10). Требование уникальности подтверждается практикой образцов.
-- Стиль преимущественно латиница в `kebab-case` (`external-software-modules`, `online`, `_ts`), но встречаются суффиксы-хэши (`tds-jc5be`) и даже кириллица (`Пример`) — формат не валидируется платформой, поэтому плагин генерирует латиницу `kebab-case`, а валидатор проверяет только уникальность и непустоту.
+- Дубликатов `id` внутри одной модели не обнаружено (проверены все 11). Требование уникальности подтверждается практикой образцов.
+- Стиль расходится: платформенные экспорты — латиница в `kebab-case` (`external-software-modules`, `online`, `_ts`), встречаются суффиксы-хэши (`tds-jc5be`) и даже кириллица (`Пример`); созданная пользователем модель — латиница `snake_case` (`liquid_level`, `pump_on`). Целевое правило — `snake_case`; исключение — фиксированный `external-software-modules` (у Teltonika `external_software_modules`). Валидатор предупреждает о нарушении `snake_case` только для новых моделей.
 - `reference` у аргумента в 216 случаях совпадает с `id` аргумента; смысл расхождения не установлен.
 
 ### Связи
@@ -85,13 +103,17 @@
 - Отправлять `_id`, `owner`, `group`, `time`, `_at` из экспорта.
 - Придумывать `unit`: единицы брать из `GET /api/v1/locale` (ТЗ) или из образца.
 - Угадывать `base` для протокола, которого нет в образцах.
+- Удалять блок `external-software-modules` или класть в него параметры: он первый во всех 11 моделях.
+- Молча переводить `name`/`description` или менять язык модели: созданная модель на русском, правило требует английский.
+- Менять `text_command` на `publish` (и обратно) без подтверждения формата команды устройства.
 
 ### Нерешённые вопросы
 
-1. `props.helper`: `dict` или `str`? Оба варианта в рабочих моделях.
+1. `props.helper`: `dict` или `str`? Оба варианта в рабочих моделях; в созданной модели — пустая строка.
 2. `props.protocol` в образцах повторяет `base` (`mqtt`, `nidd`, `teltonika`, `lora`); совпадает ли он с `base` всегда и какие ещё значения допустимы — неизвестно.
-3. Нужны ли `_parentId`/`_inactive`/`copy`/`_isRoot` в `POST /models`, или дерево собирается только через `/nodes?attachTo=`? ТЗ описывает оба пути.
+3. Нужны ли `_parentId`/`_inactive`/`copy`/`_isRoot` в `POST /models`, или дерево собирается только через `/nodes?attachTo=`? ТЗ описывает оба пути. В созданной модели `_inactive` и `copy` присутствуют, поэтому плагин сохраняет эти два поля в импортируемом файле, а `_parentId`/`_isRoot`/`_levels`/`_dataPath` — по-прежнему убирает.
 4. Формат узла `event` отсутствует в образцах.
+5. Язык `name`/`description`: правило требует английский, но все платформенные экспорты и созданная модель используют русский. Валидатор язык не проверяет.
 
 ---
 

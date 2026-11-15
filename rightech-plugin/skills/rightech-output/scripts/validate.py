@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Локальная проверка JSON сущностей Rightech IoT Core до отправки в API.
 
-Правила взяты из references/rules.md (выведены из 24 рабочих образцов).
+Правила взяты из references/rules.md (выведены из 25 рабочих образцов и созданной модели smart_well_mqtt).
 Скрипт не обращается к сети и не требует зависимостей.
 
 Режимы:
@@ -26,7 +26,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 SERVICE_FIELDS = ("_id", "_at", "owner", "group", "time", "user", "store", "origin")
-NODE_SERVICE_FIELDS = ("_parentId", "_inactive", "copy", "_isRoot", "_levels", "_dataPath")
+NODE_SERVICE_FIELDS = ("_parentId", "_isRoot", "_levels", "_dataPath")
 NODE_TYPES = {"subsystem", "argument", "action", "config", "event-logic"}
 DATA_TYPES = {"number", "string", "boolean", "object"}
 BASE_VALUES = {"mqtt", "nidd", "teltonika", "lora"}
@@ -34,6 +34,8 @@ ACTION_SERVICES = {"ric-gate", "ric-logic-v3.user-event"}
 LANGUAGES = {"javascript", "typescript"}
 STATE_TYPES = {"init", "state", "final"}
 GEOFENCE_SHAPES = {"polygon"}
+EXTERNAL_MODULE_IDS = {"external-software-modules", "external_software_modules"}
+SNAKE_CASE_ID = re.compile(r"[a-z][a-z0-9_]*")
 
 SECRET_PATTERNS = (
     ("JWT", re.compile(r"eyJ[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}")),
@@ -64,16 +66,32 @@ class Report:
         return not self.errors
 
 
-def load_entity(path: Path, store_hint: str | None) -> tuple[str, dict]:
+def load_entity(path: Path, store_hint: str | None, report: "Report | None" = None) -> tuple[str, dict]:
     """Возвращает (тип сущности, объект сущности) из экспорта или из голого JSON."""
     raw = json.loads(path.read_text(encoding="utf-8-sig"))
     if not isinstance(raw, dict):
         raise ValueError("ожидался JSON-объект")
     if isinstance(raw.get("data"), dict) and raw.get("store"):
+        if report is not None:
+            check_envelope(raw, report)
         return str(raw["store"]), raw["data"]
     if store_hint is None:
         raise ValueError("не удалось определить тип сущности: укажите --store")
     return store_hint, raw
+
+
+def check_envelope(raw: dict, report: "Report") -> None:
+    """Оболочка файла-экспорта: version=1, origin и store."""
+    version = raw.get("version")
+    if version != 1:
+        report.error(f"оболочка: version={version!r}, ожидается 1")
+    origin = raw.get("origin")
+    if not isinstance(origin, str) or not origin.strip():
+        report.error("оболочка: не заполнен origin (dev.rightech.io или хост пользователя)")
+    if not raw.get("store"):
+        report.error("оболочка: не заполнен store")
+    if not isinstance(raw.get("time"), str):
+        report.info("оболочка: нет time — платформа обычно пишет ISO-время экспорта")
 
 
 def is_number(value: object) -> bool:
@@ -106,6 +124,20 @@ def validate_model(entity: dict, mode: str, report: Report) -> None:
     if tree.get("type") != "subsystem":
         report.warn("models: корневой узел обычно type=subsystem")
 
+    children = tree.get("children")
+    module_block = children[0] if isinstance(children, list) and children else None
+    if not isinstance(module_block, dict) or module_block.get("id") not in EXTERNAL_MODULE_IDS:
+        message = "models: первым дочерним узлом должен быть блок external-software-modules"
+        if mode == "new":
+            report.error(message)
+        else:
+            report.info(message)
+    else:
+        if module_block.get("type") != "subsystem":
+            report.error("models: блок external-software-modules должен быть type=subsystem")
+        if module_block.get("copy") is not True:
+            report.warn("models: у блока external-software-modules обычно copy=true")
+
     seen: dict[str, str] = {}
 
     def walk(node: object, path: str) -> None:
@@ -128,6 +160,11 @@ def validate_model(entity: dict, mode: str, report: Report) -> None:
 
         if "name" not in node:
             report.info(f"models: {path} — узел без name (встречается в рабочих экспортах)")
+        if mode == "new" and "_inactive" not in node:
+            report.warn(f"models: {path} — нет _inactive (в генерируемых моделях ставится false)")
+        if mode == "new" and isinstance(node_id, str) and node_id not in EXTERNAL_MODULE_IDS | {"root"}:
+            if not SNAKE_CASE_ID.fullmatch(node_id):
+                report.warn(f"models: {path} — id={node_id!r} не в snake_case")
         if node_type == "argument":
             if node.get("dataType") not in DATA_TYPES:
                 report.error(
@@ -135,6 +172,11 @@ def validate_model(entity: dict, mode: str, report: Report) -> None:
                 )
             if "unit" in node and node["unit"] is not None and not str(node["unit"]).strip():
                 report.error(f"models: {path} — пустая единица измерения unit")
+            if mode == "new":
+                if node.get("source") != "state":
+                    report.warn(f"models: {path} — у аргумента ожидается source=\"state\"")
+                if not node.get("reference"):
+                    report.warn(f"models: {path} — у аргумента нет reference (ключ параметра устройства)")
         if node_type == "action":
             service = node.get("service")
             if service not in ACTION_SERVICES:
@@ -145,8 +187,10 @@ def validate_model(entity: dict, mode: str, report: Report) -> None:
                     report.warn(f"models: {path} — действие ric-gate без command")
                 if not isinstance(params, dict):
                     report.warn(f"models: {path} — действие ric-gate без params")
-                elif "topic" not in params:
-                    report.info(f"models: {path} — params без topic (встречается в экспортах)")
+                elif "topic" not in params and "command" not in params:
+                    report.info(f"models: {path} — params без topic/command (встречается в экспортах)")
+                if mode == "new" and node.get("source") != "state":
+                    report.warn(f"models: {path} — у действия ожидается source=\"state\"")
             if not isinstance(node.get("params", {}), dict):
                 report.error(f"models: {path} — params должен быть объектом")
 
@@ -494,12 +538,16 @@ def main(argv: list[str] | None = None) -> int:
     total_warnings = 0
     for path in files:
         try:
-            store, entity = load_entity(path, args.store)
+            report = Report()
+            store, entity = load_entity(path, args.store, report)
         except (OSError, ValueError, json.JSONDecodeError) as exc:
             print(f"[ERROR] {path}: {exc}")
             total_errors += 1
             continue
-        report = validate_entity(store, entity, args.mode)
+        entity_report = validate_entity(store, entity, args.mode)
+        report.errors.extend(entity_report.errors)
+        report.warnings.extend(entity_report.warnings)
+        report.infos.extend(entity_report.infos)
         total_errors += len(report.errors)
         total_warnings += len(report.warnings)
         if not report.errors and not report.warnings:

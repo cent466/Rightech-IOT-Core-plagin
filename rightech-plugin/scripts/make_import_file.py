@@ -37,7 +37,7 @@ TYPE_LABELS = {
 }
 DEFAULT_ORIGIN = "dev.rightech.io"
 TOP_SERVICE_FIELDS = ("_id", "_at", "owner", "group", "time", "user", "store", "origin", "version")
-NODE_SERVICE_FIELDS = ("_parentId", "_inactive", "copy", "_isRoot", "_levels", "_dataPath")
+NODE_SERVICE_FIELDS = ("_parentId", "_isRoot", "_levels", "_dataPath")
 UNSAFE_FILENAME = re.compile(r'[\\/:*?"<>|\x00-\x1f]')
 
 

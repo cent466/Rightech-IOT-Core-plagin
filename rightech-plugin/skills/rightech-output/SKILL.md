@@ -32,7 +32,7 @@ python3 scripts/make_import_file.py entity.json --store models --out-dir rightec
 python3 "${CLAUDE_SKILL_DIR}/scripts/make_import_file.py" entity.json --store models --out-dir rightech-output
 ```
 
-В Codex путь к плагину — `${PLUGIN_ROOT}`. Скрипт валидирует сущность, убирает служебные поля (`_id`, `owner`, `group`, `time`, `_at`, а в дереве модели — `_parentId`, `_inactive`, `copy`, `_isRoot`, `_levels`, `_dataPath`), заворачивает результат в оболочку экспорта и сохраняет в `rightech-output/`.
+В Codex путь к плагину — `${PLUGIN_ROOT}`. Скрипт валидирует сущность, убирает служебные поля (`_id`, `owner`, `group`, `time`, `_at`, а в дереве модели — `_parentId`, `_isRoot`, `_levels`, `_dataPath`; `_inactive` и `copy` остаются, как в шаблоне созданной модели), заворачивает результат в оболочку экспорта и сохраняет в `rightech-output/`.
 
 Оболочка повторяет формат платформенного экспорта и официальных примеров импорта:
 

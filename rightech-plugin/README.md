@@ -82,7 +82,7 @@ rightech-plugin/
 │   ├── rightech-scenarios/        сценарии
 │   └── rightech-output/           готовые файлы и инструкция по импорту
 ├── references/
-│   ├── samples-index.md           инвентарь 24 образцов
+│   ├── samples-index.md           инвентарь 25 образцов (включая эталон шаблона модели)
 │   ├── rules.md                   правила по четырём типам + противоречия
 │   ├── import-guide.md            что и как импортируется
 │   ├── open-questions.md          что осталось выяснить
@@ -92,7 +92,7 @@ rightech-plugin/
 │   ├── validate.py                офлайн-валидатор
 │   ├── make_import_file.py        сборка файла импорта и файла кода
 │   └── geojson_zone.py            проверка/выбор существующего Polygon GeoJSON
-└── tests/                         36 тестов без сети
+└── tests/                         41 тест без сети
 ```
 
 ## Быстрый старт
@@ -115,13 +115,13 @@ python3 rightech-plugin/scripts/geojson_zone.py export.json --feature "МКАД"
 ## Проверки
 
 ```bash
-python3 rightech-plugin/scripts/validate.py rightech-plugin/references/samples   # 24 файла, 0 ошибок
-python3 -m unittest discover -s rightech-plugin/tests                            # 36 тестов
+python3 rightech-plugin/scripts/validate.py rightech-plugin/references/samples   # 25 файлов, 0 ошибок
+python3 -m unittest discover -s rightech-plugin/tests                            # 41 тест
 ```
 
 ## Ограничения
 
-- Валидатор и правила проверены на всех 24 образцах; 36 тестов проходят.
+- Валидатор и правила проверены на всех 25 образцах; 41 тест проходит.
 - Сборка файла повторяет оболочку экспорта и официальных примеров импорта, но **сам импорт на живом аккаунте не проверялся**. Не подтверждено, обязательны ли поля `user` и `group`.
 - Не поддержаны: круглые геозоны, узел модели `event`, полный каталог действий сценариев — нужны эталоны (см. `references/open-questions.md`).
 - Перед генерацией неизвестных технических деталей плагин обязан самостоятельно искать официальную документацию Rightech и производителя через навык `rightech-research`; если достоверных материалов не найдено — попросить конкретный недостающий документ или пример.
