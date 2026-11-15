@@ -14,9 +14,9 @@
       },
       "expected": {
         "temperature": 0,
-        "online": false,
         "serial": "0017",
-        "channel": 0
+        "channel": 0,
+        "device_online": false
       }
     },
     {
@@ -39,8 +39,8 @@
       },
       "expected": {
         "temperature": 23.5,
-        "online": true,
-        "channel": 42
+        "channel": 42,
+        "device_online": true
       }
     },
     {
@@ -57,7 +57,7 @@
         }
       },
       "expected": {
-        "online": true
+        "device_online": true
       },
       "absent": [
         "temperature",

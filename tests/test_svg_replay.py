@@ -70,6 +70,15 @@ class SvgTests(unittest.TestCase):
         parameter['display']['svg'] = SVG.replace('</svg>', '<script/></svg>')
         self.assertTrue(validate_entity('models', model, 'export').errors)
 
+    def test_display_only_svg_warns_until_target_render_is_confirmed(self):
+        model=load(EXAMPLES/'model.json');parameter=node(model,'temperature')
+        parameter.pop('levels')
+        report=validate_entity('models',model,'new')
+        self.assertFalse(report.errors)
+        self.assertTrue(any('SVG_DISPLAY_ONLY' in w for w in report.warnings))
+        parameter['levels']={'svg':parameter['display']['svg']}
+        self.assertFalse(any('SVG_DISPLAY_ONLY' in w for w in validate_entity('models',model,'new').warnings))
+
     def test_arbitrary_drawing_and_invalid_geometry_specification(self):
         spec = {'viewBox': [0, 0, 16, 16], 'elements': [{'tag': 'circle', 'attrs': {'cx': 8, 'cy': 8, 'r': 5}}]}
         self.assertFalse(svg_validate(draw(spec)))
@@ -142,9 +151,9 @@ class ReplayTests(unittest.TestCase):
             changed=copy.deepcopy(self.model);node(changed,'temperature')[field]=value
             with self.subTest(field=field):
                 self.assertGreater(run(changed,self.cases)['failed_count'],0)
-        self.cases['cases'][0]['expected']['online']=0
+        self.cases['cases'][0]['expected']['device_online']=0
         self.assertGreater(run(self.model,self.cases)['failed_count'],0)
-        self.cases['cases'][0]['expected']['online']=False
+        self.cases['cases'][0]['expected']['device_online']=False
         self.cases['cases'][0]['expected']['serial']=17
         self.assertGreater(run(self.model,self.cases)['failed_count'],0)
 
@@ -213,7 +222,7 @@ class ReplayTests(unittest.TestCase):
         self.assertEqual(run(self.model,{**self.cases,'cases':[case]})['passed_count'],1)
 
     def test_boolean_factor_is_not_a_numeric_identity(self):
-        node(self.model,'online')['factor']=True
+        node(self.model,'device_online')['factor']=True
         self.assertGreater(run(self.model,self.cases)['failed_count'],0)
 
     def test_cli_exit_statuses_and_no_raw_input_in_reports(self):

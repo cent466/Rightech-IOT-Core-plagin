@@ -240,6 +240,10 @@ def validate_model(entity: dict, mode: str, report: Report) -> None:
                     (report.error if finding["severity"] == "error" else report.warn)(message)
         if len(icons) == 2 and icons[0] != icons[1]:
             report.error(f"models: {path} — SVG_COPIES: display.svg и levels.svg различаются")
+        if isinstance(node.get("display"), dict) and node["display"].get("svg") and not (
+            isinstance(node.get("levels"), dict) and node["levels"].get("svg")
+        ):
+            report.warn(f"models: {path} — SVG_DISPLAY_ONLY: на проверенной RIC иконку читает levels.svg; display.svg без него не подтверждает отображение")
 
         children = node.get("children", [])
         if not isinstance(children, list):

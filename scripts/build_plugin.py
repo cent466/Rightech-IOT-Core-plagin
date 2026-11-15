@@ -9,7 +9,8 @@ ROOT = Path(__file__).resolve().parents[1]
 SHARED_SCRIPTS = ('validate.py', 'make_import_file.py', 'model_tools.py', 'validate_svg.py',
                   'draw_svg.py', 'render_svg.py', 'replay_cases.py')
 SHARED_RESOURCES = ('requirements-tools.txt', 'schemas/cases.schema.json', 'schemas/drawing.schema.json',
-                    'references/model-tools.md', 'examples/model-tools/model.json', 'examples/model-tools/cases.json',
+                    'references/model-tools.md', 'references/local-verification-2026-11-15.md',
+                    'examples/model-tools/model.json', 'examples/model-tools/cases.json',
                     'examples/model-tools/drawings/temperature.json', 'examples/model-tools/drawings/humidity.json',
                     'examples/model-tools/icons/temperature.svg', 'examples/model-tools/icons/humidity.svg',
                     'examples/model-tools/icons/online.svg', 'examples/model-tools/icons/serial.svg',
