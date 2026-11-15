@@ -3,7 +3,9 @@
 
 Скрипт ничего не отправляет в сеть. Он:
   1) проверяет сущность валидатором (режим new — служебных полей быть не должно);
-  2) заворачивает её в оболочку экспорта Rightech (`version`, `origin`, `time`, `store`, `data`);
+  2) заворачивает её в оболочку экспорта Rightech (`version`, `origin`, `time`, `store`,
+     `data`) и добавляет в `data` поле `_id`: без него платформа отвечает
+     «неверный формат файла»; проверено импортом через веб-интерфейс;
   3) сохраняет файл с именем как у платформенного экспорта:
      `<дата>_<Тип>_<имя>.json`;
   4) для обработчика дополнительно сохраняет файл кода `.js`/`.ts`.
@@ -22,6 +24,7 @@ import argparse
 import datetime as dt
 import json
 import re
+import secrets
 import sys
 from pathlib import Path
 
@@ -81,15 +84,37 @@ def safe_name(name: str, limit: int = 80) -> str:
     return (cleaned or "без_имени")[:limit]
 
 
-def build_envelope(store: str, entity: dict, *, origin: str = DEFAULT_ORIGIN, moment: dt.datetime | None = None) -> dict:
+def new_object_id(moment: dt.datetime | None = None) -> str:
+    """Идентификатор в формате ObjectId платформы: время + случайная часть."""
+    stamp = int((moment or dt.datetime.now(dt.timezone.utc)).timestamp())
+    return f"{stamp:08x}{secrets.token_hex(8)}"
+
+
+def build_envelope(
+    store: str,
+    entity: dict,
+    *,
+    origin: str = DEFAULT_ORIGIN,
+    user: str | None = None,
+    group: str | None = None,
+    entity_id: str | None = None,
+    moment: dt.datetime | None = None,
+) -> dict:
     stamp = (moment or dt.datetime.now(dt.timezone.utc)).astimezone(dt.timezone.utc)
-    return {
+    envelope = {
         "version": 1,
         "origin": origin,
         "time": stamp.isoformat(timespec="milliseconds").replace("+00:00", "Z"),
-        "store": store,
-        "data": clean_entity(store, entity),
     }
+    # Платформенные экспорты содержат user/group; импорт в тот же аккаунт их принимает.
+    if user:
+        envelope["user"] = user
+    if group:
+        envelope["group"] = group
+    envelope["store"] = store
+    # `_id` обязателен: без него импорт отвечает «неверный формат файла».
+    envelope["data"] = {"_id": entity_id or new_object_id(stamp), **clean_entity(store, entity)}
+    return envelope
 
 
 def output_filename(store: str, name: str, moment: dt.datetime | None = None) -> str:
@@ -98,8 +123,17 @@ def output_filename(store: str, name: str, moment: dt.datetime | None = None) ->
     return f"{stamp.date().isoformat()}_{label}_{safe_name(name)}.json"
 
 
-def write_files(store: str, entity: dict, out_dir: Path, *, origin: str = DEFAULT_ORIGIN) -> list[Path]:
-    envelope = build_envelope(store, entity, origin=origin)
+def write_files(
+    store: str,
+    entity: dict,
+    out_dir: Path,
+    *,
+    origin: str = DEFAULT_ORIGIN,
+    user: str | None = None,
+    group: str | None = None,
+    entity_id: str | None = None,
+) -> list[Path]:
+    envelope = build_envelope(store, entity, origin=origin, user=user, group=group, entity_id=entity_id)
     name = str(entity.get("name", ""))
     out_dir.mkdir(parents=True, exist_ok=True)
     written: list[Path] = []
@@ -125,6 +159,9 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--out-dir", default="rightech-output", help="каталог для готовых файлов")
     parser.add_argument("--origin", default=DEFAULT_ORIGIN, help="хост Rightech для поля origin")
     parser.add_argument("--json-only", action="store_true", help="не сохранять файл кода обработчика")
+    parser.add_argument("--user", help="ID пользователя аккаунта для поля user в оболочке (из любого своего экспорта)")
+    parser.add_argument("--group", help="ID группы аккаунта для поля group в оболочке (из любого своего экспорта)")
+    parser.add_argument("--id", dest="entity_id", help="явный _id сущности (по умолчанию генерируется)")
     args = parser.parse_args(argv)
 
     path = Path(args.file)
@@ -151,13 +188,17 @@ def main(argv: list[str] | None = None) -> int:
 
     out_dir = Path(args.out_dir)
     if args.json_only and store == "handlers":
-        envelope = build_envelope(store, entity, origin=args.origin)
+        envelope = build_envelope(
+            store, entity, origin=args.origin, user=args.user, group=args.group, entity_id=args.entity_id
+        )
         out_dir.mkdir(parents=True, exist_ok=True)
         json_path = out_dir / output_filename(store, str(entity.get("name", "")))
         json_path.write_text(json.dumps(envelope, ensure_ascii=False, indent=2), encoding="utf-8")
         written = [json_path]
     else:
-        written = write_files(store, entity, out_dir, origin=args.origin)
+        written = write_files(
+            store, entity, out_dir, origin=args.origin, user=args.user, group=args.group, entity_id=args.entity_id
+        )
 
     for item in written:
         print(f"готово: {item}")
