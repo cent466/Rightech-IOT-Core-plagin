@@ -37,6 +37,7 @@ GEOFENCE_SHAPES = {"polygon"}
 EXTERNAL_MODULE_IDS = {"external-software-modules", "external_software_modules"}
 SNAKE_CASE_ID = re.compile(r"[a-z][a-z0-9_]*")
 VAGUE_ID = re.compile(r"(?:param|arg|argument|value|val|data|field|node|item|p|a)\d*", re.IGNORECASE)
+CYRILLIC_TEXT = re.compile(r"[\u0400-\u04FF]")
 
 SECRET_PATTERNS = (
     ("JWT", re.compile(r"eyJ[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}")),
@@ -109,6 +110,8 @@ def scan_secrets(text: str) -> list[str]:
 def validate_model(entity: dict, mode: str, report: Report) -> None:
     if not isinstance(entity.get("name"), str) or not entity.get("name", "").strip():
         report.error("models: не заполнено имя (name)")
+    if mode == "new" and not str(entity.get("description") or "").strip():
+        report.error("models: не заполнено краткое описание (description)")
     base = entity.get("base")
     if not isinstance(base, str) or not base.strip():
         report.error("models: не заполнено base")
@@ -277,7 +280,7 @@ def validate_scenario(entity: dict, mode: str, report: Report) -> None:
     if not isinstance(entity.get("name"), str) or not entity.get("name", "").strip():
         report.error("automatons: не заполнено имя (name)")
     if mode == "new" and not str(entity.get("description") or "").strip():
-        report.warn("automatons: нет description — опиши назначение сценария")
+        report.error("automatons: не заполнено краткое описание (description)")
 
     model_id = entity.get("model")
     models = entity.get("models")
@@ -340,8 +343,12 @@ def validate_scenario(entity: dict, mode: str, report: Report) -> None:
                     report.error(message)
                 else:
                     report.warn(message)
-        if mode == "new" and state_type == "state" and not str(data.get("name") or "").strip():
-            report.warn(f"automatons: states.{state_key} — добавь понятное имя обычному состоянию")
+        state_name = str(data.get("name") or "").strip()
+        if mode == "new":
+            if not state_name:
+                report.error(f"automatons: states.{state_key} — не задано имя состояния на русском")
+            elif not CYRILLIC_TEXT.search(state_name):
+                report.error(f"automatons: states.{state_key}.data.name должно быть на русском")
         position = state.get("position")
         if not isinstance(position, dict) or not is_number(position.get("left")) or not is_number(position.get("top")):
             if mode == "new":
@@ -608,7 +615,7 @@ def validate_handler(entity: dict, mode: str, report: Report) -> None:
     if not isinstance(entity.get("name"), str) or not entity.get("name", "").strip():
         report.error("handlers: не заполнено имя (name)")
     if mode == "new" and not str(entity.get("description") or "").strip():
-        report.warn("handlers: нет description — кратко укажи назначение и входной формат")
+        report.error("handlers: не заполнено краткое описание (description)")
     language = entity.get("language")
     if language not in LANGUAGES:
         report.error(f"handlers: language={language!r} вне {sorted(LANGUAGES)}")
