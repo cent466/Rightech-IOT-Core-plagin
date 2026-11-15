@@ -470,6 +470,8 @@ def js_bracket_balance(code: str) -> str | None:
 def validate_handler(entity: dict, mode: str, report: Report) -> None:
     if not isinstance(entity.get("name"), str) or not entity.get("name", "").strip():
         report.error("handlers: не заполнено имя (name)")
+    if mode == "new" and not str(entity.get("description") or "").strip():
+        report.warn("handlers: нет description — кратко укажи назначение и входной формат")
     language = entity.get("language")
     if language not in LANGUAGES:
         report.error(f"handlers: language={language!r} вне {sorted(LANGUAGES)}")
@@ -489,6 +491,13 @@ def validate_handler(entity: dict, mode: str, report: Report) -> None:
     cross_mappings = entity.get("crossMappings")
     if parameters is None and cross_mappings is None:
         report.warn("handlers: нет ни parameters, ни crossMappings — связь с моделью не задана")
+    if mode == "new" and entity.get("elementType") == "model" and not isinstance(parameters, dict):
+        report.warn("handlers: elementType=model без parameters — проверь привязку к существующей модели")
+    if mode == "new" and entity.get("elementType") == "cross" and (
+        not isinstance(entity.get("crossElements"), list) or not entity.get("crossElements")
+        or not isinstance(cross_mappings, dict) or not cross_mappings
+    ):
+        report.warn("handlers: elementType=cross без crossElements/crossMappings — проверь кросс-привязки")
     if parameters is not None and not isinstance(parameters, dict):
         report.error("handlers: parameters должен быть объектом")
     if cross_mappings is not None and not isinstance(cross_mappings, dict):
