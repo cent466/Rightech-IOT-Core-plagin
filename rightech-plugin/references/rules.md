@@ -246,7 +246,7 @@ POST /api/v1/objects/<object>/automatons/<automaton>/emit
 event.payload.value === 42
 ```
 
-Проверено: с `payload.value = 42` переход срабатывает, с `event.payload.value === 999` — нет. Выражение `transitionEvent.payload.value` в `userCode` не сработало; в условиях используй `event.payload.<param-id>`. В шаблонах строк действий редактор подставляет `{{transitionEvent.payload.<param-id>}}` (подтверждено кодом UI), но рантайм-подстановку действия в этом тесте не проверяли — не переносить этот шаблон в условие.
+Проверено: с `payload.value = 42` переход срабатывает, с `event.payload.value === 999` — нет. Выражение `transitionEvent.payload.value` в `userCode` не сработало; в условиях используй `event.payload.<param-id>`. В шаблонах строк действий редактор формирует `{{transitionEvent.payload["<param-id>"]}}` (код UI), но рантайм-проверка 2026-11-16 показала: в URL действия `send-http-request` это выражение подставляется как `undefined`; `{{object.name}}` в том же URL подставляется корректно. Не использовать `transitionEvent.payload` в строковых аргументах действий.
 
 `gen-user-event` в этом тесте не сгенерировал событие модели (в результате пустой payload); проверенный способ запуска — внешний `emit`.
 

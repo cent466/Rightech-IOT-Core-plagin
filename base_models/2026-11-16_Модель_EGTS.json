@@ -1,0 +1,1006 @@
+{
+  "version": 1,
+  "origin": "dev.rightech.io",
+  "time": "2026-11-16T05:50:13.858Z",
+  "user": "000000000000000000000000",
+  "group": "000000000000000000000000",
+  "store": "models",
+  "data": {
+    "_id": "6afa999382eb553c90e4f07a",
+    "name": "EGTS",
+    "base": "egts",
+    "mixins": [],
+    "data": {
+      "id": "root",
+      "active": true,
+      "name": "EGTS",
+      "type": "subsystem",
+      "children": [
+        {
+          "id": "external-software-modules",
+          "active": true,
+          "copy": true,
+          "type": "subsystem",
+          "children": [],
+          "name": "Внешние программные модули",
+          "_inactive": false,
+          "_parentId": "root"
+        },
+        {
+          "id": "params",
+          "active": true,
+          "name": "Parameters",
+          "type": "subsystem",
+          "children": [
+            {
+              "id": "server-info",
+              "name": "Server information",
+              "active": true,
+              "type": "subsystem",
+              "children": [],
+              "_inactive": false,
+              "_parentId": "params"
+            },
+            {
+              "id": "params-gps",
+              "name": "GPS",
+              "active": true,
+              "type": "subsystem",
+              "children": [
+                {
+                  "id": "time",
+                  "active": true,
+                  "name": "Time GPS",
+                  "type": "argument",
+                  "unit": "duration-millisecond",
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "navigation.time",
+                  "linear": true,
+                  "factor": 1,
+                  "_inactive": false,
+                  "_parentId": "params-gps"
+                },
+                {
+                  "id": "height",
+                  "active": true,
+                  "name": "Height",
+                  "type": "argument",
+                  "unit": "length-meter",
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "navigation.height",
+                  "linear": true,
+                  "factor": 1,
+                  "_inactive": false,
+                  "_parentId": "params-gps"
+                },
+                {
+                  "id": "speed",
+                  "active": true,
+                  "name": "Speed",
+                  "type": "argument",
+                  "description": "Speed GPS ",
+                  "unit": "speed-kilometer-per-hour",
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "navigation.speed",
+                  "external": [
+                    "filter-coordinate"
+                  ],
+                  "factor": 1,
+                  "linear": true,
+                  "levels": {
+                    "type": "range",
+                    "value": [
+                      {
+                        "color": "#f16059",
+                        "name": "-Infinity",
+                        "value": {
+                          "a": "-Infinity",
+                          "b": 0
+                        }
+                      },
+                      {
+                        "color": "#a2ce4b",
+                        "name": "min",
+                        "value": {
+                          "a": 0,
+                          "b": 60
+                        }
+                      },
+                      {
+                        "color": "#ffae62",
+                        "name": "mid",
+                        "value": {
+                          "a": 60,
+                          "b": 90
+                        }
+                      },
+                      {
+                        "color": "#f16059",
+                        "name": "Max",
+                        "value": {
+                          "a": 90,
+                          "b": "Infinity"
+                        }
+                      }
+                    ],
+                    "svg": "<svg viewBox=\"0 0 16 16\"><path d=\"M 7.5 1 C 3.914063 1 1 3.914063 1 7.5 C 1 9.757813 2.15625 11.75 3.910156 12.917969 L 4.035156 13 L 10.964844 13 L 11.089844 12.917969 C 12.84375 11.75 14 9.757813 14 7.5 C 14 3.914063 11.085938 1 7.5 1 Z M 7.5 2 C 10.542969 2 13 4.457031 13 7.5 C 13 9.375 12.046875 11.007813 10.613281 12 L 4.382813 12 C 2.953125 11.007813 2 9.375 2 7.5 C 2 4.457031 4.457031 2 7.5 2 Z M 7.5 3 C 7.222656 3 7 3.222656 7 3.5 C 7 3.777344 7.222656 4 7.5 4 C 7.777344 4 8 3.777344 8 3.5 C 8 3.222656 7.777344 3 7.5 3 Z M 10.488281 3.996094 C 10.359375 4 10.238281 4.054688 10.144531 4.148438 L 7.148438 7.148438 C 7.015625 7.273438 6.964844 7.457031 7.007813 7.632813 C 7.054688 7.808594 7.191406 7.945313 7.367188 7.992188 C 7.542969 8.035156 7.726563 7.984375 7.851563 7.851563 L 10.855469 4.851563 C 11 4.710938 11.042969 4.492188 10.964844 4.300781 C 10.882813 4.113281 10.695313 3.992188 10.488281 3.996094 Z M 4.5 4 C 4.222656 4 4 4.222656 4 4.5 C 4 4.777344 4.222656 5 4.5 5 C 4.777344 5 5 4.777344 5 4.5 C 5 4.222656 4.777344 4 4.5 4 Z M 3.5 7 C 3.222656 7 3 7.222656 3 7.5 C 3 7.777344 3.222656 8 3.5 8 C 3.777344 8 4 7.777344 4 7.5 C 4 7.222656 3.777344 7 3.5 7 Z M 11.5 7 C 11.222656 7 11 7.222656 11 7.5 C 11 7.777344 11.222656 8 11.5 8 C 11.777344 8 12 7.777344 12 7.5 C 12 7.222656 11.777344 7 11.5 7 Z M 4.5 10 C 4.222656 10 4 10.222656 4 10.5 C 4 10.777344 4.222656 11 4.5 11 C 4.777344 11 5 10.777344 5 10.5 C 5 10.222656 4.777344 10 4.5 10 Z M 10.5 10 C 10.222656 10 10 10.222656 10 10.5 C 10 10.777344 10.222656 11 10.5 11 C 10.777344 11 11 10.777344 11 10.5 C 11 10.222656 10.777344 10 10.5 10 Z\" /></svg>"
+                  },
+                  "_inactive": false,
+                  "_parentId": "params-gps"
+                },
+                {
+                  "id": "angle",
+                  "active": true,
+                  "name": "Angle",
+                  "type": "argument",
+                  "unit": "angle-degree",
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "navigation.angle",
+                  "linear": true,
+                  "factor": 1,
+                  "description": " ",
+                  "_inactive": false,
+                  "_parentId": "params-gps"
+                },
+                {
+                  "id": "sats",
+                  "active": true,
+                  "name": "Satellites",
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "number",
+                  "display": {
+                    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" x=\"0px\" y=\"0px\"\nviewBox=\"0 0 16 16\"\n>    <path style=\"line-height:normal;text-indent:0;text-align:start;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000;text-transform:none;block-progression:tb;isolation:auto;mix-blend-mode:normal\" d=\"M 5.828125 1 A 0.50005 0.50005 0 0 0 5.4824219 1.1464844 L 3.1464844 3.4824219 A 0.50005 0.50005 0 0 0 3.1464844 4.1894531 L 6.015625 7.0585938 C 5.9988961 7.3657117 6.094775 7.6778033 6.3261719 7.9101562 A 0.50005 0.50005 0 0 0 6.328125 7.9121094 C 6.8137296 8.3967148 7.6032852 9.1862704 8.0878906 9.671875 A 0.50005 0.50005 0 0 0 8.0898438 9.6738281 C 8.3045747 9.8876756 8.5887477 9.992435 8.8730469 9.9941406 L 11.771484 12.892578 A 0.50005 0.50005 0 0 0 12.478516 12.892578 L 14.853516 10.517578 A 0.50005 0.50005 0 0 0 14.853516 9.8105469 L 12.193359 7.1503906 L 12.306641 7.0371094 C 13.129092 6.2146579 13.101549 4.9684433 12.453125 4.046875 A 0.50005 0.50005 0 0 0 12.306641 3.6933594 A 0.50005 0.50005 0 0 0 12.306641 3.6914062 C 11.846776 3.2321693 11.241025 3.0020743 10.634766 3.0019531 C 10.028506 3.0018319 9.4208985 3.2333983 8.9609375 3.6933594 L 8.8476562 3.8046875 L 6.1894531 1.1464844 A 0.50005 0.50005 0 0 0 5.828125 1 z M 5.8359375 2.2070312 L 8.140625 4.5117188 L 6.5117188 6.140625 L 4.2070312 3.8359375 L 5.8359375 2.2070312 z M 10.634766 3.9960938 C 10.983006 3.9962226 11.330474 4.1316244 11.599609 4.4003906 C 12.137849 4.9386302 12.137849 5.7918385 11.599609 6.3300781 L 8.9667969 8.9628906 A 0.50005 0.50005 0 0 0 8.9648438 8.9648438 C 8.9139417 9.0159568 8.8481725 9.0143948 8.796875 8.9648438 L 8.7949219 8.9648438 C 8.3097222 8.4786547 7.5213484 7.6902716 7.0351562 7.2050781 L 7.0351562 7.203125 C 6.9855631 7.1517871 6.9854145 7.0831585 7.0371094 7.03125 L 9.6679688 4.4003906 C 9.9370076 4.1313517 10.286525 3.9959649 10.634766 3.9960938 z M 11.486328 7.8574219 L 13.792969 10.164062 L 12.125 11.832031 L 9.8183594 9.5253906 L 11.486328 7.8574219 z M 5.4941406 7.9941406 A 0.50005 0.50005 0 0 0 5.1464844 8.8535156 L 7.1464844 10.853516 A 0.50005 0.50005 0 1 0 7.8535156 10.146484 L 5.8535156 8.1464844 A 0.50005 0.50005 0 0 0 5.4941406 7.9941406 z M 1.4980469 8.9980469 A 0.50005 0.50005 0 0 0 1.4023438 9.9902344 C 3.7169134 10.453148 6.2278803 12.381835 7.0273438 14.666016 A 0.50096427 0.50096427 0 1 0 7.9726562 14.333984 C 7.0221196 11.618165 4.2830866 9.5468517 1.5976562 9.0097656 A 0.50005 0.50005 0 0 0 1.4980469 8.9980469 z\" font-weight=\"400\" font-family=\"sans-serif\" white-space=\"normal\" overflow=\"visible\"></path></svg>"
+                  },
+                  "reference": "navigation.sats",
+                  "factor": 1,
+                  "linear": true,
+                  "levels": [
+                    {
+                      "index": 0,
+                      "value": "-Infinity",
+                      "color": "#f16059",
+                      "label": ""
+                    },
+                    {
+                      "index": 1,
+                      "value": 0,
+                      "color": "#f16059",
+                      "label": "Min"
+                    },
+                    {
+                      "index": 5,
+                      "value": 10,
+                      "color": "#dfb452",
+                      "label": "Mid"
+                    },
+                    {
+                      "index": 9,
+                      "value": 14,
+                      "color": "#a2ce4b",
+                      "label": "Max"
+                    }
+                  ],
+                  "_inactive": false,
+                  "_parentId": "params-gps"
+                },
+                {
+                  "id": "lat",
+                  "active": true,
+                  "name": "Latitude",
+                  "type": "argument",
+                  "description": "GPS",
+                  "unit": "angle-degree",
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "navigation.latitude",
+                  "linear": true,
+                  "factor": 1,
+                  "_inactive": false,
+                  "_parentId": "params-gps"
+                },
+                {
+                  "id": "lon",
+                  "active": true,
+                  "name": "Longitude",
+                  "type": "argument",
+                  "description": "GPS",
+                  "unit": "angle-degree",
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "navigation.longitude",
+                  "linear": true,
+                  "factor": 1,
+                  "_inactive": false,
+                  "_parentId": "params-gps"
+                },
+                {
+                  "id": "gps_odometer",
+                  "active": true,
+                  "name": "Odometer GPS",
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "navigation.odometer",
+                  "display": {
+                    "svg": ""
+                  },
+                  "linear": true,
+                  "factor": 1,
+                  "_inactive": false,
+                  "_parentId": "params-gps"
+                },
+                {
+                  "id": "vdop",
+                  "name": "VDOP",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "navigation.vdop",
+                  "children": [],
+                  "expanded": false,
+                  "_localId": "njiskq1w5dgk",
+                  "_inactive": false,
+                  "_parentId": "params-gps"
+                },
+                {
+                  "id": "hdop",
+                  "name": "HDOP",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "navigation.hdop",
+                  "expanded": false,
+                  "_localId": "6dx1xrzaa6j2",
+                  "_inactive": false,
+                  "_parentId": "params-gps"
+                },
+                {
+                  "id": "pdop",
+                  "name": "PDOP",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "navigation.pdop",
+                  "children": [],
+                  "expanded": false,
+                  "_localId": "kt3i40nvcz23",
+                  "_inactive": false,
+                  "_parentId": "params-gps"
+                }
+              ],
+              "_inactive": false,
+              "_parentId": "params"
+            },
+            {
+              "id": "params-bat",
+              "active": true,
+              "name": "Battery",
+              "type": "subsystem",
+              "children": [
+                {
+                  "id": "voltage",
+                  "name": "Voltage ",
+                  "active": true,
+                  "type": "argument",
+                  "unit": "electric-volt",
+                  "source": "state",
+                  "dataType": "number",
+                  "display": {
+                    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" x=\"0px\" y=\"0px\"\nviewBox=\"0 0 16 16\"\n>    <path style=\"line-height:normal;text-indent:0;text-align:start;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000;text-transform:none;block-progression:tb;isolation:auto;mix-blend-mode:normal\" d=\"M 3 1 L 3 2 L 6 2 L 6 1 L 3 1 z M 9 1 L 9 2 L 12 2 L 12 1 L 9 1 z M 2.4921875 3 C 1.6716814 3 1 3.6798841 1 4.5 L 1 12.5 C 1 13.320116 1.6716814 14 2.4921875 14 L 12.509766 14 C 13.330272 14 14.001953 13.320116 14.001953 12.5 L 14.001953 4.5 C 14.001953 3.6798841 13.330272 3 12.509766 3 L 2.4921875 3 z M 2.4921875 4 L 12.509766 4 C 12.78526 4 13.001953 4.2161159 13.001953 4.5 L 13.001953 12.5 C 13.001953 12.783884 12.78526 13 12.509766 13 L 2.4921875 13 C 2.2166936 13 2 12.783884 2 12.5 L 2 4.5 C 2 4.2161159 2.2166936 4 2.4921875 4 z M 10 7 L 10 8 L 9 8 L 9 9 L 10 9 L 10 10 L 11 10 L 11 9 L 12 9 L 12 8 L 11 8 L 11 7 L 10 7 z M 3 8 L 3 9 L 6 9 L 6 8 L 3 8 z\"></path></svg>"
+                  },
+                  "levels": [
+                    {
+                      "index": 0,
+                      "value": "-Infinity",
+                      "color": "#f16059",
+                      "label": ""
+                    },
+                    {
+                      "index": 1,
+                      "value": 0,
+                      "color": "#f16059",
+                      "label": "Min"
+                    },
+                    {
+                      "index": 5,
+                      "value": 3.4,
+                      "color": "#dfb452",
+                      "label": "Mid"
+                    },
+                    {
+                      "index": 9,
+                      "value": 4.2,
+                      "color": "#a2ce4b",
+                      "label": "Max"
+                    }
+                  ],
+                  "factor": 1,
+                  "linear": true,
+                  "reference": "voltage",
+                  "description": "EGTS_SR_STATE_DATA\n- MPSV",
+                  "_inactive": false,
+                  "_parentId": "params-bat"
+                },
+                {
+                  "id": "ext_voltage",
+                  "name": "External voltage",
+                  "active": true,
+                  "type": "argument",
+                  "unit": "electric-volt",
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "ext_voltage",
+                  "linear": true,
+                  "factor": 1,
+                  "description": "EGTS_SR_STATE_DATA\n- BBV",
+                  "_inactive": false,
+                  "_parentId": "params-bat"
+                },
+                {
+                  "id": "int_voltage",
+                  "name": "Internal voltage",
+                  "active": true,
+                  "type": "argument",
+                  "unit": "electric-volt",
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "int_voltage",
+                  "linear": true,
+                  "factor": 1,
+                  "children": [],
+                  "description": "EGTS_SR_STATE_DATA\n- IBV",
+                  "expanded": false,
+                  "_localId": "xjfce0e3fwe3",
+                  "_inactive": false,
+                  "_parentId": "params-bat"
+                }
+              ],
+              "_inactive": false,
+              "_parentId": "params"
+            },
+            {
+              "id": "params-io",
+              "name": "Inputs/outputs",
+              "active": true,
+              "type": "subsystem",
+              "children": [
+                {
+                  "id": "dout",
+                  "name": "Digital output flags",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "dout",
+                  "children": [
+                    {
+                      "id": "dout_1",
+                      "name": "Digital output #1",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "boolean",
+                      "reference": "dout.0",
+                      "expanded": false,
+                      "_localId": "tam8kkx2wsfb",
+                      "_inactive": false,
+                      "_parentId": "dout"
+                    },
+                    {
+                      "id": "dout_2",
+                      "name": "Digital output #2",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "boolean",
+                      "reference": "dout.1",
+                      "expanded": false,
+                      "_localId": "ng8kxu5gw0xm",
+                      "_inactive": false,
+                      "_parentId": "dout"
+                    },
+                    {
+                      "id": "dout_3",
+                      "name": "Digital output #3",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "boolean",
+                      "reference": "dout.2",
+                      "expanded": false,
+                      "_localId": "uloauftrtww3",
+                      "_inactive": false,
+                      "_parentId": "dout"
+                    },
+                    {
+                      "id": "dout_4",
+                      "name": "Digital output #4",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "boolean",
+                      "reference": "dout.3",
+                      "expanded": false,
+                      "_localId": "k35bvkjjvw3z",
+                      "_inactive": false,
+                      "_parentId": "dout"
+                    },
+                    {
+                      "id": "dout_5",
+                      "name": "Digital output #5",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "boolean",
+                      "reference": "dout.4",
+                      "expanded": false,
+                      "_localId": "t1ma5mcxugoo",
+                      "_inactive": false,
+                      "_parentId": "dout"
+                    },
+                    {
+                      "id": "dout_6",
+                      "name": "Digital output #6",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "boolean",
+                      "reference": "dout.5",
+                      "expanded": false,
+                      "_localId": "wwdlxmm79ehv",
+                      "_inactive": false,
+                      "_parentId": "dout"
+                    },
+                    {
+                      "id": "dout_7",
+                      "name": "Digital output #7",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "boolean",
+                      "reference": "dout.6",
+                      "expanded": false,
+                      "_localId": "b6xqjup8czd5",
+                      "_inactive": false,
+                      "_parentId": "dout"
+                    },
+                    {
+                      "id": "dout_8",
+                      "name": "Digital output #8",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "boolean",
+                      "reference": "dout.7",
+                      "expanded": false,
+                      "_localId": "1nrsy703z1kj",
+                      "_inactive": false,
+                      "_parentId": "dout"
+                    }
+                  ],
+                  "expanded": false,
+                  "_localId": "xkbm5aztnh8n",
+                  "_inactive": false,
+                  "_parentId": "params-io"
+                },
+                {
+                  "id": "params-dins",
+                  "name": "Digital inputs",
+                  "active": true,
+                  "type": "subsystem",
+                  "children": [
+                    {
+                      "id": "din_1",
+                      "name": "Digital input #1",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "reference": "din_1",
+                      "expanded": false,
+                      "_localId": "kibauut7mukh",
+                      "_inactive": false,
+                      "_parentId": "params-dins"
+                    },
+                    {
+                      "id": "din_2",
+                      "name": "Digital input #2",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "reference": "din_2",
+                      "expanded": false,
+                      "_localId": "nt1ro1lqatru",
+                      "_inactive": false,
+                      "_parentId": "params-dins"
+                    },
+                    {
+                      "id": "din_3",
+                      "name": "Digital input #3",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "reference": "din_3",
+                      "expanded": false,
+                      "_localId": "ea8zook7nrim",
+                      "_inactive": false,
+                      "_parentId": "params-dins"
+                    },
+                    {
+                      "id": "din_4",
+                      "name": "Digital input #4",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "reference": "din_4",
+                      "expanded": false,
+                      "_localId": "w7lia88h7c5b",
+                      "_inactive": false,
+                      "_parentId": "params-dins"
+                    },
+                    {
+                      "id": "din_5",
+                      "name": "Digital input #5",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "reference": "din_5",
+                      "expanded": false,
+                      "_localId": "nwljhrua0alb",
+                      "_inactive": false,
+                      "_parentId": "params-dins"
+                    },
+                    {
+                      "id": "din_6",
+                      "name": "Digital input #6",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "reference": "din_6",
+                      "expanded": false,
+                      "_localId": "u7abfaz0m8iw",
+                      "_inactive": false,
+                      "_parentId": "params-dins"
+                    },
+                    {
+                      "id": "din_7",
+                      "name": "Digital input #7",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "reference": "din_7",
+                      "expanded": false,
+                      "_localId": "ktaqnrc0oddl",
+                      "_inactive": false,
+                      "_parentId": "params-dins"
+                    },
+                    {
+                      "id": "din_8",
+                      "name": "Digital input #8",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "reference": "din_8",
+                      "expanded": false,
+                      "_localId": "lieimjrcnlb3",
+                      "_inactive": false,
+                      "_parentId": "params-dins"
+                    }
+                  ],
+                  "expanded": false,
+                  "_localId": "lek5g9691ub4",
+                  "_inactive": false,
+                  "_parentId": "params-io"
+                },
+                {
+                  "id": "params-ain",
+                  "name": "Analog sensors",
+                  "active": true,
+                  "type": "subsystem",
+                  "children": [
+                    {
+                      "id": "ain_1",
+                      "name": "Analog sensor #1",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "reference": "ain_1",
+                      "expanded": false,
+                      "_localId": "kfb55qq7i4cd",
+                      "_inactive": false,
+                      "_parentId": "params-ain"
+                    },
+                    {
+                      "id": "ain_2",
+                      "name": "Analog sensor #2",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "reference": "ain_2",
+                      "expanded": false,
+                      "_localId": "yjw2f0ya9by9",
+                      "_inactive": false,
+                      "_parentId": "params-ain"
+                    },
+                    {
+                      "id": "ain_3",
+                      "name": "Analog sensor #3",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "reference": "ain_3",
+                      "expanded": false,
+                      "_localId": "a9paakicnkh7",
+                      "_inactive": false,
+                      "_parentId": "params-ain"
+                    },
+                    {
+                      "id": "ain_4",
+                      "name": "Analog sensor #4",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "reference": "ain_4",
+                      "expanded": false,
+                      "_localId": "19ys0uycb3f4",
+                      "_inactive": false,
+                      "_parentId": "params-ain"
+                    },
+                    {
+                      "id": "ain_5",
+                      "name": "Analog sensor #5",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "reference": "ain_5",
+                      "expanded": false,
+                      "_localId": "sjd0xti3buz9",
+                      "_inactive": false,
+                      "_parentId": "params-ain"
+                    },
+                    {
+                      "id": "ain_6",
+                      "name": "Analog sensor #6",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "reference": "ain_6",
+                      "expanded": false,
+                      "_localId": "wvn9gzjg96ci",
+                      "_inactive": false,
+                      "_parentId": "params-ain"
+                    },
+                    {
+                      "id": "ain_7",
+                      "name": "Analog sensor #7",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "reference": "ain_7",
+                      "expanded": false,
+                      "_localId": "ao24hxp83di7",
+                      "_inactive": false,
+                      "_parentId": "params-ain"
+                    },
+                    {
+                      "id": "ain_8",
+                      "name": "Analog sensor #8",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "reference": "ain_8",
+                      "expanded": false,
+                      "_localId": "wcpd45ybng7d",
+                      "_inactive": false,
+                      "_parentId": "params-ain"
+                    }
+                  ],
+                  "expanded": true,
+                  "_localId": "t2zvp7k3n0sj",
+                  "_inactive": false,
+                  "_parentId": "params-io"
+                }
+              ],
+              "expanded": false,
+              "_localId": "s2zzkvl6ohpm",
+              "_inactive": false,
+              "_parentId": "params"
+            },
+            {
+              "id": "params-counters",
+              "name": "Counters",
+              "active": true,
+              "type": "subsystem",
+              "children": [
+                {
+                  "id": "cnt_1",
+                  "name": "Counter #1",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "cnt_1",
+                  "expanded": false,
+                  "_localId": "k67totn0xq3w",
+                  "_inactive": false,
+                  "_parentId": "params-counters"
+                },
+                {
+                  "id": "cnt_2",
+                  "name": "Counter #2",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "cnt_2",
+                  "expanded": false,
+                  "_localId": "now9iw6v0d2u",
+                  "_inactive": false,
+                  "_parentId": "params-counters"
+                },
+                {
+                  "id": "cnt_3",
+                  "name": "Counter #3",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "cnt_3",
+                  "expanded": false,
+                  "_localId": "jzkwhf8no7hd",
+                  "_inactive": false,
+                  "_parentId": "params-counters"
+                },
+                {
+                  "id": "cnt_4",
+                  "name": "Counter #4",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "cnt_4",
+                  "expanded": false,
+                  "_localId": "tetza30qim08",
+                  "_inactive": false,
+                  "_parentId": "params-counters"
+                },
+                {
+                  "id": "cnt_5",
+                  "name": "Counter #5",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "cnt_5",
+                  "expanded": false,
+                  "_localId": "zqo38k9zp1gq",
+                  "_inactive": false,
+                  "_parentId": "params-counters"
+                },
+                {
+                  "id": "cnt_6",
+                  "name": "Counter #6",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "cnt_6",
+                  "expanded": false,
+                  "_localId": "b9rthjr2c732",
+                  "_inactive": false,
+                  "_parentId": "params-counters"
+                },
+                {
+                  "id": "cnt_7",
+                  "name": "Counter #7",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "cnt_7",
+                  "expanded": false,
+                  "_localId": "phuikfw11lkd",
+                  "_inactive": false,
+                  "_parentId": "params-counters"
+                },
+                {
+                  "id": "cnt_8",
+                  "name": "Counter #8",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "cnt_8",
+                  "expanded": false,
+                  "_localId": "3w1uzohpmg34",
+                  "_inactive": false,
+                  "_parentId": "params-counters"
+                }
+              ],
+              "expanded": false,
+              "_localId": "vmyra6nve852",
+              "_inactive": false,
+              "_parentId": "params"
+            },
+            {
+              "id": "params-lls",
+              "name": "Liquid level sensors",
+              "active": true,
+              "type": "subsystem",
+              "children": [
+                {
+                  "id": "params-lls-1",
+                  "name": "LLS #1",
+                  "active": true,
+                  "type": "subsystem",
+                  "children": [
+                    {
+                      "id": "lls_0_0_err",
+                      "name": "LLS #1 error",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "boolean",
+                      "reference": "lls_0_0_err",
+                      "expanded": false,
+                      "_localId": "crm5dzzbw0rf",
+                      "_inactive": false,
+                      "_parentId": "params-lls-1"
+                    },
+                    {
+                      "id": "lls_0_0_unit",
+                      "name": "LLS #1 unit",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "reference": "lls_0_0_unit",
+                      "expanded": true,
+                      "_localId": "bkvef12x9diz",
+                      "_inactive": false,
+                      "_parentId": "params-lls-1"
+                    },
+                    {
+                      "id": "lls_0_0_value",
+                      "name": "LLS #1 value",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "reference": "lls_0_0_value",
+                      "expanded": false,
+                      "_localId": "bc921okxrfv3",
+                      "_inactive": false,
+                      "_parentId": "params-lls-1"
+                    }
+                  ],
+                  "expanded": false,
+                  "_localId": "ytdqbqbg2hha",
+                  "_inactive": false,
+                  "_parentId": "params-lls"
+                },
+                {
+                  "id": "params-lls-2",
+                  "name": "LLS #2",
+                  "active": true,
+                  "type": "subsystem",
+                  "children": [
+                    {
+                      "id": "lls_0_1_err",
+                      "name": "LLS #2 error",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "boolean",
+                      "reference": "lls_0_1_err",
+                      "expanded": false,
+                      "_localId": "mzk8ffkosinc",
+                      "_inactive": false,
+                      "_parentId": "params-lls-2"
+                    },
+                    {
+                      "id": "lls_0_1_unit",
+                      "name": "LLS #2 unit",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "reference": "lls_0_1_unit",
+                      "expanded": false,
+                      "_localId": "wr073ng9sdqj",
+                      "_inactive": false,
+                      "_parentId": "params-lls-2"
+                    },
+                    {
+                      "id": "lls_0_1_value",
+                      "name": "LLS #2 value",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "reference": "lls_0_1_value",
+                      "expanded": false,
+                      "_localId": "4oy8d8teozb3",
+                      "_inactive": false,
+                      "_parentId": "params-lls-2"
+                    }
+                  ],
+                  "expanded": false,
+                  "_localId": "b43ulupa2bwu",
+                  "_inactive": false,
+                  "_parentId": "params-lls"
+                },
+                {
+                  "id": "params-lls-3",
+                  "name": "LLS #3",
+                  "active": true,
+                  "type": "subsystem",
+                  "children": [
+                    {
+                      "id": "lls_0_2_err",
+                      "name": "LLS #3 error",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "boolean",
+                      "reference": "lls_0_2_err",
+                      "expanded": false,
+                      "_localId": "0l640vrumpo8",
+                      "_inactive": false,
+                      "_parentId": "params-lls-3"
+                    },
+                    {
+                      "id": "lls_0_2_unit",
+                      "name": "LLS #3 unit",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "reference": "lls_0_2_unit",
+                      "expanded": false,
+                      "_localId": "9wtgmtzc3ifg",
+                      "_inactive": false,
+                      "_parentId": "params-lls-3"
+                    },
+                    {
+                      "id": "lls_0_2_value",
+                      "name": "LLS #3 value",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "reference": "lls_0_2_value",
+                      "expanded": false,
+                      "_localId": "jr4piznzuhyj",
+                      "_inactive": false,
+                      "_parentId": "params-lls-3"
+                    }
+                  ],
+                  "expanded": false,
+                  "_localId": "omitmcee0h9j",
+                  "_inactive": false,
+                  "_parentId": "params-lls"
+                }
+              ],
+              "expanded": true,
+              "_localId": "h8gsqserf0mm",
+              "_inactive": false,
+              "_parentId": "params"
+            }
+          ],
+          "_inactive": false,
+          "_parentId": "root"
+        },
+        {
+          "id": "commands",
+          "active": true,
+          "name": "Commands",
+          "type": "subsystem",
+          "children": [],
+          "_inactive": false,
+          "_parentId": "root"
+        }
+      ],
+      "_inactive": false
+    },
+    "props": {
+      "bots": false,
+      "hardwareEvents": false,
+      "helper": "",
+      "prefix": "egts:",
+      "order": 2.5,
+      "typeInput": {
+        "hidden": false
+      },
+      "statusInput": {
+        "hidden": false
+      },
+      "descriptionInput": {
+        "hidden": false
+      },
+      "protocol": "egts",
+      "idPattern": "egts:<terminalid>"
+    },
+    "owner": "000000000000000000000000",
+    "group": "000000000000000000000000",
+    "time": 1794808211116
+  }
+}

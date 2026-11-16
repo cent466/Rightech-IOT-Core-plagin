@@ -121,6 +121,17 @@ def scan_secrets(text: str) -> list[str]:
     return [name for name, pattern in SECRET_PATTERNS if pattern.search(text)]
 
 
+def contains_transition_event_payload(value: object) -> bool:
+    """Ищет transitionEvent.payload в строковых значениях аргументов действия."""
+    if isinstance(value, str):
+        return "transitionEvent.payload" in value
+    if isinstance(value, dict):
+        return any(contains_transition_event_payload(item) for item in value.values())
+    if isinstance(value, list):
+        return any(contains_transition_event_payload(item) for item in value)
+    return False
+
+
 # --------------------------------------------------------------------------- модели
 
 
@@ -424,8 +435,15 @@ def validate_scenario(entity: dict, mode: str, report: Report) -> None:
                 else:
                     if mode == "new" and not str(action.get("name") or "").strip():
                         report.warn(f"automatons: states.{state_key}.{hook}[{index}] ({action.get('id')}) — добавь понятное имя действия")
-                    if not isinstance(action.get("args", {}), dict):
+                    args = action.get("args", {})
+                    if not isinstance(args, dict):
                         report.error(f"automatons: states.{state_key}.{hook}[{index}].args должен быть объектом")
+                    elif contains_transition_event_payload(args):
+                        report.warn(
+                            f"automatons: states.{state_key}.{hook}[{index}] ({action.get('id')}) — "
+                            "transitionEvent.payload в строковых аргументах действия подставляется как undefined "
+                            "(проверено 2026-11-16); используй проверенный шаблон объекта или event.payload в условии перехода"
+                        )
     if not has_init:
         (report.error if mode == "new" else report.warn)("automatons: нет состояния type=init")
     if not has_final:

@@ -1,0 +1,1073 @@
+{
+  "version": 1,
+  "origin": "dev.rightech.io",
+  "time": "2026-11-16T05:47:56.659Z",
+  "user": "000000000000000000000000",
+  "group": "000000000000000000000000",
+  "store": "models",
+  "data": {
+    "_id": "6afa990982eb553c90e4f078",
+    "name": "Wialon IPS",
+    "base": "wialon-ips",
+    "mixins": [],
+    "data": {
+      "id": "root",
+      "active": true,
+      "name": "Wialon IPS",
+      "type": "subsystem",
+      "children": [
+        {
+          "id": "external-software-modules",
+          "active": true,
+          "copy": true,
+          "type": "subsystem",
+          "children": [],
+          "_inactive": false,
+          "_parentId": "root"
+        },
+        {
+          "id": "params",
+          "active": true,
+          "name": "Parameters",
+          "type": "subsystem",
+          "children": [
+            {
+              "id": "server-info",
+              "name": "Server information",
+              "active": true,
+              "type": "subsystem",
+              "children": [],
+              "_inactive": false,
+              "_parentId": "params"
+            },
+            {
+              "id": "params-misc",
+              "name": "GPS",
+              "active": true,
+              "type": "subsystem",
+              "children": [
+                {
+                  "id": "time",
+                  "active": true,
+                  "name": "Time GPS",
+                  "type": "argument",
+                  "unit": "duration-millisecond",
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "navigation.time",
+                  "linear": true,
+                  "factor": 1,
+                  "_inactive": false,
+                  "_parentId": "params-misc"
+                },
+                {
+                  "id": "height",
+                  "active": true,
+                  "name": "Height",
+                  "type": "argument",
+                  "unit": "length-meter",
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "navigation.height",
+                  "linear": true,
+                  "factor": 1,
+                  "_inactive": false,
+                  "_parentId": "params-misc"
+                },
+                {
+                  "id": "speed",
+                  "active": true,
+                  "name": "Speed",
+                  "type": "argument",
+                  "description": "Speed GPS ",
+                  "unit": "speed-kilometer-per-hour",
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "navigation.speed",
+                  "external": [
+                    "filter-coordinate"
+                  ],
+                  "factor": 1,
+                  "linear": true,
+                  "levels": {
+                    "type": "range",
+                    "value": [
+                      {
+                        "color": "#f16059",
+                        "name": "-Infinity",
+                        "value": {
+                          "a": "-Infinity",
+                          "b": 0
+                        }
+                      },
+                      {
+                        "color": "#a2ce4b",
+                        "name": "min",
+                        "value": {
+                          "a": 0,
+                          "b": 60
+                        }
+                      },
+                      {
+                        "color": "#ffae62",
+                        "name": "mid",
+                        "value": {
+                          "a": 60,
+                          "b": 90
+                        }
+                      },
+                      {
+                        "color": "#f16059",
+                        "name": "Max",
+                        "value": {
+                          "a": 90,
+                          "b": "Infinity"
+                        }
+                      }
+                    ],
+                    "svg": "<svg viewBox=\"0 0 16 16\"><path d=\"M 7.5 1 C 3.914063 1 1 3.914063 1 7.5 C 1 9.757813 2.15625 11.75 3.910156 12.917969 L 4.035156 13 L 10.964844 13 L 11.089844 12.917969 C 12.84375 11.75 14 9.757813 14 7.5 C 14 3.914063 11.085938 1 7.5 1 Z M 7.5 2 C 10.542969 2 13 4.457031 13 7.5 C 13 9.375 12.046875 11.007813 10.613281 12 L 4.382813 12 C 2.953125 11.007813 2 9.375 2 7.5 C 2 4.457031 4.457031 2 7.5 2 Z M 7.5 3 C 7.222656 3 7 3.222656 7 3.5 C 7 3.777344 7.222656 4 7.5 4 C 7.777344 4 8 3.777344 8 3.5 C 8 3.222656 7.777344 3 7.5 3 Z M 10.488281 3.996094 C 10.359375 4 10.238281 4.054688 10.144531 4.148438 L 7.148438 7.148438 C 7.015625 7.273438 6.964844 7.457031 7.007813 7.632813 C 7.054688 7.808594 7.191406 7.945313 7.367188 7.992188 C 7.542969 8.035156 7.726563 7.984375 7.851563 7.851563 L 10.855469 4.851563 C 11 4.710938 11.042969 4.492188 10.964844 4.300781 C 10.882813 4.113281 10.695313 3.992188 10.488281 3.996094 Z M 4.5 4 C 4.222656 4 4 4.222656 4 4.5 C 4 4.777344 4.222656 5 4.5 5 C 4.777344 5 5 4.777344 5 4.5 C 5 4.222656 4.777344 4 4.5 4 Z M 3.5 7 C 3.222656 7 3 7.222656 3 7.5 C 3 7.777344 3.222656 8 3.5 8 C 3.777344 8 4 7.777344 4 7.5 C 4 7.222656 3.777344 7 3.5 7 Z M 11.5 7 C 11.222656 7 11 7.222656 11 7.5 C 11 7.777344 11.222656 8 11.5 8 C 11.777344 8 12 7.777344 12 7.5 C 12 7.222656 11.777344 7 11.5 7 Z M 4.5 10 C 4.222656 10 4 10.222656 4 10.5 C 4 10.777344 4.222656 11 4.5 11 C 4.777344 11 5 10.777344 5 10.5 C 5 10.222656 4.777344 10 4.5 10 Z M 10.5 10 C 10.222656 10 10 10.222656 10 10.5 C 10 10.777344 10.222656 11 10.5 11 C 10.777344 11 11 10.777344 11 10.5 C 11 10.222656 10.777344 10 10.5 10 Z\" /></svg>"
+                  },
+                  "_inactive": false,
+                  "_parentId": "params-misc"
+                },
+                {
+                  "id": "angle",
+                  "active": true,
+                  "name": "Angle",
+                  "type": "argument",
+                  "unit": "angle-degree",
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "navigation.angle",
+                  "linear": true,
+                  "factor": 1,
+                  "_inactive": false,
+                  "_parentId": "params-misc"
+                },
+                {
+                  "id": "sats",
+                  "active": true,
+                  "name": "Satellites",
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "number",
+                  "display": {
+                    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" x=\"0px\" y=\"0px\"\nviewBox=\"0 0 16 16\"\n>    <path style=\"line-height:normal;text-indent:0;text-align:start;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000;text-transform:none;block-progression:tb;isolation:auto;mix-blend-mode:normal\" d=\"M 5.828125 1 A 0.50005 0.50005 0 0 0 5.4824219 1.1464844 L 3.1464844 3.4824219 A 0.50005 0.50005 0 0 0 3.1464844 4.1894531 L 6.015625 7.0585938 C 5.9988961 7.3657117 6.094775 7.6778033 6.3261719 7.9101562 A 0.50005 0.50005 0 0 0 6.328125 7.9121094 C 6.8137296 8.3967148 7.6032852 9.1862704 8.0878906 9.671875 A 0.50005 0.50005 0 0 0 8.0898438 9.6738281 C 8.3045747 9.8876756 8.5887477 9.992435 8.8730469 9.9941406 L 11.771484 12.892578 A 0.50005 0.50005 0 0 0 12.478516 12.892578 L 14.853516 10.517578 A 0.50005 0.50005 0 0 0 14.853516 9.8105469 L 12.193359 7.1503906 L 12.306641 7.0371094 C 13.129092 6.2146579 13.101549 4.9684433 12.453125 4.046875 A 0.50005 0.50005 0 0 0 12.306641 3.6933594 A 0.50005 0.50005 0 0 0 12.306641 3.6914062 C 11.846776 3.2321693 11.241025 3.0020743 10.634766 3.0019531 C 10.028506 3.0018319 9.4208985 3.2333983 8.9609375 3.6933594 L 8.8476562 3.8046875 L 6.1894531 1.1464844 A 0.50005 0.50005 0 0 0 5.828125 1 z M 5.8359375 2.2070312 L 8.140625 4.5117188 L 6.5117188 6.140625 L 4.2070312 3.8359375 L 5.8359375 2.2070312 z M 10.634766 3.9960938 C 10.983006 3.9962226 11.330474 4.1316244 11.599609 4.4003906 C 12.137849 4.9386302 12.137849 5.7918385 11.599609 6.3300781 L 8.9667969 8.9628906 A 0.50005 0.50005 0 0 0 8.9648438 8.9648438 C 8.9139417 9.0159568 8.8481725 9.0143948 8.796875 8.9648438 L 8.7949219 8.9648438 C 8.3097222 8.4786547 7.5213484 7.6902716 7.0351562 7.2050781 L 7.0351562 7.203125 C 6.9855631 7.1517871 6.9854145 7.0831585 7.0371094 7.03125 L 9.6679688 4.4003906 C 9.9370076 4.1313517 10.286525 3.9959649 10.634766 3.9960938 z M 11.486328 7.8574219 L 13.792969 10.164062 L 12.125 11.832031 L 9.8183594 9.5253906 L 11.486328 7.8574219 z M 5.4941406 7.9941406 A 0.50005 0.50005 0 0 0 5.1464844 8.8535156 L 7.1464844 10.853516 A 0.50005 0.50005 0 1 0 7.8535156 10.146484 L 5.8535156 8.1464844 A 0.50005 0.50005 0 0 0 5.4941406 7.9941406 z M 1.4980469 8.9980469 A 0.50005 0.50005 0 0 0 1.4023438 9.9902344 C 3.7169134 10.453148 6.2278803 12.381835 7.0273438 14.666016 A 0.50096427 0.50096427 0 1 0 7.9726562 14.333984 C 7.0221196 11.618165 4.2830866 9.5468517 1.5976562 9.0097656 A 0.50005 0.50005 0 0 0 1.4980469 8.9980469 z\" font-weight=\"400\" font-family=\"sans-serif\" white-space=\"normal\" overflow=\"visible\"></path></svg>"
+                  },
+                  "reference": "navigation.sat-count",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "params-misc"
+                },
+                {
+                  "id": "signal",
+                  "active": true,
+                  "name": "Signal level",
+                  "type": "argument",
+                  "description": "GSM",
+                  "source": "state",
+                  "dataType": "number",
+                  "display": {
+                    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" x=\"0px\" y=\"0px\"\nviewBox=\"0 0 16 16\"\n><g id=\"surface1\"><path style=\" \" d=\"M 7.5 3 C 4.839844 3 2.175781 4.015625 0.148438 6.046875 L 0.851563 6.75 C 2.691406 4.914063 5.09375 4 7.5 4 C 9.90625 4 12.308594 4.914063 14.144531 6.75 L 14.855469 6.046875 C 12.824219 4.015625 10.160156 3 7.5 3 Z M 7.414063 6.003906 C 5.597656 6.003906 3.78125 6.695313 2.398438 8.078125 L 3.101563 8.789063 C 5.488281 6.402344 9.34375 6.402344 11.730469 8.789063 L 12.4375 8.078125 C 11.054688 6.695313 9.234375 6.003906 7.414063 6.003906 Z M 7.539063 9.039063 C 6.566406 9.039063 5.59375 9.40625 4.851563 10.144531 L 5.5625 10.855469 C 6.660156 9.753906 8.421875 9.753906 9.523438 10.855469 L 10.230469 10.144531 C 9.488281 9.40625 8.515625 9.039063 7.539063 9.039063 Z M 7.5 12 C 7.222656 12 7 12.222656 7 12.5 C 7 12.777344 7.222656 13 7.5 13 C 7.777344 13 8 12.777344 8 12.5 C 8 12.222656 7.777344 12 7.5 12 Z \"></path></g></svg>"
+                  },
+                  "factor": 1,
+                  "linear": true,
+                  "reference": "gsm_sig_level",
+                  "levels": {
+                    "type": "range",
+                    "value": [
+                      {
+                        "color": "#f16059",
+                        "name": "-Infinity",
+                        "value": {
+                          "a": "-Infinity",
+                          "b": 0
+                        }
+                      },
+                      {
+                        "color": "#ffae62",
+                        "name": "Min",
+                        "value": {
+                          "a": 0,
+                          "b": 4
+                        }
+                      },
+                      {
+                        "color": "#f3d54e",
+                        "name": "Mid",
+                        "value": {
+                          "a": 4,
+                          "b": 10
+                        }
+                      },
+                      {
+                        "color": "#a2ce4b",
+                        "name": "Max",
+                        "value": {
+                          "a": 10,
+                          "b": "Infinity"
+                        }
+                      }
+                    ],
+                    "svg": "<svg viewBox=\"0 0 16 16\"><path d=\"M 5.828125 1 A 0.50005 0.50005 0 0 0 5.4824219 1.1464844 L 3.1464844 3.4824219 A 0.50005 0.50005 0 0 0 3.1464844 4.1894531 L 6.015625 7.0585938 C 5.9988961 7.3657117 6.094775 7.6778033 6.3261719 7.9101562 A 0.50005 0.50005 0 0 0 6.328125 7.9121094 C 6.8137296 8.3967148 7.6032852 9.1862704 8.0878906 9.671875 A 0.50005 0.50005 0 0 0 8.0898438 9.6738281 C 8.3045747 9.8876756 8.5887477 9.992435 8.8730469 9.9941406 L 11.771484 12.892578 A 0.50005 0.50005 0 0 0 12.478516 12.892578 L 14.853516 10.517578 A 0.50005 0.50005 0 0 0 14.853516 9.8105469 L 12.193359 7.1503906 L 12.306641 7.0371094 C 13.129092 6.2146579 13.101549 4.9684433 12.453125 4.046875 A 0.50005 0.50005 0 0 0 12.306641 3.6933594 A 0.50005 0.50005 0 0 0 12.306641 3.6914062 C 11.846776 3.2321693 11.241025 3.0020743 10.634766 3.0019531 C 10.028506 3.0018319 9.4208985 3.2333983 8.9609375 3.6933594 L 8.8476562 3.8046875 L 6.1894531 1.1464844 A 0.50005 0.50005 0 0 0 5.828125 1 z M 5.8359375 2.2070312 L 8.140625 4.5117188 L 6.5117188 6.140625 L 4.2070312 3.8359375 L 5.8359375 2.2070312 z M 10.634766 3.9960938 C 10.983006 3.9962226 11.330474 4.1316244 11.599609 4.4003906 C 12.137849 4.9386302 12.137849 5.7918385 11.599609 6.3300781 L 8.9667969 8.9628906 A 0.50005 0.50005 0 0 0 8.9648438 8.9648438 C 8.9139417 9.0159568 8.8481725 9.0143948 8.796875 8.9648438 L 8.7949219 8.9648438 C 8.3097222 8.4786547 7.5213484 7.6902716 7.0351562 7.2050781 L 7.0351562 7.203125 C 6.9855631 7.1517871 6.9854145 7.0831585 7.0371094 7.03125 L 9.6679688 4.4003906 C 9.9370076 4.1313517 10.286525 3.9959649 10.634766 3.9960938 z M 11.486328 7.8574219 L 13.792969 10.164062 L 12.125 11.832031 L 9.8183594 9.5253906 L 11.486328 7.8574219 z M 5.4941406 7.9941406 A 0.50005 0.50005 0 0 0 5.1464844 8.8535156 L 7.1464844 10.853516 A 0.50005 0.50005 0 1 0 7.8535156 10.146484 L 5.8535156 8.1464844 A 0.50005 0.50005 0 0 0 5.4941406 7.9941406 z M 1.4980469 8.9980469 A 0.50005 0.50005 0 0 0 1.4023438 9.9902344 C 3.7169134 10.453148 6.2278803 12.381835 7.0273438 14.666016 A 0.50096427 0.50096427 0 1 0 7.9726562 14.333984 C 7.0221196 11.618165 4.2830866 9.5468517 1.5976562 9.0097656 A 0.50005 0.50005 0 0 0 1.4980469 8.9980469 z\" /></svg>"
+                  },
+                  "_inactive": false,
+                  "_parentId": "params-misc"
+                },
+                {
+                  "id": "gps_odometer",
+                  "active": true,
+                  "name": "Odometer GPS",
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "gps_odometer",
+                  "display": {
+                    "svg": ""
+                  },
+                  "linear": true,
+                  "factor": 1,
+                  "_inactive": false,
+                  "_parentId": "params-misc"
+                },
+                {
+                  "id": "lat",
+                  "active": true,
+                  "name": "Latitude",
+                  "type": "argument",
+                  "description": "GPS",
+                  "unit": "angle-degree",
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "navigation.latitude",
+                  "linear": true,
+                  "factor": 1,
+                  "_inactive": false,
+                  "_parentId": "params-misc"
+                },
+                {
+                  "id": "lon",
+                  "active": true,
+                  "name": "Longitude",
+                  "type": "argument",
+                  "description": "GPS",
+                  "unit": "angle-degree",
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "navigation.longitude",
+                  "linear": true,
+                  "factor": 1,
+                  "_inactive": false,
+                  "_parentId": "params-misc"
+                }
+              ],
+              "_inactive": false,
+              "_parentId": "params"
+            },
+            {
+              "id": "params-gps",
+              "active": true,
+              "name": "Battery",
+              "type": "subsystem",
+              "children": [
+                {
+                  "id": "voltage",
+                  "name": "Voltage ",
+                  "active": true,
+                  "type": "argument",
+                  "unit": "electric-volt",
+                  "source": "state",
+                  "dataType": "number",
+                  "display": {
+                    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" x=\"0px\" y=\"0px\"\nviewBox=\"0 0 16 16\"\n>    <path style=\"line-height:normal;text-indent:0;text-align:start;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000;text-transform:none;block-progression:tb;isolation:auto;mix-blend-mode:normal\" d=\"M 3 1 L 3 2 L 6 2 L 6 1 L 3 1 z M 9 1 L 9 2 L 12 2 L 12 1 L 9 1 z M 2.4921875 3 C 1.6716814 3 1 3.6798841 1 4.5 L 1 12.5 C 1 13.320116 1.6716814 14 2.4921875 14 L 12.509766 14 C 13.330272 14 14.001953 13.320116 14.001953 12.5 L 14.001953 4.5 C 14.001953 3.6798841 13.330272 3 12.509766 3 L 2.4921875 3 z M 2.4921875 4 L 12.509766 4 C 12.78526 4 13.001953 4.2161159 13.001953 4.5 L 13.001953 12.5 C 13.001953 12.783884 12.78526 13 12.509766 13 L 2.4921875 13 C 2.2166936 13 2 12.783884 2 12.5 L 2 4.5 C 2 4.2161159 2.2166936 4 2.4921875 4 z M 10 7 L 10 8 L 9 8 L 9 9 L 10 9 L 10 10 L 11 10 L 11 9 L 12 9 L 12 8 L 11 8 L 11 7 L 10 7 z M 3 8 L 3 9 L 6 9 L 6 8 L 3 8 z\"></path></svg>"
+                  },
+                  "factor": 1,
+                  "linear": true,
+                  "reference": "acc_voltage",
+                  "levels": {
+                    "type": "range",
+                    "value": [
+                      {
+                        "color": "#f16059",
+                        "name": "-Infinity",
+                        "value": {
+                          "a": "-Infinity",
+                          "b": 0
+                        }
+                      },
+                      {
+                        "color": "#ffae62",
+                        "name": "Min",
+                        "value": {
+                          "a": 0,
+                          "b": 3.4
+                        }
+                      },
+                      {
+                        "color": "#f3d54e",
+                        "name": "Mid",
+                        "value": {
+                          "a": 3.4,
+                          "b": 4.2
+                        }
+                      },
+                      {
+                        "color": "#a2ce4b",
+                        "name": "Max",
+                        "value": {
+                          "a": 4.2,
+                          "b": "Infinity"
+                        }
+                      }
+                    ]
+                  },
+                  "_inactive": false,
+                  "_parentId": "params-gps"
+                },
+                {
+                  "id": "ext_voltage",
+                  "name": "External voltage",
+                  "active": true,
+                  "type": "argument",
+                  "unit": "electric-volt",
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "ext_voltage",
+                  "linear": true,
+                  "factor": 1,
+                  "_inactive": false,
+                  "_parentId": "params-gps"
+                }
+              ],
+              "_inactive": false,
+              "_parentId": "params"
+            },
+            {
+              "id": "hdop",
+              "name": "HDOP",
+              "active": true,
+              "type": "argument",
+              "dataType": "number",
+              "factor": 1,
+              "linear": true,
+              "reference": "hdop",
+              "_inactive": false,
+              "_parentId": "params"
+            },
+            {
+              "id": "ibutton",
+              "name": "iButton",
+              "active": true,
+              "type": "argument",
+              "dataType": "string",
+              "factor": 1,
+              "linear": true,
+              "reference": "ibutton",
+              "children": [],
+              "unit": null,
+              "_inactive": false,
+              "_parentId": "params"
+            },
+            {
+              "id": "inputs",
+              "active": true,
+              "name": "Inputs",
+              "type": "argument",
+              "source": "state",
+              "dataType": "number",
+              "children": [
+                {
+                  "id": "in1",
+                  "active": true,
+                  "name": "Digital in #1",
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "boolean",
+                  "reference": "inputs.0",
+                  "linear": true,
+                  "factor": 1,
+                  "children": [],
+                  "unit": null,
+                  "_inactive": false,
+                  "_parentId": "inputs"
+                },
+                {
+                  "id": "in2",
+                  "active": true,
+                  "name": "Digital in #2",
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "boolean",
+                  "reference": "inputs.1",
+                  "linear": true,
+                  "factor": 1,
+                  "children": [],
+                  "unit": null,
+                  "_inactive": false,
+                  "_parentId": "inputs"
+                },
+                {
+                  "id": "in3",
+                  "active": true,
+                  "name": "Digital in #3",
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "boolean",
+                  "reference": "inputs.2",
+                  "linear": true,
+                  "factor": 1,
+                  "children": [],
+                  "unit": null,
+                  "_inactive": false,
+                  "_parentId": "inputs"
+                },
+                {
+                  "id": "in4",
+                  "active": true,
+                  "name": "Digital in #4",
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "boolean",
+                  "reference": "inputs.3",
+                  "linear": true,
+                  "factor": 1,
+                  "children": [],
+                  "unit": null,
+                  "_inactive": false,
+                  "_parentId": "inputs"
+                }
+              ],
+              "linear": true,
+              "factor": 1,
+              "reference": "inputs",
+              "_inactive": false,
+              "_parentId": "params"
+            },
+            {
+              "id": "outputs",
+              "active": true,
+              "name": "Outputs",
+              "type": "argument",
+              "source": "state",
+              "dataType": "number",
+              "children": [
+                {
+                  "id": "out1",
+                  "active": true,
+                  "name": "Digital out #1",
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "boolean",
+                  "reference": "outputs.0",
+                  "linear": true,
+                  "factor": 1,
+                  "children": [],
+                  "unit": null,
+                  "_inactive": false,
+                  "_parentId": "outputs"
+                },
+                {
+                  "id": "out2",
+                  "active": true,
+                  "name": "Digital out #2",
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "boolean",
+                  "reference": "outputs.1",
+                  "linear": true,
+                  "factor": 1,
+                  "children": [],
+                  "unit": null,
+                  "_inactive": false,
+                  "_parentId": "outputs"
+                },
+                {
+                  "id": "out3",
+                  "active": true,
+                  "name": "Digital out #3",
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "boolean",
+                  "reference": "outputs.2",
+                  "linear": true,
+                  "factor": 1,
+                  "children": [],
+                  "unit": null,
+                  "_inactive": false,
+                  "_parentId": "outputs"
+                },
+                {
+                  "id": "out4",
+                  "active": true,
+                  "name": "Digital out #4",
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "boolean",
+                  "reference": "outputs.3",
+                  "linear": true,
+                  "factor": 1,
+                  "children": [],
+                  "unit": null,
+                  "_inactive": false,
+                  "_parentId": "outputs"
+                }
+              ],
+              "linear": true,
+              "factor": 1,
+              "reference": "outputs",
+              "_inactive": false,
+              "_parentId": "params"
+            },
+            {
+              "id": "adc",
+              "active": true,
+              "name": "ADC",
+              "type": "subsystem",
+              "source": "state",
+              "dataType": "number",
+              "children": [
+                {
+                  "id": "adc1",
+                  "active": true,
+                  "name": "ADC #1",
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "adc.0",
+                  "linear": true,
+                  "factor": 1,
+                  "children": [],
+                  "unit": null,
+                  "_inactive": false,
+                  "_parentId": "adc"
+                },
+                {
+                  "id": "adc2",
+                  "active": true,
+                  "name": "ADC #2",
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "adc.1",
+                  "linear": true,
+                  "factor": 1,
+                  "children": [],
+                  "unit": null,
+                  "_inactive": false,
+                  "_parentId": "adc"
+                }
+              ],
+              "linear": true,
+              "factor": 1,
+              "reference": "adc",
+              "_inactive": false,
+              "_parentId": "params"
+            },
+            {
+              "id": "params-outs",
+              "active": true,
+              "name": "External digital outputs",
+              "type": "argument",
+              "source": "state",
+              "dataType": "number",
+              "children": [
+                {
+                  "id": "ex_dig_out_1",
+                  "active": true,
+                  "name": "External digital out #1",
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "ex_dig_out_1",
+                  "linear": true,
+                  "factor": 1,
+                  "_inactive": false,
+                  "_parentId": "params-outs"
+                },
+                {
+                  "id": "ex_dig_out_2",
+                  "active": true,
+                  "name": "External digital out #2",
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "ex_dig_out_2",
+                  "linear": true,
+                  "factor": 1,
+                  "_inactive": false,
+                  "_parentId": "params-outs"
+                },
+                {
+                  "id": "ex_dig_out_3",
+                  "active": true,
+                  "name": "External digital out #3",
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "ex_dig_out_3",
+                  "linear": true,
+                  "factor": 1,
+                  "_inactive": false,
+                  "_parentId": "params-outs"
+                },
+                {
+                  "id": "ex_dig_out_4",
+                  "active": true,
+                  "name": "External digital out #4",
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "ex_dig_out_4",
+                  "linear": true,
+                  "factor": 1,
+                  "_inactive": false,
+                  "_parentId": "params-outs"
+                }
+              ],
+              "linear": true,
+              "factor": 1,
+              "_inactive": false,
+              "_parentId": "params"
+            },
+            {
+              "id": "params-ins",
+              "active": true,
+              "name": "External digital inputs",
+              "type": "argument",
+              "source": "state",
+              "dataType": "number",
+              "children": [
+                {
+                  "id": "ex_dig_in_1",
+                  "active": true,
+                  "name": "External digital in #1",
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "ex_dig_in_1",
+                  "linear": true,
+                  "factor": 1,
+                  "_inactive": false,
+                  "_parentId": "params-ins"
+                },
+                {
+                  "id": "ex_dig_in_2",
+                  "active": true,
+                  "name": "External digital in #2",
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "number",
+                  "description": "Паркинг",
+                  "reference": "ex_dig_in_2",
+                  "linear": true,
+                  "factor": 1,
+                  "_inactive": false,
+                  "_parentId": "params-ins"
+                },
+                {
+                  "id": "ex_dig_in_3",
+                  "active": true,
+                  "name": "External digital in #3",
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "ex_dig_in_3",
+                  "linear": true,
+                  "factor": 1,
+                  "_inactive": false,
+                  "_parentId": "params-ins"
+                },
+                {
+                  "id": "ex_dig_in_4",
+                  "active": true,
+                  "name": "External digital in #4",
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "ex_dig_in_4",
+                  "linear": true,
+                  "factor": 1,
+                  "_inactive": false,
+                  "_parentId": "params-ins"
+                }
+              ],
+              "linear": true,
+              "factor": 1,
+              "_inactive": false,
+              "_parentId": "params"
+            },
+            {
+              "id": "params-can",
+              "active": true,
+              "name": "CAN",
+              "type": "subsystem",
+              "children": [
+                {
+                  "id": "mileage",
+                  "name": "Mileage ",
+                  "type": "argument",
+                  "unit": "length-kilometer",
+                  "active": true,
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "can_odo_km",
+                  "linear": true,
+                  "factor": 1,
+                  "_inactive": false,
+                  "_parentId": "params-can"
+                },
+                {
+                  "id": "key_in_ign",
+                  "active": true,
+                  "name": "Key in ignition",
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "boolean",
+                  "reference": "key_in_ign",
+                  "_inactive": false,
+                  "_parentId": "params-can"
+                },
+                {
+                  "id": "ign",
+                  "active": true,
+                  "name": "Ignition",
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "boolean",
+                  "reference": "ign",
+                  "display": {
+                    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" x=\"0px\" y=\"0px\"\nviewBox=\"0 0 16 16\"\n>    <path style=\"line-height:normal;text-indent:0;text-align:start;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000;text-transform:none;block-progression:tb;isolation:auto;mix-blend-mode:normal\" d=\"M 7 1 C 4.2447116 1 2 3.2447116 2 6 C 2 8.7552884 4.2447116 11 7 11 C 7.4002062 11 7.7583276 10.90878 8.1132812 10.820312 L 9.2929688 12 L 10 12 L 10 13 L 11 13 L 11 14 L 15 14 L 15 10.292969 L 11.820312 7.1132812 C 11.908776 6.7583276 12 6.4002062 12 6 C 12 3.2447116 9.7552884 1 7 1 z M 7 2 C 9.2147116 2 11 3.7852884 11 6 C 11 6.3866984 10.92478 6.7647845 10.810547 7.1464844 L 10.724609 7.4316406 L 14 10.707031 L 14 13 L 12 13 L 12 12 L 11 12 L 11 11 L 9.7070312 11 L 8.4316406 9.7246094 L 8.1464844 9.8105469 C 7.7647845 9.9247782 7.3866984 10 7 10 C 4.7852884 10 3 8.2147116 3 6 C 3 3.7852884 4.7852884 2 7 2 z M 6.5 4 C 5.6774952 4 5 4.6774952 5 5.5 C 5 6.3225048 5.6774952 7 6.5 7 C 7.3225048 7 8 6.3225048 8 5.5 C 8 4.6774952 7.3225048 4 6.5 4 z M 6.5 5 C 6.7820647 5 7 5.2179353 7 5.5 C 7 5.7820647 6.7820647 6 6.5 6 C 6.2179353 6 6 5.7820647 6 5.5 C 6 5.2179353 6.2179353 5 6.5 5 z\" font-weight=\"400\" font-family=\"sans-serif\" white-space=\"normal\" overflow=\"visible\"></path></svg>"
+                  },
+                  "params": {
+                    "command": "",
+                    "in": 0,
+                    "value": 0
+                  },
+                  "levels": {
+                    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" x=\"0px\" y=\"0px\" viewBox=\"0 0 16 16\" >    <path style=\"line-height:normal;text-indent:0;text-align:start;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000;text-transform:none;block-progression:tb;isolation:auto;mix-blend-mode:normal\" d=\"M 7 1 C 4.2447116 1 2 3.2447116 2 6 C 2 8.7552884 4.2447116 11 7 11 C 7.4002062 11 7.7583276 10.90878 8.1132812 10.820312 L 9.2929688 12 L 10 12 L 10 13 L 11 13 L 11 14 L 15 14 L 15 10.292969 L 11.820312 7.1132812 C 11.908776 6.7583276 12 6.4002062 12 6 C 12 3.2447116 9.7552884 1 7 1 z M 7 2 C 9.2147116 2 11 3.7852884 11 6 C 11 6.3866984 10.92478 6.7647845 10.810547 7.1464844 L 10.724609 7.4316406 L 14 10.707031 L 14 13 L 12 13 L 12 12 L 11 12 L 11 11 L 9.7070312 11 L 8.4316406 9.7246094 L 8.1464844 9.8105469 C 7.7647845 9.9247782 7.3866984 10 7 10 C 4.7852884 10 3 8.2147116 3 6 C 3 3.7852884 4.7852884 2 7 2 z M 6.5 4 C 5.6774952 4 5 4.6774952 5 5.5 C 5 6.3225048 5.6774952 7 6.5 7 C 7.3225048 7 8 6.3225048 8 5.5 C 8 4.6774952 7.3225048 4 6.5 4 z M 6.5 5 C 6.7820647 5 7 5.2179353 7 5.5 C 7 5.7820647 6.7820647 6 6.5 6 C 6.2179353 6 6 5.7820647 6 5.5 C 6 5.2179353 6.2179353 5 6.5 5 z\" font-weight=\"400\" font-family=\"sans-serif\" white-space=\"normal\" overflow=\"visible\"></path></svg>",
+                    "type": "boolean",
+                    "value": [
+                      {
+                        "color": "#a2ce4b",
+                        "name": "True",
+                        "value": true
+                      },
+                      {
+                        "color": "#f16059",
+                        "name": "False",
+                        "value": false
+                      }
+                    ]
+                  },
+                  "_inactive": false,
+                  "_parentId": "params-can"
+                },
+                {
+                  "id": "driver_door",
+                  "active": true,
+                  "name": "Driver door",
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "boolean",
+                  "reference": "driver_door",
+                  "_inactive": false,
+                  "_parentId": "params-can"
+                },
+                {
+                  "id": "pass_door",
+                  "active": true,
+                  "name": "Passenger door",
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "boolean",
+                  "reference": "pass_door",
+                  "_inactive": false,
+                  "_parentId": "params-can"
+                },
+                {
+                  "id": "r_rear_door",
+                  "active": true,
+                  "name": "Right rear door",
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "boolean",
+                  "reference": "r_rear_door",
+                  "_inactive": false,
+                  "_parentId": "params-can"
+                },
+                {
+                  "id": "l_rear_door",
+                  "active": true,
+                  "name": "Left rear door",
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "boolean",
+                  "reference": "l_rear_door",
+                  "_inactive": false,
+                  "_parentId": "params-can"
+                },
+                {
+                  "id": "engine_is_on",
+                  "active": true,
+                  "name": "Engine is on",
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "boolean",
+                  "reference": "engine_is_on",
+                  "_inactive": false,
+                  "_parentId": "params-can"
+                },
+                {
+                  "id": "parking",
+                  "active": true,
+                  "name": "Parking",
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "boolean",
+                  "reference": "parking",
+                  "_inactive": false,
+                  "_parentId": "params-can"
+                },
+                {
+                  "id": "hand_break",
+                  "active": true,
+                  "name": "Hand break",
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "boolean",
+                  "reference": "hand_break",
+                  "_inactive": false,
+                  "_parentId": "params-can"
+                },
+                {
+                  "id": "pedal_break",
+                  "active": true,
+                  "name": "Pedal break",
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "boolean",
+                  "reference": "pedal_break",
+                  "_inactive": false,
+                  "_parentId": "params-can"
+                },
+                {
+                  "id": "trunk",
+                  "active": true,
+                  "name": "Trunk is open",
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "boolean",
+                  "reference": "trunk",
+                  "_inactive": false,
+                  "_parentId": "params-can"
+                },
+                {
+                  "id": "hood",
+                  "active": true,
+                  "name": "Hood",
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "boolean",
+                  "reference": "hood",
+                  "_inactive": false,
+                  "_parentId": "params-can"
+                },
+                {
+                  "id": "marker_lights",
+                  "active": true,
+                  "name": "Marker lights",
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "boolean",
+                  "reference": "marker_lights",
+                  "_inactive": false,
+                  "_parentId": "params-can"
+                },
+                {
+                  "id": "dipped_beam",
+                  "active": true,
+                  "name": "Dipped beam",
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "boolean",
+                  "reference": "dipped_beam",
+                  "_inactive": false,
+                  "_parentId": "params-can"
+                },
+                {
+                  "id": "high_beam",
+                  "active": true,
+                  "name": "High beam",
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "boolean",
+                  "reference": "high_beam",
+                  "_inactive": false,
+                  "_parentId": "params-can"
+                },
+                {
+                  "id": "driver_belt",
+                  "active": true,
+                  "name": "Driver belt ",
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "boolean",
+                  "reference": "driver_belt",
+                  "_inactive": false,
+                  "_parentId": "params-can"
+                },
+                {
+                  "id": "pass_belt",
+                  "active": true,
+                  "name": "Passenger belt ",
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "boolean",
+                  "reference": "pass_belt",
+                  "_inactive": false,
+                  "_parentId": "params-can"
+                },
+                {
+                  "id": "remote_control",
+                  "active": true,
+                  "name": "Remote control",
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "boolean",
+                  "reference": "remote_control",
+                  "_inactive": false,
+                  "_parentId": "params-can"
+                },
+                {
+                  "id": "closed_pult",
+                  "active": true,
+                  "name": "Closed pult",
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "boolean",
+                  "reference": "closed_pult",
+                  "display": {
+                    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" x=\"0px\" y=\"0px\"\nviewBox=\"0 0 16 16\"\n><g id=\"surface1\"><path style=\" \" d=\"M 8 1 C 5.796875 1 4 2.796875 4 5 L 4 6 L 3.5 6 C 2.675781 6 2 6.675781 2 7.5 L 2 12.5 C 2 13.324219 2.675781 14 3.5 14 L 12.5 14 C 13.324219 14 14 13.324219 14 12.5 L 14 7.5 C 14 6.675781 13.324219 6 12.5 6 L 12 6 L 12 5 C 12 2.796875 10.203125 1 8 1 Z M 8 2 C 9.664063 2 11 3.335938 11 5 L 11 6 L 5 6 L 5 5 C 5 3.335938 6.335938 2 8 2 Z M 3.5 7 L 12.5 7 C 12.78125 7 13 7.21875 13 7.5 L 13 12.5 C 13 12.78125 12.78125 13 12.5 13 L 3.5 13 C 3.21875 13 3 12.78125 3 12.5 L 3 7.5 C 3 7.21875 3.21875 7 3.5 7 Z \"></path></g></svg>"
+                  },
+                  "levels": {
+                    "svg": "<svg viewBox=\"0 0 16 16\"><path d=\"M 8 1 C 5.796875 1 4 2.796875 4 5 L 4 6 L 3.5 6 C 2.675781 6 2 6.675781 2 7.5 L 2 12.5 C 2 13.324219 2.675781 14 3.5 14 L 12.5 14 C 13.324219 14 14 13.324219 14 12.5 L 14 7.5 C 14 6.675781 13.324219 6 12.5 6 L 12 6 L 12 5 C 12 2.796875 10.203125 1 8 1 Z M 8 2 C 9.664063 2 11 3.335938 11 5 L 11 6 L 5 6 L 5 5 C 5 3.335938 6.335938 2 8 2 Z M 3.5 7 L 12.5 7 C 12.78125 7 13 7.21875 13 7.5 L 13 12.5 C 13 12.78125 12.78125 13 12.5 13 L 3.5 13 C 3.21875 13 3 12.78125 3 12.5 L 3 7.5 C 3 7.21875 3.21875 7 3.5 7 Z\" /></svg>",
+                    "type": "boolean",
+                    "value": [
+                      {
+                        "color": "#a2ce4b",
+                        "name": "True",
+                        "value": true
+                      },
+                      {
+                        "color": "#f16059",
+                        "name": "False",
+                        "value": false
+                      }
+                    ]
+                  },
+                  "_inactive": false,
+                  "_parentId": "params-can"
+                }
+              ],
+              "_inactive": false,
+              "_parentId": "params"
+            }
+          ],
+          "_inactive": false,
+          "_parentId": "root"
+        },
+        {
+          "id": "commands",
+          "active": true,
+          "name": "Commands",
+          "type": "subsystem",
+          "children": [
+            {
+              "id": "text-command-can-doors-lock",
+              "active": true,
+              "name": "[can] Close the door",
+              "type": "action",
+              "description": "Example of the custom command",
+              "command": "text_command",
+              "params": {
+                "command": "#can_closealldoor#\r\n"
+              },
+              "service": "ric-gate",
+              "_inactive": false,
+              "_parentId": "commands"
+            },
+            {
+              "id": "text-command-can-doors-unlock",
+              "active": true,
+              "name": "[can] Open the door",
+              "type": "action",
+              "description": "Example of the custom command",
+              "command": "text_command",
+              "params": {
+                "command": "#can_openalldoor#\r\n"
+              },
+              "service": "ric-gate",
+              "_inactive": false,
+              "_parentId": "commands"
+            },
+            {
+              "id": "set-out1-0",
+              "name": "Setout 1 = 0",
+              "active": true,
+              "type": "action",
+              "service": "ric-gate",
+              "command": "text_command",
+              "params": {
+                "command": "#setout1=0#\r\n"
+              },
+              "description": "Set output 1 state to 0",
+              "_inactive": false,
+              "_parentId": "commands"
+            },
+            {
+              "id": "set-out1-1",
+              "name": "Setout 1 = 1",
+              "active": true,
+              "type": "action",
+              "service": "ric-gate",
+              "command": "text_command",
+              "params": {
+                "command": "#setout1=1#\r\n"
+              },
+              "description": "Set output 1 state to 1",
+              "children": [],
+              "_inactive": false,
+              "_parentId": "commands"
+            }
+          ],
+          "_inactive": false,
+          "_parentId": "root"
+        }
+      ],
+      "_inactive": false
+    },
+    "props": {
+      "bots": true,
+      "hardwareEvents": false,
+      "helper": "",
+      "prefix": "wialon:",
+      "order": 2,
+      "typeInput": {
+        "hidden": false
+      },
+      "statusInput": {
+        "hidden": false
+      },
+      "descriptionInput": {
+        "hidden": false
+      },
+      "protocol": "wialon",
+      "idPattern": "wialon:<imei>",
+      "defaultGateCommandTimeout": 45
+    },
+    "owner": "000000000000000000000000",
+    "group": "000000000000000000000000",
+    "time": 1794808073685
+  }
+}

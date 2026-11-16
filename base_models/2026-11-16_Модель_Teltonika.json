@@ -1,0 +1,1355 @@
+{
+  "version": 1,
+  "origin": "dev.rightech.io",
+  "time": "2026-11-16T05:52:25.504Z",
+  "user": "000000000000000000000000",
+  "group": "000000000000000000000000",
+  "store": "models",
+  "data": {
+    "_id": "6afa9a168d218e7e9a39a0ad",
+    "name": "Teltonika",
+    "base": "teltonika",
+    "mixins": [],
+    "data": {
+      "id": "root",
+      "active": true,
+      "name": "Teltonika",
+      "type": "subsystem",
+      "children": [
+        {
+          "id": "external-software-modules",
+          "active": true,
+          "copy": true,
+          "type": "subsystem",
+          "children": [],
+          "name": "Внешние программные модули",
+          "_inactive": false,
+          "_parentId": "root"
+        },
+        {
+          "id": "iye86vhl",
+          "active": true,
+          "name": "Params",
+          "type": "subsystem",
+          "children": [
+            {
+              "id": "times",
+              "active": true,
+              "name": "Time",
+              "type": "subsystem",
+              "children": [
+                {
+                  "id": "time",
+                  "active": true,
+                  "name": "GPS time",
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "number",
+                  "unit": "duration-millisecond",
+                  "reference": "navigation.time",
+                  "_inactive": false,
+                  "_parentId": "times"
+                }
+              ],
+              "_inactive": false,
+              "_parentId": "iye86vhl"
+            },
+            {
+              "id": "zo9ql",
+              "name": "Params fmb120",
+              "active": true,
+              "type": "subsystem",
+              "children": [
+                {
+                  "id": "speed-81",
+                  "name": "Speed",
+                  "active": false,
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "number",
+                  "linear": true,
+                  "factor": 1,
+                  "reference": "in_out_81",
+                  "unit": "speed-kilometer-per-hour",
+                  "_inactive": true,
+                  "_parentId": "zo9ql"
+                },
+                {
+                  "id": "eng_rpm",
+                  "name": "Engine RPM",
+                  "active": true,
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "number",
+                  "linear": true,
+                  "factor": 1,
+                  "reference": "in_out_85",
+                  "unit": "angle-revolution-per-minute",
+                  "_inactive": false,
+                  "_parentId": "zo9ql"
+                },
+                {
+                  "id": "fuel_level",
+                  "name": "Fuel level",
+                  "active": true,
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "number",
+                  "linear": true,
+                  "factor": 0.1,
+                  "reference": "in_out_84",
+                  "unit": "volume-liter",
+                  "_inactive": false,
+                  "_parentId": "zo9ql"
+                },
+                {
+                  "id": "mileage",
+                  "name": "Mileage",
+                  "active": true,
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "number",
+                  "linear": true,
+                  "factor": 0.001,
+                  "reference": "in_out_87",
+                  "unit": "length-kilometer",
+                  "_inactive": false,
+                  "_parentId": "zo9ql"
+                },
+                {
+                  "id": "pedal",
+                  "name": "Pedal",
+                  "active": true,
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "number",
+                  "linear": true,
+                  "factor": 1,
+                  "reference": "in_out_82",
+                  "unit": "percent",
+                  "_inactive": false,
+                  "_parentId": "zo9ql"
+                },
+                {
+                  "id": "fuel",
+                  "name": "Fuel",
+                  "active": false,
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "number",
+                  "linear": true,
+                  "factor": 0.1,
+                  "reference": "in_out_107",
+                  "unit": "volume-liter",
+                  "_inactive": true,
+                  "_parentId": "zo9ql"
+                },
+                {
+                  "id": "eng_temp",
+                  "name": "Engine temerature",
+                  "active": true,
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "number",
+                  "linear": true,
+                  "factor": 0.1,
+                  "reference": "in_out_115",
+                  "unit": "temperature-celsius",
+                  "_inactive": false,
+                  "_parentId": "zo9ql"
+                },
+                {
+                  "id": "gsm_code",
+                  "name": "GSM code",
+                  "active": true,
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "number",
+                  "linear": true,
+                  "factor": 1,
+                  "reference": "in_out_206",
+                  "_inactive": false,
+                  "_parentId": "zo9ql"
+                },
+                {
+                  "id": "gsm_code_op",
+                  "name": "GSM operator code",
+                  "active": true,
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "number",
+                  "linear": true,
+                  "factor": 1,
+                  "reference": "in_out_241",
+                  "_inactive": false,
+                  "_parentId": "zo9ql"
+                }
+              ],
+              "_inactive": false,
+              "_parentId": "iye86vhl"
+            },
+            {
+              "id": "digital-inputs",
+              "name": "Digital inputs",
+              "active": true,
+              "type": "argument",
+              "description": "Digital inputs FMB630",
+              "source": "state",
+              "dataType": "number",
+              "children": [
+                {
+                  "id": "digital-input-1",
+                  "name": "Digital input 1",
+                  "active": true,
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "boolean",
+                  "reference": "in_out_1",
+                  "params": {
+                    "command": "",
+                    "in": 0,
+                    "value": 0,
+                    "timeout": 0
+                  },
+                  "_inactive": false,
+                  "_parentId": "digital-inputs"
+                },
+                {
+                  "id": "digital-input-2",
+                  "name": "Digital input 2",
+                  "active": true,
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "boolean",
+                  "reference": "in_out_2",
+                  "_inactive": false,
+                  "_parentId": "digital-inputs"
+                },
+                {
+                  "id": "digital-input-3",
+                  "name": "Digital input 3",
+                  "active": true,
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "boolean",
+                  "reference": "in_out_3",
+                  "_inactive": false,
+                  "_parentId": "digital-inputs"
+                },
+                {
+                  "id": "digital-input-4",
+                  "name": "Digital input 4",
+                  "active": true,
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "boolean",
+                  "reference": "in_out_4",
+                  "params": {
+                    "command": "",
+                    "in": 0,
+                    "value": 0,
+                    "timeout": 0
+                  },
+                  "_inactive": false,
+                  "_parentId": "digital-inputs"
+                }
+              ],
+              "linear": true,
+              "factor": 1,
+              "_inactive": false,
+              "_parentId": "iye86vhl"
+            },
+            {
+              "id": "digital-outputs",
+              "name": "Digital outputs",
+              "active": true,
+              "type": "argument",
+              "source": "state",
+              "dataType": "number",
+              "params": {
+                "command": "",
+                "in": 0,
+                "value": 0,
+                "timeout": 0
+              },
+              "children": [
+                {
+                  "id": "digital-output-1",
+                  "name": "Digital output 1",
+                  "active": true,
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "boolean",
+                  "reference": "in_out_179",
+                  "params": {
+                    "command": "",
+                    "in": 0,
+                    "value": 0,
+                    "timeout": 0
+                  },
+                  "_inactive": false,
+                  "_parentId": "digital-outputs"
+                },
+                {
+                  "id": "digital-output-2",
+                  "name": "Digital output 2",
+                  "active": true,
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "boolean",
+                  "reference": "in_out_180",
+                  "params": {
+                    "command": "",
+                    "in": 0,
+                    "value": 0,
+                    "timeout": 0
+                  },
+                  "_inactive": false,
+                  "_parentId": "digital-outputs"
+                },
+                {
+                  "id": "digital-output-3",
+                  "name": "Digital output 3",
+                  "active": true,
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "boolean",
+                  "reference": "in_out_50",
+                  "params": {
+                    "command": "",
+                    "in": 0,
+                    "value": 0,
+                    "timeout": 0
+                  },
+                  "_inactive": false,
+                  "_parentId": "digital-outputs"
+                },
+                {
+                  "id": "digital-output-4",
+                  "name": "Digital output 4",
+                  "active": true,
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "boolean",
+                  "reference": "in_out_51",
+                  "params": {
+                    "command": "",
+                    "in": 0,
+                    "value": 0,
+                    "timeout": 0
+                  },
+                  "_inactive": false,
+                  "_parentId": "digital-outputs"
+                }
+              ],
+              "linear": true,
+              "factor": 1,
+              "_inactive": false,
+              "_parentId": "iye86vhl"
+            },
+            {
+              "id": "analog-inputs",
+              "name": "Analog inputs",
+              "active": true,
+              "type": "subsystem",
+              "params": {
+                "command": "",
+                "in": 0,
+                "value": 0,
+                "timeout": 0
+              },
+              "children": [
+                {
+                  "id": "analog-input-1",
+                  "name": "Analog Input 1",
+                  "active": true,
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "in_out_9",
+                  "params": {
+                    "command": "",
+                    "in": 0,
+                    "value": 0,
+                    "timeout": 0
+                  },
+                  "_inactive": false,
+                  "_parentId": "analog-inputs"
+                },
+                {
+                  "id": "analog-input-2",
+                  "name": "Analog Input 2",
+                  "active": true,
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "in_out_10",
+                  "params": {
+                    "command": "",
+                    "in": 0,
+                    "value": 0,
+                    "timeout": 0
+                  },
+                  "_inactive": false,
+                  "_parentId": "analog-inputs"
+                },
+                {
+                  "id": "analog-input-3",
+                  "name": "Analog Input 3",
+                  "active": true,
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "in_out_11",
+                  "params": {
+                    "command": "",
+                    "in": 0,
+                    "value": 0,
+                    "timeout": 0
+                  },
+                  "_inactive": false,
+                  "_parentId": "analog-inputs"
+                }
+              ],
+              "_inactive": false,
+              "_parentId": "iye86vhl"
+            },
+            {
+              "id": "coords",
+              "active": true,
+              "name": "Coordinates",
+              "type": "subsystem",
+              "children": [
+                {
+                  "id": "lat",
+                  "active": true,
+                  "name": "Latitude",
+                  "type": "argument",
+                  "description": "North – south position",
+                  "unit": "angle-degree",
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "navigation.latitude",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "coords"
+                },
+                {
+                  "id": "lon",
+                  "active": true,
+                  "name": "Longitude",
+                  "type": "argument",
+                  "description": "East – west position",
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "navigation.longitude",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "coords"
+                }
+              ],
+              "_inactive": false,
+              "_parentId": "iye86vhl"
+            },
+            {
+              "id": "gps-other",
+              "active": true,
+              "name": "GPS and other",
+              "type": "subsystem",
+              "children": [
+                {
+                  "id": "speed",
+                  "active": true,
+                  "name": "Speed",
+                  "type": "argument",
+                  "description": "Speed calculated from satellites",
+                  "unit": "speed-kilometer-per-hour",
+                  "source": "state",
+                  "dataType": "number",
+                  "display": {},
+                  "reference": "navigation.speed",
+                  "factor": 1,
+                  "linear": true,
+                  "children": [],
+                  "levels": {
+                    "type": "range",
+                    "value": [
+                      {
+                        "color": "#a2ce4b",
+                        "name": "-Infinity",
+                        "value": {
+                          "a": "-Infinity",
+                          "b": 0
+                        }
+                      },
+                      {
+                        "color": "#a2ce4b",
+                        "name": "Min",
+                        "value": {
+                          "a": 0,
+                          "b": 50
+                        }
+                      },
+                      {
+                        "color": "#ffae62",
+                        "name": "Mid",
+                        "value": {
+                          "a": 50,
+                          "b": 100
+                        }
+                      },
+                      {
+                        "color": "#f16059",
+                        "name": "Max",
+                        "value": {
+                          "a": 100,
+                          "b": "Infinity"
+                        }
+                      }
+                    ],
+                    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 20 20\"><path d=\"M2.5 1.3H1.3v1.2H0v1.3h2.5zM10.6 10h1.3v1.3h-1.3zM11.9 8.8h1.3v1.3h-1.3zM13.1 7.5h1.3v1.3h-1.3z\"></path><path class=\"st0\" d=\"M11.9 2.6V1.3h1.3V0h-5v1.3h1.3v1.4C5.2 3.3 2 7 2 11.4c0 4.8 3.9 8.8 8.8 8.8 4.8 0 8.8-3.9 8.8-8.8-.2-4.5-3.5-8.2-7.7-8.8zm-1.3 15c-3.5 0-6.3-2.8-6.3-6.3S7.1 5 10.6 5c1.4 0 2.7.5 3.8 1.3v1.2h1.2c.8 1.1 1.3 2.3 1.3 3.8 0 3.4-2.8 6.3-6.3 6.3z\"></path></svg>"
+                  },
+                  "_inactive": false,
+                  "_parentId": "gps-other"
+                },
+                {
+                  "id": "speed-jd1j4jtd",
+                  "active": false,
+                  "name": "Speed 2",
+                  "type": "argument",
+                  "description": "Params speed",
+                  "unit": "speed-kilometer-per-hour",
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "in_out_239",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": true,
+                  "_parentId": "gps-other"
+                },
+                {
+                  "id": "movement",
+                  "active": true,
+                  "name": "Movement",
+                  "type": "argument",
+                  "description": "Params speed",
+                  "source": "state",
+                  "dataType": "boolean",
+                  "reference": "in_out_240",
+                  "_inactive": false,
+                  "_parentId": "gps-other"
+                },
+                {
+                  "id": "ignition",
+                  "name": "Ignition",
+                  "active": true,
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "boolean",
+                  "reference": "in_out_239",
+                  "display": {},
+                  "children": [],
+                  "levels": {
+                    "type": "range",
+                    "value": [
+                      {
+                        "color": "#a2ce4b",
+                        "name": "False",
+                        "value": {
+                          "a": false,
+                          "b": true
+                        }
+                      },
+                      {
+                        "color": "#ffae62",
+                        "name": "True",
+                        "value": {
+                          "a": true,
+                          "b": "Infinity"
+                        }
+                      }
+                    ],
+                    "svg": "<svg viewBox=\"0 0 32 32\"> \n<path d=\"M22 0c-5.523 0-10 4.477-10 10 0 0.626 0.058 1.238 0.168 1.832l-12.168 12.168v6c0 1.105 0.895 2 2 2h2v-2h4v-4h4v-4h4l2.595-2.595c1.063 0.385 2.209 0.595 3.405 0.595 5.523 0 10-4.477 10-10s-4.477-10-10-10zM24.996 10.004c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3z\"></path> </svg>"
+                  },
+                  "_inactive": false,
+                  "_parentId": "gps-other"
+                },
+                {
+                  "id": "altitude",
+                  "active": true,
+                  "name": "Altitude",
+                  "type": "argument",
+                  "description": "Meters above sea level",
+                  "unit": "length-meter",
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "navigation.height",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "gps-other"
+                },
+                {
+                  "id": "angle",
+                  "active": true,
+                  "name": "Angle",
+                  "type": "argument",
+                  "unit": "angle-degree",
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "navigation.angle",
+                  "description": "Degrees from north pole",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "gps-other"
+                },
+                {
+                  "id": "sat-count",
+                  "active": true,
+                  "name": "Satellites",
+                  "type": "argument",
+                  "description": "Number of visible satellites",
+                  "source": "state",
+                  "dataType": "number",
+                  "display": {},
+                  "reference": "navigation.sat-count",
+                  "factor": 1,
+                  "linear": true,
+                  "children": [],
+                  "levels": {
+                    "type": "range",
+                    "value": [
+                      {
+                        "color": "#f16059",
+                        "name": "-Infinity",
+                        "value": {
+                          "a": "-Infinity",
+                          "b": 0
+                        }
+                      },
+                      {
+                        "color": "#f16059",
+                        "name": "Min",
+                        "value": {
+                          "a": 0,
+                          "b": 15
+                        }
+                      },
+                      {
+                        "color": "#ffae62",
+                        "name": "Mid",
+                        "value": {
+                          "a": 15,
+                          "b": 30
+                        }
+                      },
+                      {
+                        "color": "#a2ce4b",
+                        "name": "Max",
+                        "value": {
+                          "a": 30,
+                          "b": "Infinity"
+                        }
+                      }
+                    ],
+                    "svg": "<svg viewBox=\"0 0 20 20\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M10 16.6c-1.7 0-3.1 1.3-3.4 2.9 0 .3.2.5.4.5h5.9c.2 0 .4-.2.4-.4-.2-1.7-1.6-3-3.3-3zM0 8h6v2H0zM0 11h6v2H0zM14 8h6v2h-6zM14 11h6v2h-6zM12.5 16c.3 0 .5-.2.5-.5V7.3c0-.3-.2-.6-.5-.6h-.2v-.1c0-.3-.2-.6-.5-.6H8.4c-.3 0-.5.3-.5.6v.1h-.2c-.3 0-.6.2-.7.5v8.2c0 .4.4.6.7.6h4.8zM10 2C8.1 2 6.6 3.6 6.5 5.6h1.1c0-1.4 1.1-2.5 2.4-2.5s2.4 1.1 2.4 2.5h1.2C13.4 3.6 11.9 2 10 2z\"></path><path d=\"M10 1.3c2.4 0 4.4 1.9 4.4 4.4h1.2C15.6 2.5 13.1 0 10 0 6.9 0 4.4 2.5 4.4 5.6h1.2c0-2.4 2-4.3 4.4-4.3z\"></path></svg>"
+                  },
+                  "_inactive": false,
+                  "_parentId": "gps-other"
+                },
+                {
+                  "id": "signal",
+                  "active": true,
+                  "name": "GPS signal",
+                  "type": "argument",
+                  "description": "GPS signal level",
+                  "source": "state",
+                  "dataType": "number",
+                  "display": {},
+                  "params": {
+                    "command": "",
+                    "in": 0,
+                    "value": 0
+                  },
+                  "reference": "in_out_21",
+                  "factor": 1,
+                  "linear": true,
+                  "children": [],
+                  "levels": {
+                    "type": "range",
+                    "value": [
+                      {
+                        "color": "#f16059",
+                        "name": "-Infinity",
+                        "value": {
+                          "a": "-Infinity",
+                          "b": 0
+                        }
+                      },
+                      {
+                        "color": "#f16059",
+                        "name": "Min",
+                        "value": {
+                          "a": 0,
+                          "b": 15
+                        }
+                      },
+                      {
+                        "color": "#ffae62",
+                        "name": "Mid",
+                        "value": {
+                          "a": 15,
+                          "b": 30
+                        }
+                      },
+                      {
+                        "color": "#a2ce4b",
+                        "name": "Max",
+                        "value": {
+                          "a": 30,
+                          "b": "Infinity"
+                        }
+                      }
+                    ],
+                    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 20 20\"><path d=\"M8.6 13.7c-.8.8-.8 2 0 2.8.1.1.3.2.4.3V20h1.7v-3.1c.2-.1.5-.2.7-.4.8-.8.8-2 0-2.8-.8-.7-2-.7-2.8 0zm2.1 1.6c-.4 0-.7-.3-.7-.7 0-.4.3-.7.7-.7.4 0 .7.3.7.7-.1.4-.4.7-.7.7zM10 2.9c-4.1 0-7.6 2-10 5l1.8 1.7C3.7 7.1 6.6 5.4 10 5.4c3.4 0 6.3 1.7 8.3 4.2L20 7.9c-2.4-3-5.9-5-10-5zm0 5c-2.7 0-5.1 1.3-6.6 3.4l1.8 1.8c1-1.6 2.8-2.7 4.8-2.7s3.8 1.1 4.8 2.7l1.8-1.8c-1.4-2.1-3.9-3.4-6.6-3.4z\"></path></svg>"
+                  },
+                  "_inactive": false,
+                  "_parentId": "gps-other"
+                },
+                {
+                  "id": "gsm-cell-id",
+                  "active": true,
+                  "name": "GSM Cell ID",
+                  "type": "argument",
+                  "description": "GSM Cell ID",
+                  "source": "state",
+                  "dataType": "number",
+                  "display": {
+                    "svg": null
+                  },
+                  "params": {
+                    "command": "",
+                    "in": 0,
+                    "value": 0
+                  },
+                  "reference": "in_out_205",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "gps-other"
+                }
+              ],
+              "_inactive": false,
+              "_parentId": "iye86vhl"
+            },
+            {
+              "id": "bat",
+              "active": true,
+              "name": "Battery",
+              "type": "subsystem",
+              "children": [
+                {
+                  "id": "bat-voltage",
+                  "name": "External voltage",
+                  "active": true,
+                  "type": "argument",
+                  "unit": "electric-volt",
+                  "source": "state",
+                  "dataType": "number",
+                  "display": {},
+                  "reference": "in_out_66",
+                  "factor": 0.001,
+                  "params": {
+                    "command": "",
+                    "in": 0,
+                    "value": 0
+                  },
+                  "linear": true,
+                  "children": [],
+                  "levels": {
+                    "type": "range",
+                    "value": [
+                      {
+                        "color": "#f16059",
+                        "name": "-Infinity",
+                        "value": {
+                          "a": "-Infinity",
+                          "b": 0
+                        }
+                      },
+                      {
+                        "color": "#f16059",
+                        "name": "Min",
+                        "value": {
+                          "a": 0,
+                          "b": 6
+                        }
+                      },
+                      {
+                        "color": "#ffae62",
+                        "name": "Mid",
+                        "value": {
+                          "a": 6,
+                          "b": 100
+                        }
+                      },
+                      {
+                        "color": "#a2ce4b",
+                        "name": "Max",
+                        "value": {
+                          "a": 100,
+                          "b": "Infinity"
+                        }
+                      }
+                    ],
+                    "svg": "<svg style=\"shape-rendering: optimizespeed\" viewBox=\"0 0 20 20\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M20 3V2H0v18h20V3zM5 7h1V6h1v1h1v1H7v1H6V8H5V7zm13 11H2V3h1v14h7V3h8v15zM16 7h-3v1h3V7zm0-7h-4v2h4V0zM8 0H4v2h4V0z\" class=\"st0\"></path></svg>"
+                  },
+                  "_inactive": false,
+                  "_parentId": "bat"
+                },
+                {
+                  "id": "voltage",
+                  "name": "Battery voltage",
+                  "active": true,
+                  "type": "argument",
+                  "unit": "electric-volt",
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "in_out_67",
+                  "factor": 0.001,
+                  "_inactive": false,
+                  "_parentId": "bat"
+                },
+                {
+                  "id": "Battery-current ",
+                  "name": "Battery current ",
+                  "active": true,
+                  "type": "argument",
+                  "unit": "electric-ampere",
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "in_out_68",
+                  "factor": 0.001,
+                  "_inactive": false,
+                  "_parentId": "bat"
+                }
+              ],
+              "_inactive": false,
+              "_parentId": "iye86vhl"
+            },
+            {
+              "id": "gnss",
+              "name": "GNSS",
+              "active": true,
+              "type": "subsystem",
+              "children": [
+                {
+                  "id": "gnss_pdop",
+                  "name": "GNSS PDOP",
+                  "active": true,
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "in_out_181",
+                  "_inactive": false,
+                  "_parentId": "gnss"
+                },
+                {
+                  "id": "gnss_hdop",
+                  "name": "GNSS HDOP",
+                  "active": true,
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "in_out_182",
+                  "_inactive": false,
+                  "_parentId": "gnss"
+                },
+                {
+                  "id": "gnss_status",
+                  "name": "GNSS Status",
+                  "active": true,
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "in_out_69",
+                  "_inactive": false,
+                  "_parentId": "gnss"
+                }
+              ],
+              "_inactive": false,
+              "_parentId": "iye86vhl"
+            },
+            {
+              "id": "LVCAN",
+              "name": "LV-CAN200",
+              "active": true,
+              "type": "subsystem",
+              "params": {
+                "command": "",
+                "in": 0,
+                "value": 0,
+                "timeout": 0
+              },
+              "children": [
+                {
+                  "id": "LVCAN-speed",
+                  "name": "LVCAN Speed",
+                  "active": true,
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "in_out_30",
+                  "params": {
+                    "command": "",
+                    "in": 0,
+                    "value": 0,
+                    "timeout": 0
+                  },
+                  "_inactive": false,
+                  "_parentId": "LVCAN"
+                },
+                {
+                  "id": "LVCAN-acc-pedal",
+                  "name": "LVCAN Acc Pedal",
+                  "active": true,
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "in_out_31",
+                  "params": {
+                    "command": "",
+                    "in": 0,
+                    "value": 0,
+                    "timeout": 0
+                  },
+                  "_inactive": false,
+                  "_parentId": "LVCAN"
+                },
+                {
+                  "id": "LVCAN-fuel-consumed",
+                  "name": "LVCAN Fuel Consumed",
+                  "active": true,
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "in_out_33",
+                  "params": {
+                    "command": "",
+                    "in": 0,
+                    "value": 0,
+                    "timeout": 0
+                  },
+                  "_inactive": false,
+                  "_parentId": "LVCAN"
+                },
+                {
+                  "id": "LVCAN-fuel-level",
+                  "name": "LVCAN Fuel Level",
+                  "active": true,
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "number",
+                  "unit": "volume-liter",
+                  "reference": "in_out_34",
+                  "params": {
+                    "command": "",
+                    "in": 0,
+                    "value": 0,
+                    "timeout": 0
+                  },
+                  "_inactive": false,
+                  "_parentId": "LVCAN"
+                },
+                {
+                  "id": "LVCAN-engine-rpm",
+                  "name": "LVCAN Engine RPM",
+                  "active": true,
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "number",
+                  "unit": "volume-liter",
+                  "reference": "in_out_35",
+                  "params": {
+                    "command": "",
+                    "in": 0,
+                    "value": 0,
+                    "timeout": 0
+                  },
+                  "_inactive": false,
+                  "_parentId": "LVCAN"
+                },
+                {
+                  "id": "LVCAN-total-mileage",
+                  "name": "LVCAN Total Mileage",
+                  "active": true,
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "number",
+                  "unit": "length-kilometer",
+                  "reference": "in_out_36",
+                  "params": {
+                    "command": "",
+                    "in": 0,
+                    "value": 0,
+                    "timeout": 0
+                  },
+                  "_inactive": false,
+                  "_parentId": "LVCAN"
+                },
+                {
+                  "id": "LVCAN-fuel-level-perc",
+                  "name": "LVCAN Fuel Level",
+                  "active": true,
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "number",
+                  "unit": "percent",
+                  "reference": "in_out_37",
+                  "params": {
+                    "command": "",
+                    "in": 0,
+                    "value": 0,
+                    "timeout": 0
+                  },
+                  "_inactive": false,
+                  "_parentId": "LVCAN"
+                },
+                {
+                  "id": "LVCAN-program-number",
+                  "name": "LVCAN Program Number",
+                  "active": true,
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "in_out_12",
+                  "params": {
+                    "command": "",
+                    "in": 0,
+                    "value": 0,
+                    "timeout": 0
+                  },
+                  "_inactive": false,
+                  "_parentId": "LVCAN"
+                }
+              ],
+              "_inactive": false,
+              "_parentId": "iye86vhl"
+            },
+            {
+              "id": "kline",
+              "name": "Kline data",
+              "active": true,
+              "type": "subsystem",
+              "params": {
+                "command": "",
+                "in": 0,
+                "value": 0,
+                "timeout": 0
+              },
+              "children": [
+                {
+                  "id": "вrive-recognize",
+                  "name": "Drive recognize",
+                  "active": true,
+                  "type": "argument",
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "in_out_183",
+                  "params": {
+                    "command": "",
+                    "in": 0,
+                    "value": 0,
+                    "timeout": 0
+                  },
+                  "_inactive": false,
+                  "_parentId": "kline"
+                }
+              ],
+              "_inactive": false,
+              "_parentId": "iye86vhl"
+            }
+          ],
+          "_inactive": false,
+          "_parentId": "root"
+        },
+        {
+          "id": "cmds",
+          "name": "Commands",
+          "active": true,
+          "type": "subsystem",
+          "children": [
+            {
+              "id": "info",
+              "name": "Info",
+              "active": true,
+              "type": "subsystem",
+              "children": [
+                {
+                  "id": "getinfo",
+                  "name": "Get system info ",
+                  "active": true,
+                  "type": "action",
+                  "source": "state",
+                  "dataType": "string",
+                  "params": {
+                    "command": "getinfo",
+                    "in": 1,
+                    "value": 1
+                  },
+                  "command": "text_command",
+                  "service": "ric-gate",
+                  "description": "Getinfo",
+                  "_inactive": false,
+                  "_parentId": "info"
+                },
+                {
+                  "id": "getio",
+                  "name": "Get input/output info",
+                  "active": true,
+                  "type": "action",
+                  "source": "state",
+                  "dataType": "string",
+                  "params": {
+                    "command": "getio",
+                    "in": 1,
+                    "value": 1
+                  },
+                  "command": "text_command",
+                  "service": "ric-gate",
+                  "description": "getio",
+                  "_inactive": false,
+                  "_parentId": "info"
+                },
+                {
+                  "id": "getparam100",
+                  "name": "get parameter #100",
+                  "active": true,
+                  "type": "action",
+                  "source": "state",
+                  "dataType": "string",
+                  "params": {
+                    "command": "getparam 100"
+                  },
+                  "command": "text_command",
+                  "service": "ric-gate",
+                  "description": "Получить значение параметра с ID 100",
+                  "_inactive": false,
+                  "_parentId": "info"
+                },
+                {
+                  "id": "getparam100-101-102",
+                  "name": "get parameters #100-#102",
+                  "active": true,
+                  "type": "action",
+                  "source": "state",
+                  "dataType": "string",
+                  "params": {
+                    "command": "getparam 100;101;102"
+                  },
+                  "command": "text_command",
+                  "service": "ric-gate",
+                  "description": "get values of paramter #100-102",
+                  "children": [],
+                  "_inactive": false,
+                  "_parentId": "info"
+                }
+              ],
+              "_inactive": false,
+              "_parentId": "cmds"
+            },
+            {
+              "id": "control",
+              "name": "Control",
+              "active": true,
+              "type": "subsystem",
+              "children": [
+                {
+                  "id": "setdigout_1_on",
+                  "name": "set digital output #1 = 1",
+                  "active": true,
+                  "type": "action",
+                  "source": "state",
+                  "dataType": "string",
+                  "params": {
+                    "command": "setdigout 1???"
+                  },
+                  "command": "text_command",
+                  "service": "ric-gate",
+                  "description": "set just DOUT1=1 ",
+                  "_inactive": false,
+                  "_parentId": "control"
+                },
+                {
+                  "id": "setdigout_2_on",
+                  "name": "set digital output #2 = 1",
+                  "active": true,
+                  "type": "action",
+                  "source": "state",
+                  "dataType": "string",
+                  "params": {
+                    "command": "setdigout ?1??"
+                  },
+                  "command": "text_command",
+                  "service": "ric-gate",
+                  "description": "set just DOUT2=1",
+                  "children": [],
+                  "_inactive": false,
+                  "_parentId": "control"
+                },
+                {
+                  "id": "setdigout_1_off",
+                  "name": "set digital output #1 = 0",
+                  "active": true,
+                  "type": "action",
+                  "source": "state",
+                  "dataType": "string",
+                  "params": {
+                    "command": "setdigout 0???"
+                  },
+                  "command": "text_command",
+                  "service": "ric-gate",
+                  "description": "Выключить только первое реле DOUT1",
+                  "_inactive": false,
+                  "_parentId": "control"
+                },
+                {
+                  "id": "setdigout_2_off",
+                  "name": "set digital output #2 = 0",
+                  "active": true,
+                  "type": "action",
+                  "source": "state",
+                  "dataType": "string",
+                  "params": {
+                    "command": "setdigout ?0??"
+                  },
+                  "command": "text_command",
+                  "service": "ric-gate",
+                  "description": "set just DOUT1=0 ",
+                  "children": [],
+                  "_inactive": false,
+                  "_parentId": "control"
+                },
+                {
+                  "id": "setdigout_1_on_5",
+                  "name": "set digital output #1 = 1 for 5 sec",
+                  "active": true,
+                  "type": "action",
+                  "source": "state",
+                  "dataType": "string",
+                  "params": {
+                    "command": "setdigout 1??? 5 0 0 0"
+                  },
+                  "command": "text_command",
+                  "description": "set DOUT1 to high level for 5 seconds.",
+                  "service": "ric-gate",
+                  "children": [],
+                  "_inactive": false,
+                  "_parentId": "control"
+                },
+                {
+                  "id": "setdigout_4_on_5",
+                  "name": "set digital output #4 = 1 for 5 sec",
+                  "active": true,
+                  "type": "action",
+                  "source": "state",
+                  "dataType": "string",
+                  "params": {
+                    "command": "setdigout ???1 0 0 0 5"
+                  },
+                  "command": "text_command",
+                  "description": "set DOUT4 to high level for 5 seconds.",
+                  "service": "ric-gate",
+                  "_inactive": false,
+                  "_parentId": "control"
+                },
+                {
+                  "id": "doors-lock",
+                  "name": "Close the car doors",
+                  "active": true,
+                  "type": "action",
+                  "source": "state",
+                  "dataType": "string",
+                  "params": {
+                    "command": "lvcanclosealldoors"
+                  },
+                  "command": "text_command",
+                  "service": "ric-gate",
+                  "children": [],
+                  "description": "lvcan command",
+                  "_inactive": false,
+                  "_parentId": "control"
+                },
+                {
+                  "id": "doors-unlock",
+                  "name": "Open the car doors",
+                  "active": true,
+                  "type": "action",
+                  "source": "state",
+                  "dataType": "string",
+                  "params": {
+                    "command": "lvcanopenalldoors"
+                  },
+                  "command": "text_command",
+                  "service": "ric-gate",
+                  "children": [],
+                  "description": "lvcan",
+                  "_inactive": false,
+                  "_parentId": "control"
+                },
+                {
+                  "id": "can-turning-lights",
+                  "name": "Can turning lights",
+                  "active": true,
+                  "type": "action",
+                  "source": "state",
+                  "dataType": "string",
+                  "params": {
+                    "command": "lvcanturninglights"
+                  },
+                  "command": "text_command",
+                  "description": "LVCAN adapter",
+                  "service": "ric-gate",
+                  "_inactive": false,
+                  "_parentId": "control"
+                }
+              ],
+              "_inactive": false,
+              "_parentId": "cmds"
+            }
+          ],
+          "_inactive": false,
+          "_parentId": "root"
+        }
+      ],
+      "_at": 1594369140752,
+      "base": "wialon-ips",
+      "_inactive": false
+    },
+    "props": {
+      "bots": false,
+      "hardwareEvents": false,
+      "helper": "",
+      "prefix": "teltonika:",
+      "order": 5,
+      "typeInput": {
+        "hidden": false
+      },
+      "statusInput": {
+        "hidden": false
+      },
+      "descriptionInput": {
+        "hidden": false
+      },
+      "protocol": "teltonika",
+      "idPattern": "teltonika:<imei>",
+      "defaultGateCommandTimeout": 45
+    },
+    "owner": "000000000000000000000000",
+    "group": "000000000000000000000000",
+    "time": 1794808342672
+  }
+}

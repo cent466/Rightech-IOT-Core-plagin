@@ -1,0 +1,2212 @@
+{
+  "version": 1,
+  "origin": "dev.rightech.io",
+  "time": "2026-11-16T05:48:58.887Z",
+  "user": "000000000000000000000000",
+  "group": "000000000000000000000000",
+  "store": "models",
+  "data": {
+    "_id": "6afa99476dbf88c2d393e1bf",
+    "name": "Arnavi3",
+    "base": "arnavi3",
+    "mixins": [],
+    "data": {
+      "id": "root",
+      "active": true,
+      "name": "Arnavi3",
+      "type": "subsystem",
+      "children": [
+        {
+          "id": "external-software-modules",
+          "active": true,
+          "copy": true,
+          "type": "subsystem",
+          "children": [],
+          "name": "External software modules",
+          "_inactive": false,
+          "_parentId": "root"
+        },
+        {
+          "id": "params",
+          "name": "Параметры",
+          "active": true,
+          "type": "subsystem",
+          "children": [
+            {
+              "id": "times",
+              "name": "Время",
+              "active": true,
+              "type": "subsystem",
+              "children": [
+                {
+                  "id": "time",
+                  "name": "Время измерения",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "unit": "duration-millisecond",
+                  "reference": "time",
+                  "factor": 1000,
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "times"
+                }
+              ],
+              "_inactive": false,
+              "_parentId": "params"
+            },
+            {
+              "id": "calcBattery",
+              "name": "Заряд батареи",
+              "active": true,
+              "type": "subsystem",
+              "children": [
+                {
+                  "id": "accumulator",
+                  "name": "Напряжение аккумулятора",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "unit": "electric-volt",
+                  "reference": "tag_1.second",
+                  "display": {
+                    "svg": null
+                  },
+                  "parse": "2",
+                  "factor": 0.001,
+                  "description": "Internal voltage (battery)",
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "calcBattery"
+                },
+                {
+                  "id": "powerExt",
+                  "name": "Внешнее напряжение",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "unit": "electric-volt",
+                  "reference": "tag_1.first",
+                  "parse": "2",
+                  "factor": 0.001,
+                  "description": "External voltage",
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "calcBattery"
+                }
+              ],
+              "_inactive": false,
+              "_parentId": "params"
+            },
+            {
+              "id": "jvw7l08m",
+              "name": "GPS",
+              "active": true,
+              "type": "subsystem",
+              "factor": 1,
+              "children": [
+                {
+                  "id": "speed",
+                  "name": "Скорость",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_5.speed",
+                  "unit": "speed-kilometer-per-hour",
+                  "factor": 1.852,
+                  "display": {},
+                  "linear": true,
+                  "children": [],
+                  "description": "speed",
+                  "levels": {
+                    "type": "range",
+                    "value": [
+                      {
+                        "color": "#a2ce4b",
+                        "name": "-Infinity",
+                        "value": {
+                          "a": "-Infinity",
+                          "b": 0
+                        }
+                      },
+                      {
+                        "color": "#a2ce4b",
+                        "name": "Min",
+                        "value": {
+                          "a": 0,
+                          "b": 3
+                        }
+                      },
+                      {
+                        "color": "#f3d54e",
+                        "name": "3",
+                        "value": {
+                          "a": 3,
+                          "b": 10
+                        }
+                      },
+                      {
+                        "color": "#ffae62",
+                        "name": "Mid",
+                        "value": {
+                          "a": 10,
+                          "b": 20
+                        }
+                      },
+                      {
+                        "color": "#f16059",
+                        "name": "Max",
+                        "value": {
+                          "a": 20,
+                          "b": "Infinity"
+                        }
+                      }
+                    ],
+                    "svg": null
+                  },
+                  "_inactive": false,
+                  "_parentId": "jvw7l08m"
+                },
+                {
+                  "id": "altitude",
+                  "name": "Высота",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_5.altitude",
+                  "unit": "length-meter",
+                  "factor": 10,
+                  "description": "height",
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "jvw7l08m"
+                },
+                {
+                  "id": "angle",
+                  "name": "Курс",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_5.azimut",
+                  "unit": "angle-degree",
+                  "factor": 2,
+                  "linear": true,
+                  "description": "course",
+                  "_inactive": false,
+                  "_parentId": "jvw7l08m"
+                }
+              ],
+              "_inactive": false,
+              "_parentId": "params"
+            },
+            {
+              "id": "virtual",
+              "name": "Виртуальные сенсоры",
+              "active": true,
+              "type": "subsystem",
+              "children": [
+                {
+                  "id": "vs_61",
+                  "name": "Скорость",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_190.vs_61",
+                  "children": [],
+                  "factor": 1,
+                  "linear": true,
+                  "unit": "speed-kilometer-per-hour",
+                  "description": "DI (tacho card number) for driver 1 second part",
+                  "_inactive": false,
+                  "_parentId": "virtual"
+                },
+                {
+                  "id": "vs_63",
+                  "name": "Тип, флаги состояний",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_190.vs_63",
+                  "children": [],
+                  "linear": true,
+                  "factor": 1,
+                  "description": "DI (tacho card number) for driver 2 first part",
+                  "_inactive": false,
+                  "_parentId": "virtual"
+                },
+                {
+                  "id": "vs_66",
+                  "name": "Заряд осн. батареи",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_190.vs_66",
+                  "children": [],
+                  "linear": true,
+                  "factor": 1,
+                  "unit": "percent",
+                  "description": "Tachograph TCO1 FMS",
+                  "_inactive": false,
+                  "_parentId": "virtual"
+                },
+                {
+                  "id": "vs_67",
+                  "name": "Заряд доп. батареи",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_190.vs_67",
+                  "children": [],
+                  "linear": true,
+                  "factor": 1,
+                  "unit": "percent",
+                  "description": "Tachograph  DRIVER1_DRIVE_TIME",
+                  "_inactive": false,
+                  "_parentId": "virtual"
+                },
+                {
+                  "id": "vs_68",
+                  "name": "Код ошибки",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_190.vs_68",
+                  "children": [],
+                  "linear": true,
+                  "factor": 1,
+                  "description": "Tachograph  DRIVER2_DRIVE_TIME",
+                  "_inactive": false,
+                  "_parentId": "virtual"
+                },
+                {
+                  "id": "vs_62",
+                  "name": "Средний заряд батареи",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_190.vs_62",
+                  "children": [],
+                  "linear": true,
+                  "factor": 1,
+                  "unit": "percent",
+                  "description": "DI (tacho card number) for driver 1 third part",
+                  "_inactive": false,
+                  "_parentId": "virtual"
+                },
+                {
+                  "id": "vs_69",
+                  "name": "Пробег за поездку",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_190.vs_69",
+                  "children": [],
+                  "linear": true,
+                  "factor": 1,
+                  "description": "Tachograph  DRIVER1_TOTAL_DRIVE_TIME",
+                  "_inactive": false,
+                  "_parentId": "virtual"
+                },
+                {
+                  "id": "vs_70",
+                  "name": "Ошибки контроллера",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_190.vs_70",
+                  "children": [],
+                  "linear": true,
+                  "factor": 1,
+                  "description": "Tachograph  DRIVER2_TOTAL_DRIVE_TIME",
+                  "_inactive": false,
+                  "_parentId": "virtual"
+                },
+                {
+                  "id": "vs_71",
+                  "name": "Ошибки BMS",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_190.vs_71",
+                  "children": [],
+                  "linear": true,
+                  "factor": 1,
+                  "description": "Tachograph  DRIVER1_REST_TIME",
+                  "_inactive": false,
+                  "_parentId": "virtual"
+                }
+              ],
+              "_inactive": false,
+              "_parentId": "params"
+            },
+            {
+              "id": "d_status",
+              "name": "Статус устройства",
+              "active": true,
+              "type": "subsystem",
+              "children": [
+                {
+                  "id": "lock",
+                  "name": "Замок закрыт",
+                  "active": true,
+                  "type": "argument",
+                  "description": "st2 - Status of plugs\nСостояние замка 0 - открыт 1 - закрыт",
+                  "dataType": "boolean",
+                  "reference": "tag_9.serviceSensor2",
+                  "display": {},
+                  "_inactive": false,
+                  "_parentId": "d_status"
+                },
+                {
+                  "id": "moveSensor",
+                  "name": "Движение есть",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "boolean",
+                  "reference": "tag_9.moveSensor",
+                  "description": "Motion Sensor",
+                  "_inactive": false,
+                  "_parentId": "d_status"
+                },
+                {
+                  "id": "isSim",
+                  "name": "Наличие сим-карты",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "boolean",
+                  "reference": "tag_9.isSim",
+                  "description": "the presence of a SIM card / SIM-chip",
+                  "_inactive": false,
+                  "_parentId": "d_status"
+                },
+                {
+                  "id": "simNumber",
+                  "name": "Номер сим-карты",
+                  "active": true,
+                  "type": "argument",
+                  "description": "SIM card / SIM-chip\n1 - sim-chip, 0 - sim-card\n",
+                  "dataType": "number",
+                  "reference": "tag_9.simNumber",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "d_status"
+                },
+                {
+                  "id": "gsm",
+                  "name": "GSM",
+                  "active": true,
+                  "type": "argument",
+                  "description": "the state of the GSM modem\n0 -  выкл, 1 - регистрация в сети, 2 - соед. с сервером, 3 -  ответы от сервера (норма) ",
+                  "dataType": "number",
+                  "reference": "tag_9.gsm",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "d_status"
+                },
+                {
+                  "id": "gps",
+                  "name": "GPS/Glonass",
+                  "active": true,
+                  "type": "argument",
+                  "description": "the state of GPS / Glonass module\n0 -  выключен, 1 - поиск спутников, 2 - <8 спутников, 3 - больше 8 спутников (норма)",
+                  "dataType": "number",
+                  "reference": "tag_9.gps",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "d_status"
+                },
+                {
+                  "id": "serviceSensor0",
+                  "name": "Режим работы",
+                  "active": true,
+                  "type": "argument",
+                  "description": "st0 - mode service / sensor opening\n0 - мониторинг, 1 - охрана\n",
+                  "dataType": "number",
+                  "reference": "tag_9.serviceSensor0",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "d_status"
+                },
+                {
+                  "id": "serviceSensor1",
+                  "name": "Охрана",
+                  "active": true,
+                  "type": "argument",
+                  "description": "st1 - SOS mode monitor / alarm mode protection / 1-wire discrete mode",
+                  "dataType": "boolean",
+                  "reference": "tag_9.serviceSensor1",
+                  "_inactive": false,
+                  "_parentId": "d_status"
+                },
+                {
+                  "id": "inPower",
+                  "name": "Заряд резервного аккумулятора",
+                  "active": true,
+                  "type": "argument",
+                  "description": "Backup battery status",
+                  "dataType": "number",
+                  "reference": "tag_9.inPower",
+                  "unit": "electric-volt",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "d_status"
+                },
+                {
+                  "id": "battery",
+                  "name": "Внешнее напряжение",
+                  "active": true,
+                  "type": "argument",
+                  "description": "external voltage",
+                  "dataType": "number",
+                  "reference": "tag_9.extPower",
+                  "unit": "electric-volt",
+                  "factor": 0.15,
+                  "display": {},
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "d_status"
+                },
+                {
+                  "id": "js5z5vtq",
+                  "name": "Входы",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "children": [
+                    {
+                      "id": "in0",
+                      "name": "Вход 0",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "boolean",
+                      "reference": "tag_9.in.0",
+                      "description": "Input IN0 - in Wialon in1",
+                      "_inactive": false,
+                      "_parentId": "js5z5vtq"
+                    },
+                    {
+                      "id": "in1",
+                      "name": "Вход 1",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "boolean",
+                      "reference": "tag_9.in.1",
+                      "description": "Input IN1 - in Wialon in2",
+                      "_inactive": false,
+                      "_parentId": "js5z5vtq"
+                    },
+                    {
+                      "id": "in2",
+                      "name": "Вход 2",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "boolean",
+                      "reference": "tag_9.in.2",
+                      "description": "Input IN2 - in Wialon in3",
+                      "_inactive": false,
+                      "_parentId": "js5z5vtq"
+                    },
+                    {
+                      "id": "in3",
+                      "name": "Вход 3",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "boolean",
+                      "reference": "tag_9.in.3",
+                      "description": "Input IN3 - in Wialon in4",
+                      "_inactive": false,
+                      "_parentId": "js5z5vtq"
+                    },
+                    {
+                      "id": "in4",
+                      "name": "Вход 4",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "boolean",
+                      "reference": "tag_9.in.4",
+                      "description": "Input IN4 - in Wialon in5",
+                      "_inactive": false,
+                      "_parentId": "js5z5vtq"
+                    },
+                    {
+                      "id": "in5",
+                      "name": "Вход 5",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "boolean",
+                      "reference": "tag_9.in.5",
+                      "description": "Input IN5 - in Wialon in6",
+                      "_inactive": false,
+                      "_parentId": "js5z5vtq"
+                    },
+                    {
+                      "id": "in6",
+                      "name": "Вход 6",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "boolean",
+                      "reference": "tag_9.in.6",
+                      "description": "Input IN6 - in Wialon in7",
+                      "_inactive": false,
+                      "_parentId": "js5z5vtq"
+                    },
+                    {
+                      "id": "in7",
+                      "name": "Вход 7",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "boolean",
+                      "reference": "tag_9.in.7",
+                      "description": "Input IN7 - in Wialon in8",
+                      "_inactive": false,
+                      "_parentId": "js5z5vtq"
+                    }
+                  ],
+                  "_inactive": false,
+                  "_parentId": "d_status"
+                },
+                {
+                  "id": "js5z6o97",
+                  "name": "Выходы",
+                  "active": true,
+                  "type": "subsystem",
+                  "source": "state",
+                  "dataType": "number",
+                  "children": [
+                    {
+                      "id": "out0",
+                      "name": "Выход 0",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "boolean",
+                      "reference": "tag_9.out.0",
+                      "description": "Output OUT0 - in Wialon out1",
+                      "_inactive": false,
+                      "_parentId": "js5z6o97"
+                    },
+                    {
+                      "id": "out1",
+                      "name": "Выход 1",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "boolean",
+                      "reference": "tag_9.out.1",
+                      "description": "Output OUT1 - in Wialon out2",
+                      "_inactive": false,
+                      "_parentId": "js5z6o97"
+                    },
+                    {
+                      "id": "out2",
+                      "name": "Выход 2",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "boolean",
+                      "reference": "tag_9.out.2",
+                      "description": "Output OUT2 - in Wialon out3",
+                      "_inactive": false,
+                      "_parentId": "js5z6o97"
+                    },
+                    {
+                      "id": "out3",
+                      "name": "Выход 3",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "boolean",
+                      "reference": "tag_9.out.3",
+                      "description": "Output OUT3 - in Wialon out4",
+                      "_inactive": false,
+                      "_parentId": "js5z6o97"
+                    }
+                  ],
+                  "_inactive": false,
+                  "_parentId": "d_status"
+                }
+              ],
+              "_inactive": false,
+              "_parentId": "params"
+            },
+            {
+              "id": "d_status2",
+              "name": "Статус устройства - 2",
+              "active": true,
+              "type": "subsystem",
+              "children": [
+                {
+                  "id": "nav_st",
+                  "name": "Состояние GPS/Glonass",
+                  "active": true,
+                  "type": "argument",
+                  "description": "Статус GPS /ГЛОНАСС\n0 - выключен\n1 - включен\n2 - включен, NMEA OK, поиск спутников\n3 - 3D fix",
+                  "dataType": "number",
+                  "reference": "tag_99.nav_st",
+                  "factor": 1,
+                  "display": {},
+                  "linear": true,
+                  "children": [],
+                  "levels": {
+                    "type": "range",
+                    "value": [
+                      {
+                        "color": "#f16059",
+                        "name": "-Infinity",
+                        "value": {
+                          "a": "-Infinity",
+                          "b": 1
+                        }
+                      },
+                      {
+                        "color": "#f3d54e",
+                        "name": "Min",
+                        "value": {
+                          "a": 1,
+                          "b": 2
+                        }
+                      },
+                      {
+                        "color": "#ffae62",
+                        "name": "Mid",
+                        "value": {
+                          "a": 2,
+                          "b": 2.9
+                        }
+                      },
+                      {
+                        "color": "#a2ce4b",
+                        "name": "Max",
+                        "value": {
+                          "a": 2.9,
+                          "b": "Infinity"
+                        }
+                      }
+                    ],
+                    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 20 20\"><path d=\"M8.6 13.7c-.8.8-.8 2 0 2.8.1.1.3.2.4.3V20h1.7v-3.1c.2-.1.5-.2.7-.4.8-.8.8-2 0-2.8-.8-.7-2-.7-2.8 0zm2.1 1.6c-.4 0-.7-.3-.7-.7 0-.4.3-.7.7-.7.4 0 .7.3.7.7-.1.4-.4.7-.7.7zM10 2.9c-4.1 0-7.6 2-10 5l1.8 1.7C3.7 7.1 6.6 5.4 10 5.4c3.4 0 6.3 1.7 8.3 4.2L20 7.9c-2.4-3-5.9-5-10-5zm0 5c-2.7 0-5.1 1.3-6.6 3.4l1.8 1.8c1-1.6 2.8-2.7 4.8-2.7s3.8 1.1 4.8 2.7l1.8-1.8c-1.4-2.1-3.9-3.4-6.6-3.4z\"></path></svg>"
+                  },
+                  "_inactive": false,
+                  "_parentId": "d_status2"
+                },
+                {
+                  "id": "gsm_st",
+                  "name": "Состояние GSM",
+                  "active": true,
+                  "type": "argument",
+                  "description": "Cтатус GSM\n0 - выключен\n1 - включен \n2 - AT Ok\n3 - активация GPRS\n4 - GPRS Ok (на актвной сим-карте)",
+                  "dataType": "number",
+                  "reference": "tag_99.gsm_st",
+                  "factor": 1,
+                  "display": {},
+                  "linear": true,
+                  "children": [],
+                  "levels": {
+                    "type": "range",
+                    "value": [
+                      {
+                        "color": "#f16059",
+                        "name": "-Infinity",
+                        "value": {
+                          "a": "-Infinity",
+                          "b": 0
+                        }
+                      },
+                      {
+                        "color": "#f16059",
+                        "name": "Min",
+                        "value": {
+                          "a": 0,
+                          "b": 2
+                        }
+                      },
+                      {
+                        "color": "#ffae62",
+                        "name": "Mid",
+                        "value": {
+                          "a": 2,
+                          "b": 2.9
+                        }
+                      },
+                      {
+                        "color": "#a2ce4b",
+                        "name": "Max",
+                        "value": {
+                          "a": 2.9,
+                          "b": "Infinity"
+                        }
+                      }
+                    ],
+                    "svg": "<svg viewBox=\"0 0 20 20\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M10 16.6c-1.7 0-3.1 1.3-3.4 2.9 0 .3.2.5.4.5h5.9c.2 0 .4-.2.4-.4-.2-1.7-1.6-3-3.3-3zM0 8h6v2H0zM0 11h6v2H0zM14 8h6v2h-6zM14 11h6v2h-6zM12.5 16c.3 0 .5-.2.5-.5V7.3c0-.3-.2-.6-.5-.6h-.2v-.1c0-.3-.2-.6-.5-.6H8.4c-.3 0-.5.3-.5.6v.1h-.2c-.3 0-.6.2-.7.5v8.2c0 .4.4.6.7.6h4.8zM10 2C8.1 2 6.6 3.6 6.5 5.6h1.1c0-1.4 1.1-2.5 2.4-2.5s2.4 1.1 2.4 2.5h1.2C13.4 3.6 11.9 2 10 2z\"></path><path d=\"M10 1.3c2.4 0 4.4 1.9 4.4 4.4h1.2C15.6 2.5 13.1 0 10 0 6.9 0 4.4 2.5 4.4 5.6h1.2c0-2.4 2-4.3 4.4-4.3z\"></path></svg>"
+                  },
+                  "_inactive": false,
+                  "_parentId": "d_status2"
+                },
+                {
+                  "id": "sim_t",
+                  "name": "Номер сим-карты",
+                  "active": true,
+                  "type": "argument",
+                  "description": "Активная SIM\n0 - SIM1, 1 - SIM2\n",
+                  "dataType": "number",
+                  "reference": "tag_99.sim_t",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "d_status2"
+                },
+                {
+                  "id": "sim1_st",
+                  "name": "Статус сим-карты 1",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_99.sim1_st",
+                  "description": "status SIM card 1 GSM\n0 - нет симкарты\n1 - регистрация в дом сети\n2 - поиск сети\n3 - регистрация отклонена\n4 - резерв\n5 - регистрация роуминг\n6 - ошибка ПИН\n7 - резерв",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "d_status2"
+                },
+                {
+                  "id": "sim2_st",
+                  "name": "Статус сим-карты 2",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_99.sim2_st",
+                  "description": "status SIM card 2 GSM\n0 - нет симкарты\n1 - регистрация в дом сети\n2 - поиск сети\n3 - регистрация отклонена\n4 - резерв\n5 - регистрация роуминг\n6 - ошибка ПИН\n7 - резерв",
+                  "children": [],
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "d_status2"
+                },
+                {
+                  "id": "s0_st",
+                  "name": "Статус сервера 0",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_99.s0_st",
+                  "description": "Статус Сервера 0\n0 - не используется / CLOSED\n1 - установка соединения / CONNECTING\n2 - соединение установлено / CONNECT OK\n3 - резерв",
+                  "linear": true,
+                  "factor": 1,
+                  "children": [],
+                  "_inactive": false,
+                  "_parentId": "d_status2"
+                },
+                {
+                  "id": "s1_st",
+                  "name": "Статус сервера 1",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_99.s1_st",
+                  "description": "Статус Сервера 1\n0 - не используется / CLOSED\n1 - установка соединения / CONNECTING\n2 - соединение установлено / CONNECT OK\n3 - резерв",
+                  "linear": true,
+                  "factor": 1,
+                  "children": [],
+                  "_inactive": false,
+                  "_parentId": "d_status2"
+                },
+                {
+                  "id": "s2_st",
+                  "name": "Статус сервера 2",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_99.s2_st",
+                  "description": "Статус Сервера 2\n0 - не используется / CLOSED\n1 - установка соединения / CONNECTING\n2 - соединение установлено / CONNECT OK\n3 - резерв",
+                  "linear": true,
+                  "factor": 1,
+                  "children": [],
+                  "_inactive": false,
+                  "_parentId": "d_status2"
+                },
+                {
+                  "id": "s3_st",
+                  "name": "Статус сервера 3",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_99.s3_st",
+                  "description": "Статус Сервера 3\n0 - не используется / CLOSED\n1 - установка соединения / CONNECTING\n2 - соединение установлено / CONNECT OK\n3 - резерв",
+                  "linear": true,
+                  "factor": 1,
+                  "children": [],
+                  "_inactive": false,
+                  "_parentId": "d_status2"
+                },
+                {
+                  "id": "mw",
+                  "name": "Акселерометр",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_99.mw",
+                  "description": "Акселерометр\n0 - стоянка\n1 - движение \n2 - ошибка \n3 - ошибка самотестирования",
+                  "linear": true,
+                  "factor": 1,
+                  "children": [],
+                  "_inactive": false,
+                  "_parentId": "d_status2"
+                },
+                {
+                  "id": "os",
+                  "name": "Датчик вскрытия",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "boolean",
+                  "reference": "tag_99.os",
+                  "description": "Датчик вскрытия\n0 - закрыто, 1 - открыто",
+                  "linear": true,
+                  "factor": 1,
+                  "children": [],
+                  "unit": null,
+                  "_inactive": false,
+                  "_parentId": "d_status2"
+                },
+                {
+                  "id": "msd",
+                  "name": "Карта MicroSD",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_99.msd",
+                  "description": "карта MicroSD\n0 - нет\n1 - есть\n2 - ошибка\n3 - резерв",
+                  "linear": true,
+                  "factor": 1,
+                  "children": [],
+                  "_inactive": false,
+                  "_parentId": "d_status2"
+                },
+                {
+                  "id": "bt",
+                  "name": "Bluetooth",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "boolean",
+                  "reference": "tag_99.bt",
+                  "description": "Bluetooth\n0 - выключен\n1 - включен ",
+                  "linear": true,
+                  "factor": 1,
+                  "children": [],
+                  "unit": null,
+                  "_inactive": false,
+                  "_parentId": "d_status2"
+                },
+                {
+                  "id": "gyro",
+                  "name": "Гироскоп",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_99.gyro",
+                  "description": "Гироскоп\n0 - сервис/транспортировка\n1 - разблокирован \n2 - заблокировано только колесо \n3 - охрана включена",
+                  "linear": true,
+                  "factor": 1,
+                  "children": [],
+                  "_inactive": false,
+                  "_parentId": "d_status2"
+                }
+              ],
+              "_inactive": false,
+              "_parentId": "params"
+            },
+            {
+              "id": "coords",
+              "name": "Координаты",
+              "active": true,
+              "type": "subsystem",
+              "source": "state",
+              "dataType": "number",
+              "children": [
+                {
+                  "id": "sat_gps",
+                  "name": "GPS",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_5.nGps",
+                  "factor": 1,
+                  "linear": true,
+                  "description": "satellites",
+                  "_inactive": false,
+                  "_parentId": "coords"
+                },
+                {
+                  "id": "sat_glonass",
+                  "name": "Glonass",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_5.nGlonass",
+                  "factor": 1,
+                  "linear": true,
+                  "description": "satellites",
+                  "_inactive": false,
+                  "_parentId": "coords"
+                },
+                {
+                  "id": "lat",
+                  "name": "Широта",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_3",
+                  "unit": "angle-degree",
+                  "description": "Latitude (latitude)",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "coords"
+                },
+                {
+                  "id": "lon",
+                  "name": "Долгота",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_4",
+                  "unit": "angle-degree",
+                  "description": "Longitude (longitude)",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "coords"
+                },
+                {
+                  "id": "level",
+                  "name": "Уровень сигнала",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_8.level",
+                  "factor": 1,
+                  "description": "Signal level GSM",
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "coords"
+                },
+                {
+                  "id": "mnc",
+                  "name": "Код сотовой сети",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_8.mnc",
+                  "description": "MNC\nМТС-01, МегаФон-02, СМАРТС-07, Билайн-99",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "coords"
+                },
+                {
+                  "id": "mcc",
+                  "name": "Код страны",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_8.mcc",
+                  "description": "MCC\nРоссия-250, Украина-255, Белоруссия-257",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "coords"
+                }
+              ],
+              "_inactive": false,
+              "_parentId": "params"
+            },
+            {
+              "id": "cmd-status",
+              "name": "Статус команды",
+              "active": true,
+              "type": "subsystem",
+              "children": [
+                {
+                  "id": "ec",
+                  "name": "Код ошибки",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "description": "0 - нет ошибки",
+                  "factor": 1,
+                  "linear": true,
+                  "reference": "error",
+                  "_inactive": false,
+                  "_parentId": "cmd-status"
+                },
+                {
+                  "id": "cmd-res",
+                  "name": "Команда",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "string",
+                  "linear": true,
+                  "factor": 1,
+                  "description": "Команда в формате HEX",
+                  "reference": "command",
+                  "children": [],
+                  "unit": null,
+                  "_inactive": false,
+                  "_parentId": "cmd-status"
+                }
+              ],
+              "_inactive": false,
+              "_parentId": "params"
+            },
+            {
+              "id": "pin",
+              "name": "Пины",
+              "active": true,
+              "type": "subsystem",
+              "children": [
+                {
+                  "id": "pin-in0",
+                  "name": "Вход 0",
+                  "active": true,
+                  "type": "subsystem",
+                  "children": [
+                    {
+                      "id": "puls0",
+                      "name": "Импульсы",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "reference": "tag_6_6_0.inData",
+                      "factor": 1,
+                      "linear": true,
+                      "_inactive": false,
+                      "_parentId": "pin-in0"
+                    },
+                    {
+                      "id": "fr0",
+                      "name": "Частота",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "unit": "frequency-hertz",
+                      "reference": "tag_6_7_0.inData",
+                      "factor": 1,
+                      "linear": true,
+                      "_inactive": false,
+                      "_parentId": "pin-in0"
+                    },
+                    {
+                      "id": "volt0",
+                      "name": "Напряжение",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "unit": "electric-volt",
+                      "reference": "tag_6_8_0.inData",
+                      "factor": 0.001,
+                      "linear": true,
+                      "_inactive": false,
+                      "_parentId": "pin-in0"
+                    }
+                  ],
+                  "_inactive": false,
+                  "_parentId": "pin"
+                },
+                {
+                  "id": "pin-in1",
+                  "name": "Вход 1",
+                  "active": true,
+                  "type": "subsystem",
+                  "children": [
+                    {
+                      "id": "puls1",
+                      "name": "Импульсы",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "reference": "tag_6_6_1.inData",
+                      "factor": 1,
+                      "linear": true,
+                      "_inactive": false,
+                      "_parentId": "pin-in1"
+                    },
+                    {
+                      "id": "fr1",
+                      "name": "Частота",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "unit": "frequency-hertz",
+                      "reference": "tag_6_7_1.inData",
+                      "factor": 1,
+                      "linear": true,
+                      "_inactive": false,
+                      "_parentId": "pin-in1"
+                    },
+                    {
+                      "id": "volt1",
+                      "name": "Напряжение",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "unit": "electric-volt",
+                      "reference": "tag_6_8_1.inData",
+                      "factor": 0.001,
+                      "linear": true,
+                      "_inactive": false,
+                      "_parentId": "pin-in1"
+                    }
+                  ],
+                  "_inactive": false,
+                  "_parentId": "pin"
+                },
+                {
+                  "id": "pin-in2",
+                  "name": "Вход 2",
+                  "active": true,
+                  "type": "subsystem",
+                  "children": [
+                    {
+                      "id": "puls2",
+                      "name": "Импульсы",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "reference": "tag_6_6_2.inData",
+                      "factor": 1,
+                      "linear": true,
+                      "_inactive": false,
+                      "_parentId": "pin-in2"
+                    },
+                    {
+                      "id": "fr2",
+                      "name": "Частота",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "unit": "frequency-hertz",
+                      "reference": "tag_6_7_2.inData",
+                      "factor": 1,
+                      "linear": true,
+                      "_inactive": false,
+                      "_parentId": "pin-in2"
+                    },
+                    {
+                      "id": "volt2",
+                      "name": "Напряжение",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "unit": "electric-volt",
+                      "reference": "tag_6_8_2.inData",
+                      "factor": 0.001,
+                      "linear": true,
+                      "_inactive": false,
+                      "_parentId": "pin-in2"
+                    }
+                  ],
+                  "_inactive": false,
+                  "_parentId": "pin"
+                }
+              ],
+              "_inactive": false,
+              "_parentId": "params"
+            },
+            {
+              "id": "pulses",
+              "name": "Количество импульсов по входам",
+              "active": true,
+              "type": "subsystem",
+              "children": [
+                {
+                  "id": "p_in0",
+                  "name": "Вход 0",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_10",
+                  "factor": 1,
+                  "linear": true,
+                  "description": "IMPS_0",
+                  "_inactive": false,
+                  "_parentId": "pulses"
+                },
+                {
+                  "id": "p_in1",
+                  "name": "Вход 1",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_11",
+                  "description": "IMPS_1",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "pulses"
+                },
+                {
+                  "id": "p_in2",
+                  "name": "Вход 2",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_12",
+                  "factor": 1,
+                  "linear": true,
+                  "description": "IMPS_2",
+                  "_inactive": false,
+                  "_parentId": "pulses"
+                },
+                {
+                  "id": "p_in3",
+                  "name": "Вход 3",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_13",
+                  "description": "IMPS_3",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "pulses"
+                },
+                {
+                  "id": "p_in4",
+                  "name": "Вход 4",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_14",
+                  "description": "IMPS_4",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "pulses"
+                },
+                {
+                  "id": "p_in5",
+                  "name": "Вход 5",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_15",
+                  "description": "IMPS_5",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "pulses"
+                },
+                {
+                  "id": "p_in6",
+                  "name": "Вход 6",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_16",
+                  "description": "IMPS_6",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "pulses"
+                },
+                {
+                  "id": "p_in7",
+                  "name": "Вход 7",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_17",
+                  "description": "IMPS_7",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "pulses"
+                }
+              ],
+              "_inactive": false,
+              "_parentId": "params"
+            },
+            {
+              "id": "digits",
+              "name": "Дискретное состояние входов/выходов",
+              "active": true,
+              "type": "subsystem",
+              "description": "Побитово\nСостояния зажигания, замков и фонарика/сирены передается в тэге 6 в\nподтэге 0х01 - дискретные состояния входов/выходов",
+              "dataType": "number",
+              "factor": 1,
+              "linear": true,
+              "source": "state",
+              "children": [
+                {
+                  "id": "digit0",
+                  "name": "Зажигание",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "boolean",
+                  "factor": 1,
+                  "linear": true,
+                  "reference": "tag_6_1.0",
+                  "unit": null,
+                  "description": "виртуальное зажигание",
+                  "_inactive": false,
+                  "_parentId": "digits"
+                },
+                {
+                  "id": "digit1",
+                  "name": "Кнопка вызова",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "boolean",
+                  "factor": 1,
+                  "linear": true,
+                  "reference": "tag_6_1.1",
+                  "unit": null,
+                  "description": "кнопка вызова",
+                  "children": [],
+                  "_inactive": false,
+                  "_parentId": "digits"
+                }
+              ],
+              "_inactive": false,
+              "_parentId": "params"
+            },
+            {
+              "id": "freq",
+              "name": "Частота по входам",
+              "active": true,
+              "type": "subsystem",
+              "children": [
+                {
+                  "id": "f_in0",
+                  "name": "Вход 0",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_20",
+                  "description": "FREQ_0",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "freq"
+                },
+                {
+                  "id": "f_in1",
+                  "name": "Вход 1",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_21",
+                  "description": "FREQ_1",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "freq"
+                },
+                {
+                  "id": "f_in2",
+                  "name": "Вход 2",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_22",
+                  "description": "FREQ_2",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "freq"
+                },
+                {
+                  "id": "f_in3",
+                  "name": "Вход 3",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_23",
+                  "description": "FREQ_3",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "freq"
+                },
+                {
+                  "id": "f_in4",
+                  "name": "Вход 4",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_24",
+                  "description": "FREQ_4",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "freq"
+                },
+                {
+                  "id": "f_in5",
+                  "name": "Вход 5",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_25",
+                  "description": "FREQ_5",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "freq"
+                },
+                {
+                  "id": "f_in6",
+                  "name": "Вход 6",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_26",
+                  "description": "FREQ_6",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "freq"
+                },
+                {
+                  "id": "f_in7",
+                  "name": "Вход 7",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_27",
+                  "description": "FREQ_7",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "freq"
+                }
+              ],
+              "_inactive": false,
+              "_parentId": "params"
+            },
+            {
+              "id": "volt",
+              "name": "Напряжение по входам",
+              "active": true,
+              "type": "subsystem",
+              "children": [
+                {
+                  "id": "v_in0",
+                  "name": "Вход 0",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_30",
+                  "description": "VOLT_0",
+                  "factor": 1,
+                  "linear": true,
+                  "unit": "electric-millivolt",
+                  "_inactive": false,
+                  "_parentId": "volt"
+                },
+                {
+                  "id": "v_in1",
+                  "name": "Вход 1",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_31",
+                  "description": "VOLT_1",
+                  "factor": 1,
+                  "linear": true,
+                  "unit": "electric-millivolt",
+                  "_inactive": false,
+                  "_parentId": "volt"
+                },
+                {
+                  "id": "v_in2",
+                  "name": "Вход 2",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_32",
+                  "factor": 1,
+                  "linear": true,
+                  "description": "VOLT_2",
+                  "unit": "electric-millivolt",
+                  "_inactive": false,
+                  "_parentId": "volt"
+                },
+                {
+                  "id": "v_in3",
+                  "name": "Вход 3",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_33",
+                  "description": "VOLT_3",
+                  "factor": 1,
+                  "linear": true,
+                  "unit": "electric-millivolt",
+                  "_inactive": false,
+                  "_parentId": "volt"
+                },
+                {
+                  "id": "v_in4",
+                  "name": "Вход 4",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_34",
+                  "description": "VOLT_4",
+                  "factor": 1,
+                  "linear": true,
+                  "unit": "electric-millivolt",
+                  "_inactive": false,
+                  "_parentId": "volt"
+                },
+                {
+                  "id": "v_in5",
+                  "name": "Вход 5",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_35",
+                  "description": "VOLT_5",
+                  "factor": 1,
+                  "linear": true,
+                  "unit": "electric-millivolt",
+                  "_inactive": false,
+                  "_parentId": "volt"
+                },
+                {
+                  "id": "v_in6",
+                  "name": "Вход 6",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_36",
+                  "description": "VOLT_6",
+                  "factor": 1,
+                  "linear": true,
+                  "unit": "electric-millivolt",
+                  "_inactive": false,
+                  "_parentId": "volt"
+                },
+                {
+                  "id": "v_in7",
+                  "name": "Вход 7",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_37",
+                  "factor": 1,
+                  "linear": true,
+                  "description": "VOLT_7",
+                  "unit": "electric-millivolt",
+                  "_inactive": false,
+                  "_parentId": "volt"
+                }
+              ],
+              "_inactive": false,
+              "_parentId": "params"
+            },
+            {
+              "id": "temp_sensors",
+              "name": "Температурные датчики",
+              "active": true,
+              "type": "subsystem",
+              "children": [
+                {
+                  "id": "s0",
+                  "name": "Датчик 0",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_40",
+                  "description": "TEMP_0",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "temp_sensors"
+                },
+                {
+                  "id": "s1",
+                  "name": "Датчик 1",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_41",
+                  "description": "TEMP_1",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "temp_sensors"
+                },
+                {
+                  "id": "s2",
+                  "name": "Датчик 2",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_42",
+                  "description": "TEMP_2",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "temp_sensors"
+                },
+                {
+                  "id": "s3",
+                  "name": "Датчик 3",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_43",
+                  "description": "TEMP_3",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "temp_sensors"
+                },
+                {
+                  "id": "s4",
+                  "name": "Датчик 4",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_44",
+                  "description": "TEMP_4",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "temp_sensors"
+                },
+                {
+                  "id": "s5",
+                  "name": "Датчик 5",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_45",
+                  "description": "TEMP_5",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "temp_sensors"
+                },
+                {
+                  "id": "s6",
+                  "name": "Датчик 6",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_46",
+                  "description": "TEMP_6",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "temp_sensors"
+                },
+                {
+                  "id": "s7",
+                  "name": "Датчик 7",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_47",
+                  "description": "TEMP_7",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "temp_sensors"
+                },
+                {
+                  "id": "s8",
+                  "name": "Датчик 8",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_48",
+                  "description": "TEMP_8",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "temp_sensors"
+                },
+                {
+                  "id": "s9",
+                  "name": "Датчик 9",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_49",
+                  "description": "TEMP_9",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "temp_sensors"
+                }
+              ],
+              "_inactive": false,
+              "_parentId": "params"
+            },
+            {
+              "id": "can",
+              "name": "CAN",
+              "active": true,
+              "type": "subsystem",
+              "children": [
+                {
+                  "id": "can1",
+                  "name": "Пробег",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_53",
+                  "unit": "length-kilometer",
+                  "factor": 0.01,
+                  "linear": true,
+                  "description": "CAN - full run TC ",
+                  "_inactive": false,
+                  "_parentId": "can"
+                },
+                {
+                  "id": "can8",
+                  "name": "Температура",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_58",
+                  "unit": "temperature-celsius",
+                  "linear": true,
+                  "factor": 1,
+                  "description": "CAN - engine temperature",
+                  "_inactive": false,
+                  "_parentId": "can"
+                },
+                {
+                  "id": "can0",
+                  "name": "Полное время работы двигателя",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_52",
+                  "unit": "duration-hour",
+                  "factor": 0.01,
+                  "description": "CAN - total engine operating time",
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "can"
+                },
+                {
+                  "id": "can2",
+                  "name": "Полный расход топлива",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_54",
+                  "unit": "volume-liter",
+                  "factor": 0.1,
+                  "description": "CAN - full fuel consumption",
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "can"
+                },
+                {
+                  "id": "can3",
+                  "name": "Уровень топлива в баке (%)",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_55",
+                  "unit": "percent",
+                  "factor": 0.1,
+                  "description": "CAN - the fuel level in the tank",
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "can"
+                },
+                {
+                  "id": "can4",
+                  "name": "Уровень топлива в баке (л)",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_56",
+                  "unit": "volume-liter",
+                  "factor": 0.1,
+                  "description": "CAN - the fuel level in the tank",
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "can"
+                },
+                {
+                  "id": "can7",
+                  "name": "Скорость оборотов двигателя",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_57",
+                  "unit": "angle-revolution-per-minute",
+                  "description": "CAN - engine speed",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "can"
+                },
+                {
+                  "id": "can6",
+                  "name": "Скорость",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_59",
+                  "unit": "speed-kilometer-per-hour",
+                  "description": "CAN - Vehicle speed",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "can"
+                },
+                {
+                  "id": "can11",
+                  "name": "Давление на ось 1",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_60",
+                  "unit": "mass-kilogram",
+                  "description": "CAN - the pressure on the axis 1",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "can"
+                },
+                {
+                  "id": "can12",
+                  "name": "Давление на ось 2",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_61",
+                  "unit": "mass-kilogram",
+                  "description": "CAN - the pressure on the axis 2",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "can"
+                },
+                {
+                  "id": "can13",
+                  "name": "Давление на ось 3",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_62",
+                  "unit": "mass-kilogram",
+                  "description": "CAN - the pressure on the axis 3",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "can"
+                },
+                {
+                  "id": "can14",
+                  "name": "Давление на ось 4",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_63",
+                  "unit": "mass-kilogram",
+                  "description": "CAN - the pressure on the axis of 4",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "can"
+                },
+                {
+                  "id": "can15",
+                  "name": "Давление на ось 5",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_64",
+                  "unit": "mass-kilogram",
+                  "description": "CAN - pressure on the axle 5",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "can"
+                },
+                {
+                  "id": "can16",
+                  "name": "Тег 65",
+                  "active": false,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_65",
+                  "unit": "mass-kilogram",
+                  "children": [],
+                  "factor": 1,
+                  "linear": true,
+                  "description": "CAN - can_accident",
+                  "_inactive": true,
+                  "_parentId": "can"
+                },
+                {
+                  "id": "can17",
+                  "name": "Тег 66",
+                  "active": false,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_66",
+                  "unit": "electric-volt",
+                  "children": [],
+                  "linear": true,
+                  "factor": 1,
+                  "description": "CAN - Status Flags agricultural equipment",
+                  "_inactive": true,
+                  "_parentId": "can"
+                }
+              ],
+              "_inactive": false,
+              "_parentId": "params"
+            },
+            {
+              "id": "base",
+              "name": "Местоположение по базовой станции",
+              "active": true,
+              "type": "subsystem",
+              "children": [
+                {
+                  "id": "lac",
+                  "name": "Local Area Code",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_7.lac",
+                  "description": "LAC",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "base"
+                },
+                {
+                  "id": "cid",
+                  "name": "Cell ID",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_7.cid",
+                  "description": "CID",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": false,
+                  "_parentId": "base"
+                }
+              ],
+              "_inactive": false,
+              "_parentId": "params"
+            },
+            {
+              "id": "lls",
+              "name": "LLS",
+              "active": false,
+              "type": "subsystem",
+              "children": [
+                {
+                  "id": "fuelLevel",
+                  "name": "Уровень",
+                  "active": false,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_70.fuelLevel",
+                  "description": "LLS_0",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": true,
+                  "_parentId": "lls"
+                },
+                {
+                  "id": "fuelTemp",
+                  "name": "Температура",
+                  "active": false,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_70.fuelTemp",
+                  "description": "LLS_0",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": true,
+                  "_parentId": "lls"
+                },
+                {
+                  "id": "sensorN",
+                  "name": "Номер датчика",
+                  "active": false,
+                  "type": "argument",
+                  "dataType": "number",
+                  "reference": "tag_70.reserve",
+                  "description": "LLS_0",
+                  "factor": 1,
+                  "linear": true,
+                  "_inactive": true,
+                  "_parentId": "lls"
+                }
+              ],
+              "_inactive": true,
+              "_parentId": "params"
+            },
+            {
+              "id": "hdop",
+              "name": "HDOP",
+              "active": false,
+              "type": "argument",
+              "dataType": "number",
+              "reference": "tag_151.first",
+              "factor": 0.01,
+              "description": "Dilution of Precision",
+              "linear": true,
+              "_inactive": true,
+              "_parentId": "params"
+            },
+            {
+              "id": "text",
+              "name": "Текстовое сообщение",
+              "active": false,
+              "type": "argument",
+              "dataType": "string",
+              "reference": "text",
+              "_inactive": true,
+              "_parentId": "params"
+            }
+          ],
+          "_inactive": false,
+          "_parentId": "root"
+        },
+        {
+          "id": "cmd",
+          "name": "Команды",
+          "active": true,
+          "type": "subsystem",
+          "children": [
+            {
+              "id": "coordReq",
+              "name": "Запросить координаты",
+              "active": true,
+              "type": "action",
+              "command": "text_command",
+              "params": {
+                "command": "\u0001\u0001"
+              },
+              "service": "ric-gate",
+              "description": "transmit a packet with coordinates",
+              "_inactive": false,
+              "_parentId": "cmd"
+            },
+            {
+              "id": "upd",
+              "name": "Обновить прошивку",
+              "active": true,
+              "type": "action",
+              "command": "text_command",
+              "params": {
+                "command": "\u0001\u0005"
+              },
+              "service": "ric-gate",
+              "description": "update the version of the software (provided that the designated version differs from current)",
+              "_inactive": false,
+              "_parentId": "cmd"
+            },
+            {
+              "id": "reboot",
+              "name": "Рестарт устройства",
+              "active": true,
+              "type": "action",
+              "command": "text_command",
+              "params": {
+                "command": "data:text/plain;charset=utf-8;base64,AQc="
+              },
+              "service": "ric-gate",
+              "children": [],
+              "description": "reset devices",
+              "_inactive": false,
+              "_parentId": "cmd"
+            },
+            {
+              "id": "upd-stngs",
+              "name": "Обновить настройки",
+              "active": true,
+              "type": "action",
+              "command": "text_command",
+              "params": {
+                "command": "\u0001\b"
+              },
+              "service": "ric-gate",
+              "description": "download settings from web-configurator",
+              "_inactive": false,
+              "_parentId": "cmd"
+            },
+            {
+              "id": "ex_cmd1",
+              "name": "Пример команды 1",
+              "active": true,
+              "type": "action",
+              "command": "text_command",
+              "params": {
+                "command": "data:text/plain;charset=utf-8;base64,MwAF"
+              },
+              "service": "ric-gate",
+              "description": "Command to scooter board",
+              "children": [],
+              "_inactive": false,
+              "_parentId": "cmd"
+            },
+            {
+              "id": "ex_cmd2",
+              "name": "Пример команды 2",
+              "active": true,
+              "type": "action",
+              "command": "text_command",
+              "params": {
+                "command": "data:text/plain;charset=utf-8;base64,CAIB"
+              },
+              "service": "ric-gate",
+              "children": [],
+              "description": "X-output number mb.: X = 0 II 1 || 2, Y-output state, mb.: Y = 0 II 1 (0 - off, 1 - on)",
+              "_inactive": false,
+              "_parentId": "cmd"
+            }
+          ],
+          "_inactive": false,
+          "_parentId": "root"
+        }
+      ],
+      "_isRoot": true,
+      "selected": false,
+      "_isBase": true,
+      "disabled": [],
+      "removed": [],
+      "base": "base",
+      "description": "ArnaviSKT - фонарь и зуммер.\nДисплей включается автоматически при разблокировке самоката",
+      "_inactive": false
+    },
+    "props": {
+      "bots": false,
+      "hardwareEvents": false,
+      "helper": "",
+      "prefix": "arnavi3:",
+      "order": 2.4,
+      "typeInput": {
+        "hidden": false
+      },
+      "statusInput": {
+        "hidden": false
+      },
+      "descriptionInput": {
+        "hidden": false
+      },
+      "protocol": "arnavi3",
+      "idPattern": "arnavi3:<imei>",
+      "defaultGateCommandTimeout": 45
+    },
+    "owner": "000000000000000000000000",
+    "group": "000000000000000000000000",
+    "time": 1794808135954
+  }
+}

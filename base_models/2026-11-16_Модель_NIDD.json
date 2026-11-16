@@ -1,0 +1,97 @@
+{
+  "version": 1,
+  "origin": "dev.rightech.io",
+  "time": "2026-11-16T05:54:50.036Z",
+  "user": "000000000000000000000000",
+  "group": "000000000000000000000000",
+  "store": "models",
+  "data": {
+    "_id": "6afa9aa68d218e7e9a39a0b0",
+    "name": "NIDD",
+    "base": "nidd",
+    "mixins": [],
+    "data": {
+      "id": "root",
+      "name": "NIDD",
+      "active": true,
+      "type": "subsystem",
+      "children": [
+        {
+          "id": "external-software-modules",
+          "active": true,
+          "copy": true,
+          "type": "subsystem",
+          "children": [],
+          "name": "External software modules",
+          "_inactive": false,
+          "_parentId": "root"
+        },
+        {
+          "id": "params",
+          "name": "i18n:params",
+          "active": true,
+          "type": "subsystem",
+          "children": [
+            {
+              "id": "server-info",
+              "name": "Server information",
+              "active": true,
+              "type": "subsystem",
+              "children": [],
+              "_inactive": false,
+              "_parentId": "params"
+            },
+            {
+              "id": "payload",
+              "name": "Payload",
+              "active": true,
+              "type": "argument",
+              "source": "state",
+              "dataType": "string",
+              "display": {
+                "hints": [
+                  "base64"
+                ]
+              },
+              "linear": false,
+              "reference": "payload",
+              "_inactive": false,
+              "_parentId": "params"
+            }
+          ],
+          "_inactive": false,
+          "_parentId": "root"
+        }
+      ],
+      "_isRoot": true,
+      "_inactive": false
+    },
+    "props": {
+      "bots": false,
+      "hardwareEvents": false,
+      "helper": "",
+      "prefix": "",
+      "order": 10,
+      "typeInput": {
+        "hidden": false
+      },
+      "statusInput": {
+        "hidden": false
+      },
+      "descriptionInput": {
+        "hidden": false
+      },
+      "disableOnline": true,
+      "defaultNode": "payload",
+      "protocol": "nidd",
+      "idPattern": "",
+      "idValidate": false,
+      "idInput": {
+        "label": "External ID"
+      }
+    },
+    "owner": "000000000000000000000000",
+    "group": "000000000000000000000000",
+    "time": 1794808486937
+  }
+}

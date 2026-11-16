@@ -1,0 +1,4283 @@
+{
+  "version": 1,
+  "origin": "dev.rightech.io",
+  "time": "2026-11-16T05:53:37.460Z",
+  "user": "000000000000000000000000",
+  "group": "000000000000000000000000",
+  "store": "models",
+  "data": {
+    "_id": "6afa9a548d218e7e9a39a0ae",
+    "name": "Autofon8 ",
+    "base": "autofon8",
+    "mixins": [],
+    "data": {
+      "id": "root",
+      "active": true,
+      "name": "Autofon8 ",
+      "type": "subsystem",
+      "children": [
+        {
+          "id": "external-software-modules",
+          "active": true,
+          "copy": true,
+          "type": "subsystem",
+          "children": [],
+          "_inactive": false,
+          "_parentId": "root"
+        },
+        {
+          "id": "params",
+          "active": true,
+          "name": "Параметры",
+          "type": "subsystem",
+          "children": [
+            {
+              "id": "cmd",
+              "name": "Идентификатор пакета",
+              "active": true,
+              "type": "argument",
+              "dataType": "number",
+              "description": null,
+              "factor": 1,
+              "levels": {
+                "type": "numeric",
+                "value": [
+                  {
+                    "color": "#2d3945",
+                    "name": "Авторизация",
+                    "value": 1
+                  },
+                  {
+                    "color": "#2d3945",
+                    "name": "Установки",
+                    "value": 2
+                  },
+                  {
+                    "color": "#2d3945",
+                    "name": "Состояние",
+                    "value": 16
+                  },
+                  {
+                    "color": "#2d3945",
+                    "name": "БС сотового оператора",
+                    "value": 17
+                  },
+                  {
+                    "color": "#2d3945",
+                    "name": "Навигация",
+                    "value": 18
+                  },
+                  {
+                    "color": "#2d3945",
+                    "name": "Wi-Fi локация",
+                    "value": 19
+                  },
+                  {
+                    "color": "#2d3945",
+                    "name": "Служебное",
+                    "value": 23
+                  },
+                  {
+                    "color": "#2d3945",
+                    "name": "Текстовое",
+                    "value": 24
+                  },
+                  {
+                    "color": "#2d3945",
+                    "name": "Сборка",
+                    "value": 32
+                  }
+                ]
+              },
+              "linear": true,
+              "reference": "cmd",
+              "_inactive": false,
+              "_parentId": "params"
+            },
+            {
+              "id": "beacon_time",
+              "name": "Дата и время маяка",
+              "active": true,
+              "type": "argument",
+              "dataType": "string",
+              "description": null,
+              "factor": 1,
+              "linear": true,
+              "reference": "beacon_time",
+              "children": [],
+              "unit": null,
+              "_inactive": false,
+              "_parentId": "params"
+            },
+            {
+              "id": "auth",
+              "name": "Авторизация",
+              "active": true,
+              "type": "subsystem",
+              "description": null,
+              "children": [
+                {
+                  "id": "compatibility_version",
+                  "name": "Версия совместимости",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "factor": 1,
+                  "linear": true,
+                  "reference": "compatibility_version",
+                  "children": [],
+                  "description": "Версия совместимости с установками маяка. Также это значение указывается в названиях вспомогательных файлов «config_manual.c» и «config.c» (в них и содержатся изменения).",
+                  "_inactive": false,
+                  "_parentId": "auth"
+                },
+                {
+                  "id": "protocol_version",
+                  "name": "Версия протокола",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "factor": 1,
+                  "linear": true,
+                  "reference": "protocol_version",
+                  "_inactive": false,
+                  "_parentId": "auth"
+                },
+                {
+                  "id": "type",
+                  "name": "Тип маяка",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "factor": 1,
+                  "linear": true,
+                  "reference": "type",
+                  "children": [],
+                  "description": "Тип (поколение) маяка",
+                  "unit": null,
+                  "_inactive": false,
+                  "_parentId": "auth"
+                },
+                {
+                  "id": "hard_version",
+                  "name": "Аппаратная версия",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "factor": 1,
+                  "linear": true,
+                  "reference": "hard_version",
+                  "children": [],
+                  "description": "Аппаратная версия маяка",
+                  "unit": null,
+                  "_inactive": false,
+                  "_parentId": "auth"
+                },
+                {
+                  "id": "soft_version",
+                  "name": "Программная версия",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "string",
+                  "factor": 1,
+                  "linear": true,
+                  "reference": "soft_version",
+                  "children": [],
+                  "description": "Программная версия маяка",
+                  "unit": null,
+                  "_inactive": false,
+                  "_parentId": "auth"
+                },
+                {
+                  "id": "beacon_id",
+                  "name": "ID маяка",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "string",
+                  "factor": 1,
+                  "linear": true,
+                  "reference": "beacon_id",
+                  "children": [],
+                  "description": null,
+                  "unit": null,
+                  "_inactive": false,
+                  "_parentId": "auth"
+                },
+                {
+                  "id": "release_date",
+                  "name": "Дата релиза",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "string",
+                  "factor": 1,
+                  "linear": true,
+                  "reference": "release_date",
+                  "children": [],
+                  "description": "Дата релиза программной версия маяка",
+                  "unit": null,
+                  "_inactive": false,
+                  "_parentId": "auth"
+                },
+                {
+                  "id": "firmware_version",
+                  "name": "Версия прошивки",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "string",
+                  "factor": 1,
+                  "linear": true,
+                  "reference": "firmware_version",
+                  "children": [],
+                  "description": "Версия прошивки gsm-модуля",
+                  "unit": null,
+                  "_inactive": false,
+                  "_parentId": "auth"
+                },
+                {
+                  "id": "sim_count",
+                  "name": "Количество симкарт",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "factor": 1,
+                  "linear": true,
+                  "reference": "sim_count",
+                  "children": [],
+                  "description": "Количество симкарт (1 или 2)",
+                  "unit": null,
+                  "_inactive": false,
+                  "_parentId": "auth"
+                },
+                {
+                  "id": "auth_sim",
+                  "name": "Симкарта авторизации",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "factor": 1,
+                  "linear": true,
+                  "reference": "auth_sim",
+                  "children": [],
+                  "description": "Выбор симкарты для авторизации",
+                  "unit": null,
+                  "_inactive": false,
+                  "_parentId": "auth"
+                },
+                {
+                  "id": "mcc",
+                  "name": "MCC симкарты",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "factor": 1,
+                  "linear": true,
+                  "reference": "mcc",
+                  "children": [],
+                  "description": null,
+                  "unit": null,
+                  "_inactive": false,
+                  "_parentId": "auth"
+                },
+                {
+                  "id": "mnc",
+                  "name": "MNC симкарты",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "factor": 1,
+                  "linear": true,
+                  "reference": "mnc",
+                  "children": [],
+                  "description": null,
+                  "unit": null,
+                  "_inactive": false,
+                  "_parentId": "auth"
+                },
+                {
+                  "id": "imei1",
+                  "name": "IMEI 1",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "string",
+                  "factor": 1,
+                  "linear": true,
+                  "reference": "imei1",
+                  "children": [],
+                  "description": "IMEI 1-й сим-карты",
+                  "unit": null,
+                  "_inactive": false,
+                  "_parentId": "auth"
+                },
+                {
+                  "id": "iccid1",
+                  "name": "ICCID 1",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "string",
+                  "factor": 1,
+                  "linear": true,
+                  "reference": "iccid1",
+                  "children": [],
+                  "description": "ICCID 1-й сим-карты",
+                  "unit": null,
+                  "_inactive": false,
+                  "_parentId": "auth"
+                },
+                {
+                  "id": "imei2",
+                  "name": "IMEI 2",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "string",
+                  "factor": 1,
+                  "linear": true,
+                  "reference": "imei2",
+                  "children": [],
+                  "description": "IMEI 2-й сим-карты",
+                  "unit": null,
+                  "_inactive": false,
+                  "_parentId": "auth"
+                },
+                {
+                  "id": "iccid2",
+                  "name": "ICCID 2",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "string",
+                  "factor": 1,
+                  "linear": true,
+                  "reference": "iccid2",
+                  "children": [],
+                  "description": "ICCID 2-й сим-карты",
+                  "unit": null,
+                  "_inactive": false,
+                  "_parentId": "auth"
+                }
+              ],
+              "_inactive": false,
+              "_parentId": "params"
+            },
+            {
+              "id": "settings",
+              "name": "Установки",
+              "active": true,
+              "type": "subsystem",
+              "children": [
+                {
+                  "id": "periphery",
+                  "name": "Периферия",
+                  "active": true,
+                  "type": "subsystem",
+                  "description": "Перечень периферии маяка",
+                  "children": [
+                    {
+                      "id": "accelerometer",
+                      "name": " Акселерометр",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "boolean",
+                      "description": "0 - нет\n1 - есть",
+                      "factor": 1,
+                      "linear": true,
+                      "reference": "periphery.0",
+                      "unit": null,
+                      "children": [],
+                      "_inactive": false,
+                      "_parentId": "periphery"
+                    },
+                    {
+                      "id": "bluetooth",
+                      "name": "Bluetooth",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "boolean",
+                      "description": "0 - нет\n1 - есть",
+                      "factor": 1,
+                      "linear": true,
+                      "reference": "periphery.1",
+                      "unit": null,
+                      "children": [],
+                      "_inactive": false,
+                      "_parentId": "periphery"
+                    },
+                    {
+                      "id": "ble",
+                      "name": "Bluetooth Low Energy",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "boolean",
+                      "description": "0 - нет\n1 - есть",
+                      "factor": 1,
+                      "linear": true,
+                      "reference": "periphery.2",
+                      "unit": null,
+                      "children": [],
+                      "_inactive": false,
+                      "_parentId": "periphery"
+                    },
+                    {
+                      "id": "wifi",
+                      "name": "Wi-Fi",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "boolean",
+                      "description": "0 - нет\n1 - есть",
+                      "factor": 1,
+                      "linear": true,
+                      "reference": "periphery.3",
+                      "unit": null,
+                      "children": [],
+                      "_inactive": false,
+                      "_parentId": "periphery"
+                    },
+                    {
+                      "id": "868MHz",
+                      "name": "Радиоканал 868MHz",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "boolean",
+                      "description": "0 - нет\n1 - есть",
+                      "factor": 1,
+                      "linear": true,
+                      "reference": "periphery.4",
+                      "unit": null,
+                      "children": [],
+                      "_inactive": false,
+                      "_parentId": "periphery"
+                    },
+                    {
+                      "id": "usb_power",
+                      "name": "Питание по USB",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "boolean",
+                      "description": "0 - нет\n1 - есть",
+                      "factor": 1,
+                      "linear": true,
+                      "reference": "periphery.5",
+                      "unit": null,
+                      "children": [],
+                      "_inactive": false,
+                      "_parentId": "periphery"
+                    },
+                    {
+                      "id": "digit_power",
+                      "name": "Внешнее питание (цифр.)",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "boolean",
+                      "description": "Цифровой контроль наличия: 0-отключено / 1-подключено",
+                      "factor": 1,
+                      "linear": true,
+                      "reference": "periphery.6",
+                      "unit": null,
+                      "children": [],
+                      "_inactive": false,
+                      "_parentId": "periphery"
+                    },
+                    {
+                      "id": "analog_power",
+                      "name": "Внешнее питание (аналог.)",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "boolean",
+                      "description": "Аналоговый контроль: замер напряжения",
+                      "factor": 1,
+                      "linear": true,
+                      "reference": "periphery.7",
+                      "unit": null,
+                      "children": [],
+                      "_inactive": false,
+                      "_parentId": "periphery"
+                    },
+                    {
+                      "id": "input_plus",
+                      "name": "Вход +",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "boolean",
+                      "description": "0 - нет\n1 - есть",
+                      "factor": 1,
+                      "linear": true,
+                      "reference": "periphery.8",
+                      "unit": null,
+                      "children": [],
+                      "_inactive": false,
+                      "_parentId": "periphery"
+                    },
+                    {
+                      "id": "input_minus",
+                      "name": "Вход -",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "boolean",
+                      "description": "0 - нет\n1 - есть",
+                      "factor": 1,
+                      "linear": true,
+                      "reference": "periphery.9",
+                      "unit": null,
+                      "children": [],
+                      "_inactive": false,
+                      "_parentId": "periphery"
+                    },
+                    {
+                      "id": "lum_sensor",
+                      "name": "Датчик освещенности",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "boolean",
+                      "description": "0 - нет\n1 - есть",
+                      "factor": 1,
+                      "linear": true,
+                      "reference": "periphery.10",
+                      "unit": null,
+                      "children": [],
+                      "_inactive": false,
+                      "_parentId": "periphery"
+                    },
+                    {
+                      "id": "output",
+                      "name": "Выходной канал",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "boolean",
+                      "description": "0 - нет\n1 - есть",
+                      "factor": 1,
+                      "linear": true,
+                      "reference": "periphery.11",
+                      "unit": null,
+                      "children": [],
+                      "_inactive": false,
+                      "_parentId": "periphery"
+                    },
+                    {
+                      "id": "heating",
+                      "name": "Обогрев",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "boolean",
+                      "description": "0 - нет\n1 - есть",
+                      "factor": 1,
+                      "linear": true,
+                      "reference": "periphery.12",
+                      "unit": null,
+                      "children": [],
+                      "_inactive": false,
+                      "_parentId": "periphery"
+                    }
+                  ],
+                  "_inactive": false,
+                  "_parentId": "settings"
+                },
+                {
+                  "id": "password",
+                  "name": "Пароль системы",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "factor": 1,
+                  "linear": true,
+                  "reference": "password",
+                  "_inactive": false,
+                  "_parentId": "settings"
+                },
+                {
+                  "id": "system_name_ru",
+                  "name": "Название системы (ru)",
+                  "active": false,
+                  "type": "argument",
+                  "dataType": "string",
+                  "factor": 1,
+                  "linear": true,
+                  "children": [],
+                  "reference": "system_name_ru",
+                  "unit": null,
+                  "_inactive": true,
+                  "_parentId": "settings"
+                },
+                {
+                  "id": "system_name_en",
+                  "name": "Название системы (en)",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "string",
+                  "factor": 1,
+                  "linear": true,
+                  "children": [],
+                  "reference": "system_name_en",
+                  "unit": null,
+                  "_inactive": false,
+                  "_parentId": "settings"
+                },
+                {
+                  "id": "setup",
+                  "name": "Сетап",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "string",
+                  "factor": 1,
+                  "linear": true,
+                  "children": [],
+                  "reference": "setup",
+                  "display": {
+                    "hints": [
+                      "hex"
+                    ]
+                  },
+                  "unit": null,
+                  "_inactive": false,
+                  "_parentId": "settings"
+                },
+                {
+                  "id": "profile",
+                  "name": "Профили",
+                  "active": true,
+                  "type": "subsystem",
+                  "description": "Передаются только заполненные профили",
+                  "children": [
+                    {
+                      "id": "profile1",
+                      "name": "Профиль 1",
+                      "active": true,
+                      "type": "subsystem",
+                      "children": [
+                        {
+                          "id": "profile1_on",
+                          "name": "Включен",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "boolean",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "profile1_on",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "profile1"
+                        },
+                        {
+                          "id": "profile1_tasks",
+                          "name": "Задачи",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "number",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "profile1_tasks",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "profile1"
+                        },
+                        {
+                          "id": "profile1_events",
+                          "name": "Необходимые события",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "number",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "profile1_events",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "profile1"
+                        },
+                        {
+                          "id": "profile1_check",
+                          "name": "Необходимые состояния и проверки",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "number",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "profile1_check",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "profile1"
+                        }
+                      ],
+                      "_inactive": false,
+                      "_parentId": "profile"
+                    },
+                    {
+                      "id": "profile2",
+                      "name": "Профиль 2",
+                      "active": true,
+                      "type": "subsystem",
+                      "children": [
+                        {
+                          "id": "profile2_on",
+                          "name": "Включен",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "boolean",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "profile2_on",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "profile2"
+                        },
+                        {
+                          "id": "profile2_tasks",
+                          "name": "Задачи",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "number",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "profile2_tasks",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "profile2"
+                        },
+                        {
+                          "id": "profile2_events",
+                          "name": "Необходимые события",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "number",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "profile2_events",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "profile2"
+                        },
+                        {
+                          "id": "profile2_check",
+                          "name": "Необходимые состояния и проверки",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "number",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "profile2_check",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "profile2"
+                        }
+                      ],
+                      "_inactive": false,
+                      "_parentId": "profile"
+                    },
+                    {
+                      "id": "profile3",
+                      "name": "Профиль 3",
+                      "active": true,
+                      "type": "subsystem",
+                      "children": [
+                        {
+                          "id": "profile3_on",
+                          "name": "Включен",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "boolean",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "profile3_on",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "profile3"
+                        },
+                        {
+                          "id": "profile3_tasks",
+                          "name": "Задачи",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "number",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "profile3_tasks",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "profile3"
+                        },
+                        {
+                          "id": "profile3_events",
+                          "name": "Необходимые события",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "number",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "profile3_events",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "profile3"
+                        },
+                        {
+                          "id": "profile3_check",
+                          "name": "Необходимые состояния и проверки",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "number",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "profile3_check",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "profile3"
+                        }
+                      ],
+                      "_inactive": false,
+                      "_parentId": "profile"
+                    },
+                    {
+                      "id": "profile5",
+                      "name": "Профиль 5",
+                      "active": true,
+                      "type": "subsystem",
+                      "children": [
+                        {
+                          "id": "profile5_on",
+                          "name": "Включен",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "boolean",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "profile5_on",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "profile5"
+                        },
+                        {
+                          "id": "profile5_tasks",
+                          "name": "Задачи",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "number",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "profile5_tasks",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "profile5"
+                        },
+                        {
+                          "id": "profile5_events",
+                          "name": "Необходимые события",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "number",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "profile5_events",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "profile5"
+                        },
+                        {
+                          "id": "profile5_check",
+                          "name": "Необходимые состояния и проверки",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "number",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "profile5_check",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "profile5"
+                        }
+                      ],
+                      "_inactive": false,
+                      "_parentId": "profile"
+                    },
+                    {
+                      "id": "profile9",
+                      "name": "Профиль 9",
+                      "active": true,
+                      "type": "subsystem",
+                      "children": [
+                        {
+                          "id": "profile9_on",
+                          "name": "Включен",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "boolean",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "profile9_on",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "profile9"
+                        },
+                        {
+                          "id": "profile9_tasks",
+                          "name": "Задачи",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "number",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "profile9_tasks",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "profile9"
+                        },
+                        {
+                          "id": "profile9_events",
+                          "name": "Необходимые события",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "number",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "profile9_events",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "profile9"
+                        },
+                        {
+                          "id": "profile9_check",
+                          "name": "Необходимые состояния и проверки",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "number",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "profile9_check",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "profile9"
+                        }
+                      ],
+                      "_inactive": false,
+                      "_parentId": "profile"
+                    }
+                  ],
+                  "_inactive": false,
+                  "_parentId": "settings"
+                },
+                {
+                  "id": "recipient",
+                  "name": "Получатели",
+                  "active": true,
+                  "type": "subsystem",
+                  "description": null,
+                  "children": [
+                    {
+                      "id": "recipient1",
+                      "name": "Получатель 1",
+                      "active": true,
+                      "type": "subsystem",
+                      "children": [
+                        {
+                          "id": "recipient1_phone",
+                          "name": "Номера телефонов",
+                          "active": true,
+                          "type": "subsystem",
+                          "children": [
+                            {
+                              "id": "recipient1_phone1",
+                              "name": "Номер телефона 1",
+                              "active": true,
+                              "type": "argument",
+                              "dataType": "string",
+                              "factor": 1,
+                              "linear": true,
+                              "reference": "recipient1_phone1",
+                              "unit": null,
+                              "_inactive": false,
+                              "_parentId": "recipient1_phone"
+                            },
+                            {
+                              "id": "recipient1_phone2",
+                              "name": "Номер телефона 2",
+                              "active": true,
+                              "type": "argument",
+                              "dataType": "string",
+                              "factor": 1,
+                              "linear": true,
+                              "reference": "recipient1_phone2",
+                              "unit": null,
+                              "children": [],
+                              "_inactive": false,
+                              "_parentId": "recipient1_phone"
+                            }
+                          ],
+                          "_inactive": false,
+                          "_parentId": "recipient1"
+                        },
+                        {
+                          "id": "recipient1_ip",
+                          "name": "IP-адреса",
+                          "active": true,
+                          "type": "subsystem",
+                          "children": [
+                            {
+                              "id": "recipient1_ip1",
+                              "name": "IP-адрес сервера 1",
+                              "active": true,
+                              "type": "argument",
+                              "dataType": "string",
+                              "factor": 1,
+                              "linear": true,
+                              "reference": "recipient1_ip1",
+                              "unit": null,
+                              "children": [],
+                              "_inactive": false,
+                              "_parentId": "recipient1_ip"
+                            },
+                            {
+                              "id": "recipient1_ip2",
+                              "name": "IP-адрес сервера 2",
+                              "active": true,
+                              "type": "argument",
+                              "dataType": "string",
+                              "factor": 1,
+                              "linear": true,
+                              "reference": "recipient1_ip2",
+                              "unit": null,
+                              "children": [],
+                              "_inactive": false,
+                              "_parentId": "recipient1_ip"
+                            }
+                          ],
+                          "_inactive": false,
+                          "_parentId": "recipient1"
+                        },
+                        {
+                          "id": "recipient1_email",
+                          "name": "Email",
+                          "active": true,
+                          "type": "subsystem",
+                          "children": [
+                            {
+                              "id": "recipient1_email1",
+                              "name": "Email 1",
+                              "active": true,
+                              "type": "argument",
+                              "dataType": "string",
+                              "factor": 1,
+                              "linear": true,
+                              "reference": "recipient1_email1",
+                              "unit": null,
+                              "children": [],
+                              "_inactive": false,
+                              "_parentId": "recipient1_email"
+                            },
+                            {
+                              "id": "recipient1_email2",
+                              "name": "Email 2",
+                              "active": true,
+                              "type": "argument",
+                              "dataType": "string",
+                              "factor": 1,
+                              "linear": true,
+                              "reference": "recipient1_email2",
+                              "unit": null,
+                              "children": [],
+                              "_inactive": false,
+                              "_parentId": "recipient1_email"
+                            }
+                          ],
+                          "_inactive": false,
+                          "_parentId": "recipient1"
+                        }
+                      ],
+                      "_inactive": false,
+                      "_parentId": "recipient"
+                    },
+                    {
+                      "id": "recipient2",
+                      "name": "Получатель 2",
+                      "active": true,
+                      "type": "subsystem",
+                      "children": [
+                        {
+                          "id": "recipient2_phone",
+                          "name": "Номера телефонов",
+                          "active": true,
+                          "type": "subsystem",
+                          "children": [
+                            {
+                              "id": "recipient2_phone1",
+                              "name": "Номер телефона 1",
+                              "active": true,
+                              "type": "argument",
+                              "dataType": "string",
+                              "factor": 1,
+                              "linear": true,
+                              "reference": "recipient2_phone1",
+                              "unit": null,
+                              "children": [],
+                              "_inactive": false,
+                              "_parentId": "recipient2_phone"
+                            },
+                            {
+                              "id": "recipient2_phone2",
+                              "name": "Номер телефона 2",
+                              "active": true,
+                              "type": "argument",
+                              "dataType": "string",
+                              "factor": 1,
+                              "linear": true,
+                              "reference": "recipient2_phone2",
+                              "unit": null,
+                              "children": [],
+                              "_inactive": false,
+                              "_parentId": "recipient2_phone"
+                            }
+                          ],
+                          "_inactive": false,
+                          "_parentId": "recipient2"
+                        },
+                        {
+                          "id": "recipient2_ip",
+                          "name": "IP-адреса",
+                          "active": true,
+                          "type": "subsystem",
+                          "children": [
+                            {
+                              "id": "recipient2_ip1",
+                              "name": "IP-адрес сервера 1",
+                              "active": true,
+                              "type": "argument",
+                              "dataType": "string",
+                              "factor": 1,
+                              "linear": true,
+                              "reference": "recipient2_ip1",
+                              "unit": null,
+                              "children": [],
+                              "_inactive": false,
+                              "_parentId": "recipient2_ip"
+                            },
+                            {
+                              "id": "recipient2_ip2",
+                              "name": "IP-адрес сервера 2",
+                              "active": true,
+                              "type": "argument",
+                              "dataType": "string",
+                              "factor": 1,
+                              "linear": true,
+                              "reference": "recipient2_ip2",
+                              "unit": null,
+                              "children": [],
+                              "_inactive": false,
+                              "_parentId": "recipient2_ip"
+                            }
+                          ],
+                          "_inactive": false,
+                          "_parentId": "recipient2"
+                        },
+                        {
+                          "id": "recipient2_email",
+                          "name": "Email",
+                          "active": true,
+                          "type": "subsystem",
+                          "children": [
+                            {
+                              "id": "recipient2_email1",
+                              "name": "Email 1",
+                              "active": true,
+                              "type": "argument",
+                              "dataType": "string",
+                              "factor": 1,
+                              "linear": true,
+                              "reference": "recipient2_email1",
+                              "unit": null,
+                              "children": [],
+                              "_inactive": false,
+                              "_parentId": "recipient2_email"
+                            },
+                            {
+                              "id": "recipient2_email2",
+                              "name": "Email 2",
+                              "active": true,
+                              "type": "argument",
+                              "dataType": "string",
+                              "factor": 1,
+                              "linear": true,
+                              "reference": "recipient2_email2",
+                              "unit": null,
+                              "children": [],
+                              "_inactive": false,
+                              "_parentId": "recipient2_email"
+                            }
+                          ],
+                          "_inactive": false,
+                          "_parentId": "recipient2"
+                        }
+                      ],
+                      "_inactive": false,
+                      "_parentId": "recipient"
+                    }
+                  ],
+                  "_inactive": false,
+                  "_parentId": "settings"
+                },
+                {
+                  "id": "task",
+                  "name": "Установки выполнения задач",
+                  "active": true,
+                  "type": "subsystem",
+                  "children": [
+                    {
+                      "id": "task1",
+                      "name": "Установки 1",
+                      "active": true,
+                      "type": "subsystem",
+                      "children": [
+                        {
+                          "id": "task1_0",
+                          "name": "Задача «онлайн-ожидание»",
+                          "active": true,
+                          "type": "subsystem",
+                          "children": [
+                            {
+                              "id": "task1_try_count0",
+                              "name": "Количество попыток",
+                              "active": true,
+                              "type": "argument",
+                              "dataType": "number",
+                              "description": "Количество попыток выполнения задачи",
+                              "factor": 1,
+                              "linear": true,
+                              "reference": "task1_try_count0",
+                              "_inactive": false,
+                              "_parentId": "task1_0"
+                            },
+                            {
+                              "id": "task1_time_success0",
+                              "name": "Время онлайна (успех)",
+                              "active": true,
+                              "type": "argument",
+                              "dataType": "number",
+                              "description": "Время необходимого нахождения в онлайн после успешного выполнения задачи",
+                              "factor": 1,
+                              "linear": true,
+                              "reference": "task1_time_success0",
+                              "children": [],
+                              "unit": "duration-second",
+                              "_inactive": false,
+                              "_parentId": "task1_0"
+                            },
+                            {
+                              "id": "task1_time_fail0",
+                              "name": "Время онлайна (неуспех)",
+                              "active": true,
+                              "type": "argument",
+                              "dataType": "number",
+                              "description": "Время необходимого нахождения в онлайн после НЕуспешного выполнения задачи",
+                              "factor": 1,
+                              "linear": true,
+                              "reference": "task1_time_fail0",
+                              "children": [],
+                              "unit": "duration-second",
+                              "_inactive": false,
+                              "_parentId": "task1_0"
+                            }
+                          ],
+                          "_inactive": false,
+                          "_parentId": "task1"
+                        },
+                        {
+                          "id": "task1_1",
+                          "name": "Задача «дозвон»",
+                          "active": true,
+                          "type": "subsystem",
+                          "children": [
+                            {
+                              "id": "task1_try_count1",
+                              "name": "Количество попыток",
+                              "active": true,
+                              "type": "argument",
+                              "dataType": "number",
+                              "description": "Количество попыток выполнения задачи",
+                              "factor": 1,
+                              "linear": true,
+                              "reference": "task1_try_count1",
+                              "children": [],
+                              "_inactive": false,
+                              "_parentId": "task1_1"
+                            },
+                            {
+                              "id": "task1_time_success1",
+                              "name": "Время онлайна (успех)",
+                              "active": true,
+                              "type": "argument",
+                              "dataType": "number",
+                              "description": "Время необходимого нахождения в онлайн после успешного выполнения задачи",
+                              "factor": 1,
+                              "linear": true,
+                              "reference": "task1_time_success1",
+                              "children": [],
+                              "unit": "duration-second",
+                              "_inactive": false,
+                              "_parentId": "task1_1"
+                            },
+                            {
+                              "id": "task1_time_fail1",
+                              "name": "Время онлайна (неуспех)",
+                              "active": true,
+                              "type": "argument",
+                              "dataType": "number",
+                              "description": "Время необходимого нахождения в онлайн после НЕуспешного выполнения задачи",
+                              "factor": 1,
+                              "linear": true,
+                              "reference": "task1_time_fail1",
+                              "children": [],
+                              "unit": "duration-second",
+                              "_inactive": false,
+                              "_parentId": "task1_1"
+                            }
+                          ],
+                          "_inactive": false,
+                          "_parentId": "task1"
+                        },
+                        {
+                          "id": "task1_2",
+                          "name": "Задача «отправка смс-сообщения»",
+                          "active": true,
+                          "type": "subsystem",
+                          "children": [
+                            {
+                              "id": "task1_try_count2",
+                              "name": "Количество попыток",
+                              "active": true,
+                              "type": "argument",
+                              "dataType": "number",
+                              "description": "Количество попыток выполнения задачи",
+                              "factor": 1,
+                              "linear": true,
+                              "reference": "task1_try_count2",
+                              "children": [],
+                              "_inactive": false,
+                              "_parentId": "task1_2"
+                            },
+                            {
+                              "id": "task1_time_success2",
+                              "name": "Время онлайна (успех)",
+                              "active": true,
+                              "type": "argument",
+                              "dataType": "number",
+                              "description": "Время необходимого нахождения в онлайн после успешного выполнения задачи",
+                              "factor": 1,
+                              "linear": true,
+                              "reference": "task1_time_success2",
+                              "children": [],
+                              "unit": "duration-second",
+                              "_inactive": false,
+                              "_parentId": "task1_2"
+                            },
+                            {
+                              "id": "task1_time_fail2",
+                              "name": "Время онлайна (неуспех)",
+                              "active": true,
+                              "type": "argument",
+                              "dataType": "number",
+                              "description": "Время необходимого нахождения в онлайн после НЕуспешного выполнения задачи",
+                              "factor": 1,
+                              "linear": true,
+                              "reference": "task1_time_fail2",
+                              "children": [],
+                              "unit": "duration-second",
+                              "_inactive": false,
+                              "_parentId": "task1_2"
+                            }
+                          ],
+                          "_inactive": false,
+                          "_parentId": "task1"
+                        },
+                        {
+                          "id": "task1_3",
+                          "name": "Задача «отправка gprs-пакета»",
+                          "active": true,
+                          "type": "subsystem",
+                          "children": [
+                            {
+                              "id": "task1_try_count3",
+                              "name": "Количество попыток",
+                              "active": true,
+                              "type": "argument",
+                              "dataType": "number",
+                              "description": "Количество попыток выполнения задачи",
+                              "factor": 1,
+                              "linear": true,
+                              "reference": "task1_try_count3",
+                              "children": [],
+                              "_inactive": false,
+                              "_parentId": "task1_3"
+                            },
+                            {
+                              "id": "task1_time_success3",
+                              "name": "Время онлайна (успех)",
+                              "active": true,
+                              "type": "argument",
+                              "dataType": "number",
+                              "description": "Время необходимого нахождения в онлайн после успешного выполнения задачи",
+                              "factor": 1,
+                              "linear": true,
+                              "reference": "task1_time_success3",
+                              "children": [],
+                              "unit": "duration-second",
+                              "_inactive": false,
+                              "_parentId": "task1_3"
+                            },
+                            {
+                              "id": "task1_time_fail3",
+                              "name": "Время онлайна (неуспех)",
+                              "active": true,
+                              "type": "argument",
+                              "dataType": "number",
+                              "description": "Время необходимого нахождения в онлайн после НЕуспешного выполнения задачи",
+                              "factor": 1,
+                              "linear": true,
+                              "reference": "task1_time_fail3",
+                              "children": [],
+                              "unit": "duration-second",
+                              "_inactive": false,
+                              "_parentId": "task1_3"
+                            }
+                          ],
+                          "_inactive": false,
+                          "_parentId": "task1"
+                        }
+                      ],
+                      "_inactive": false,
+                      "_parentId": "task"
+                    },
+                    {
+                      "id": "task2",
+                      "name": "Установки 2",
+                      "active": true,
+                      "type": "subsystem",
+                      "children": [
+                        {
+                          "id": "task2_0",
+                          "name": "Задача «онлайн-ожидание»",
+                          "active": true,
+                          "type": "subsystem",
+                          "children": [
+                            {
+                              "id": "task2_try_count0",
+                              "name": "Количество попыток",
+                              "active": true,
+                              "type": "argument",
+                              "dataType": "number",
+                              "description": "Количество попыток выполнения задачи",
+                              "factor": 1,
+                              "linear": true,
+                              "reference": "task2_try_count0",
+                              "children": [],
+                              "_inactive": false,
+                              "_parentId": "task2_0"
+                            },
+                            {
+                              "id": "task2_time_success0",
+                              "name": "Время онлайна (успех)",
+                              "active": true,
+                              "type": "argument",
+                              "dataType": "number",
+                              "description": "Время необходимого нахождения в онлайн после успешного выполнения задачи",
+                              "factor": 1,
+                              "linear": true,
+                              "reference": "task2_time_success0",
+                              "children": [],
+                              "unit": "duration-second",
+                              "_inactive": false,
+                              "_parentId": "task2_0"
+                            },
+                            {
+                              "id": "task2_time_fail0",
+                              "name": "Время онлайна (неуспех)",
+                              "active": true,
+                              "type": "argument",
+                              "dataType": "number",
+                              "description": "Время необходимого нахождения в онлайн после НЕуспешного выполнения задачи",
+                              "factor": 1,
+                              "linear": true,
+                              "reference": "task2_time_fail0",
+                              "children": [],
+                              "unit": "duration-second",
+                              "_inactive": false,
+                              "_parentId": "task2_0"
+                            }
+                          ],
+                          "_inactive": false,
+                          "_parentId": "task2"
+                        },
+                        {
+                          "id": "task2_1",
+                          "name": "Задача «дозвон»",
+                          "active": true,
+                          "type": "subsystem",
+                          "children": [
+                            {
+                              "id": "task2_try_count1",
+                              "name": "Количество попыток",
+                              "active": true,
+                              "type": "argument",
+                              "dataType": "number",
+                              "description": "Количество попыток выполнения задачи",
+                              "factor": 1,
+                              "linear": true,
+                              "reference": "task2_try_count1",
+                              "children": [],
+                              "_inactive": false,
+                              "_parentId": "task2_1"
+                            },
+                            {
+                              "id": "task2_time_success1",
+                              "name": "Время онлайна (успех)",
+                              "active": true,
+                              "type": "argument",
+                              "dataType": "number",
+                              "description": "Время необходимого нахождения в онлайн после успешного выполнения задачи",
+                              "factor": 1,
+                              "linear": true,
+                              "reference": "task2_time_success1",
+                              "children": [],
+                              "unit": "duration-second",
+                              "_inactive": false,
+                              "_parentId": "task2_1"
+                            },
+                            {
+                              "id": "task2_time_fail1",
+                              "name": "Время онлайна (неуспех)",
+                              "active": true,
+                              "type": "argument",
+                              "dataType": "number",
+                              "description": "Время необходимого нахождения в онлайн после НЕуспешного выполнения задачи",
+                              "factor": 1,
+                              "linear": true,
+                              "reference": "task2_time_fail1",
+                              "children": [],
+                              "unit": "duration-second",
+                              "_inactive": false,
+                              "_parentId": "task2_1"
+                            }
+                          ],
+                          "_inactive": false,
+                          "_parentId": "task2"
+                        },
+                        {
+                          "id": "task2_2",
+                          "name": "Задача «отправка смс-сообщения»",
+                          "active": true,
+                          "type": "subsystem",
+                          "children": [
+                            {
+                              "id": "task2_try_count2",
+                              "name": "Количество попыток",
+                              "active": true,
+                              "type": "argument",
+                              "dataType": "number",
+                              "description": "Количество попыток выполнения задачи",
+                              "factor": 1,
+                              "linear": true,
+                              "reference": "task2_try_count2",
+                              "children": [],
+                              "_inactive": false,
+                              "_parentId": "task2_2"
+                            },
+                            {
+                              "id": "task2_time_success2",
+                              "name": "Время онлайна (успех)",
+                              "active": true,
+                              "type": "argument",
+                              "dataType": "number",
+                              "description": "Время необходимого нахождения в онлайн после успешного выполнения задачи",
+                              "factor": 1,
+                              "linear": true,
+                              "reference": "task2_time_success2",
+                              "children": [],
+                              "unit": "duration-second",
+                              "_inactive": false,
+                              "_parentId": "task2_2"
+                            },
+                            {
+                              "id": "task2_time_fail2",
+                              "name": "Время онлайна (неуспех)",
+                              "active": true,
+                              "type": "argument",
+                              "dataType": "number",
+                              "description": "Время необходимого нахождения в онлайн после НЕуспешного выполнения задачи",
+                              "factor": 1,
+                              "linear": true,
+                              "reference": "task2_time_fail2",
+                              "children": [],
+                              "unit": "duration-second",
+                              "_inactive": false,
+                              "_parentId": "task2_2"
+                            }
+                          ],
+                          "_inactive": false,
+                          "_parentId": "task2"
+                        },
+                        {
+                          "id": "task2_3",
+                          "name": "Задача «отправка gprs-пакета»",
+                          "active": true,
+                          "type": "subsystem",
+                          "children": [
+                            {
+                              "id": "task2_try_count3",
+                              "name": "Количество попыток",
+                              "active": true,
+                              "type": "argument",
+                              "dataType": "number",
+                              "description": "Количество попыток выполнения задачи",
+                              "factor": 1,
+                              "linear": true,
+                              "reference": "task2_try_count3",
+                              "children": [],
+                              "_inactive": false,
+                              "_parentId": "task2_3"
+                            },
+                            {
+                              "id": "task2_time_success3",
+                              "name": "Время онлайна (успех)",
+                              "active": true,
+                              "type": "argument",
+                              "dataType": "number",
+                              "description": "Время необходимого нахождения в онлайн после успешного выполнения задачи",
+                              "factor": 1,
+                              "linear": true,
+                              "reference": "task2_time_success3",
+                              "children": [],
+                              "unit": "duration-second",
+                              "_inactive": false,
+                              "_parentId": "task2_3"
+                            },
+                            {
+                              "id": "task2_time_fail3",
+                              "name": "Время онлайна (неуспех)",
+                              "active": true,
+                              "type": "argument",
+                              "dataType": "number",
+                              "description": "Время необходимого нахождения в онлайн после НЕуспешного выполнения задачи",
+                              "factor": 1,
+                              "linear": true,
+                              "reference": "task2_time_fail3",
+                              "children": [],
+                              "unit": "duration-second",
+                              "_inactive": false,
+                              "_parentId": "task2_3"
+                            }
+                          ],
+                          "_inactive": false,
+                          "_parentId": "task2"
+                        }
+                      ],
+                      "_inactive": false,
+                      "_parentId": "task"
+                    }
+                  ],
+                  "_inactive": false,
+                  "_parentId": "settings"
+                },
+                {
+                  "id": "sim_settings",
+                  "name": "Настройки сим-карты",
+                  "active": true,
+                  "type": "subsystem",
+                  "children": [
+                    {
+                      "id": "sim_settings1",
+                      "name": "Сим-карта 1",
+                      "active": true,
+                      "type": "subsystem",
+                      "children": [
+                        {
+                          "id": "sim_settings1_access_source",
+                          "name": "Источник точки доступа",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "number",
+                          "description": "0 – маяк (по данным оператора), 1 – установлено пользователем",
+                          "factor": 1,
+                          "levels": {
+                            "type": "numeric",
+                            "value": [
+                              {
+                                "color": "#2d3945",
+                                "name": "Маяк",
+                                "value": 0
+                              },
+                              {
+                                "color": "#2d3945",
+                                "name": "Пользовательский",
+                                "value": 1
+                              }
+                            ]
+                          },
+                          "linear": true,
+                          "reference": "sim_settings1_access_source",
+                          "_inactive": false,
+                          "_parentId": "sim_settings1"
+                        },
+                        {
+                          "id": "sim_settings1_access_name",
+                          "name": "Название точки доступа",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "string",
+                          "description": null,
+                          "factor": 1,
+                          "levels": {
+                            "type": null
+                          },
+                          "linear": true,
+                          "reference": "sim_settings1_access_name",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "sim_settings1"
+                        },
+                        {
+                          "id": "sim_settings1_login",
+                          "name": "Логин",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "string",
+                          "description": null,
+                          "factor": 1,
+                          "levels": {
+                            "type": null
+                          },
+                          "linear": true,
+                          "reference": "sim_settings1_login",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "sim_settings1"
+                        },
+                        {
+                          "id": "sim_settings1_password",
+                          "name": "Пароль",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "string",
+                          "description": null,
+                          "factor": 1,
+                          "levels": {
+                            "type": null
+                          },
+                          "linear": true,
+                          "reference": "sim_settings1_password",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "sim_settings1"
+                        },
+                        {
+                          "id": "sim_settings1_request_source",
+                          "name": "Источник строки",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "number",
+                          "description": "Источник строки (ussd-запрос): 0 – маяк (по данным оператора), 1 – установлено пользователем",
+                          "factor": 1,
+                          "levels": {
+                            "type": "numeric",
+                            "value": [
+                              {
+                                "color": "#2d3945",
+                                "name": "Маяк",
+                                "value": 0
+                              },
+                              {
+                                "color": "#2d3945",
+                                "name": "Пользовательский",
+                                "value": 1
+                              }
+                            ]
+                          },
+                          "linear": true,
+                          "reference": "sim_settings1_request_source",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "sim_settings1"
+                        },
+                        {
+                          "id": "sim_settings1_request",
+                          "name": "Строка ussd-запроса",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "string",
+                          "description": null,
+                          "factor": 1,
+                          "levels": {
+                            "type": null
+                          },
+                          "linear": true,
+                          "reference": "sim_settings1_request",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "sim_settings1"
+                        }
+                      ],
+                      "_inactive": false,
+                      "_parentId": "sim_settings"
+                    },
+                    {
+                      "id": "sim_settings2",
+                      "name": "Сим-карта 2",
+                      "active": true,
+                      "type": "subsystem",
+                      "children": [
+                        {
+                          "id": "sim_settings2_access_source",
+                          "name": "Источник точки доступа",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "number",
+                          "description": "0 – маяк (по данным оператора), 1 – установлено пользователем",
+                          "factor": 1,
+                          "levels": {
+                            "type": "numeric",
+                            "value": [
+                              {
+                                "color": "#2d3945",
+                                "name": "Маяк",
+                                "value": 0
+                              },
+                              {
+                                "color": "#2d3945",
+                                "name": "Пользовательский",
+                                "value": 1
+                              }
+                            ]
+                          },
+                          "linear": true,
+                          "reference": "sim_settings2_access_source",
+                          "children": [],
+                          "_inactive": false,
+                          "_parentId": "sim_settings2"
+                        },
+                        {
+                          "id": "sim_settings2_access_name",
+                          "name": "Название точки доступа",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "string",
+                          "description": null,
+                          "factor": 1,
+                          "levels": {
+                            "type": null
+                          },
+                          "linear": true,
+                          "reference": "sim_settings2_access_name",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "sim_settings2"
+                        },
+                        {
+                          "id": "sim_settings2_login",
+                          "name": "Логин",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "string",
+                          "description": null,
+                          "factor": 1,
+                          "levels": {
+                            "type": null
+                          },
+                          "linear": true,
+                          "reference": "sim_settings2_login",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "sim_settings2"
+                        },
+                        {
+                          "id": "sim_settings2_password",
+                          "name": "Пароль",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "string",
+                          "description": null,
+                          "factor": 1,
+                          "levels": {
+                            "type": null
+                          },
+                          "linear": true,
+                          "reference": "sim_settings2_password",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "sim_settings2"
+                        },
+                        {
+                          "id": "sim_settings2_request_source",
+                          "name": "Источник строки",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "number",
+                          "description": "Источник строки (ussd-запрос): 0 – маяк (по данным оператора), 1 – установлено пользователем",
+                          "factor": 1,
+                          "levels": {
+                            "type": "numeric",
+                            "value": [
+                              {
+                                "color": "#2d3945",
+                                "name": "Маяк",
+                                "value": 0
+                              },
+                              {
+                                "color": "#2d3945",
+                                "name": "Пользовательский",
+                                "value": 1
+                              }
+                            ]
+                          },
+                          "linear": true,
+                          "reference": "sim_settings2_request_source",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "sim_settings2"
+                        },
+                        {
+                          "id": "sim_settings2_request",
+                          "name": "Строка ussd-запроса",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "string",
+                          "description": null,
+                          "factor": 1,
+                          "levels": {
+                            "type": null
+                          },
+                          "linear": true,
+                          "reference": "sim_settings2_request",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "sim_settings2"
+                        }
+                      ],
+                      "_inactive": false,
+                      "_parentId": "sim_settings"
+                    }
+                  ],
+                  "_inactive": false,
+                  "_parentId": "settings"
+                },
+                {
+                  "id": "constructor",
+                  "name": "СМС-конструктор",
+                  "active": true,
+                  "type": "subsystem",
+                  "children": [
+                    {
+                      "id": "constructor0",
+                      "name": "INFO",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "description": "Конструктор смс-сообщения типа «INFO»",
+                      "factor": 1,
+                      "linear": true,
+                      "reference": "constructor0",
+                      "_inactive": false,
+                      "_parentId": "constructor"
+                    },
+                    {
+                      "id": "constructor1",
+                      "name": "LBS",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "description": "Конструктор смс-сообщения типа «LBS»",
+                      "factor": 1,
+                      "linear": true,
+                      "reference": "constructor1",
+                      "children": [],
+                      "_inactive": false,
+                      "_parentId": "constructor"
+                    },
+                    {
+                      "id": "constructor2",
+                      "name": "NAVI",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "description": "Конструктор смс-сообщения типа «NAVI»",
+                      "factor": 1,
+                      "linear": true,
+                      "reference": "constructor2",
+                      "children": [],
+                      "_inactive": false,
+                      "_parentId": "constructor"
+                    },
+                    {
+                      "id": "constructor3",
+                      "name": "Wi-Fi",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "description": "Конструктор смс-сообщения типа «Wi-Fi»",
+                      "factor": 1,
+                      "linear": true,
+                      "reference": "constructor3",
+                      "children": [],
+                      "_inactive": false,
+                      "_parentId": "constructor"
+                    }
+                  ],
+                  "_inactive": false,
+                  "_parentId": "settings"
+                },
+                {
+                  "id": "geo_lat",
+                  "active": true,
+                  "name": "Широта геозоны",
+                  "type": "argument",
+                  "description": "Северное полушарие +, южное -",
+                  "unit": "angle-degree",
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "geo_lat",
+                  "linear": true,
+                  "factor": 1e-06,
+                  "_inactive": false,
+                  "_parentId": "settings"
+                },
+                {
+                  "id": "geo_lon",
+                  "active": true,
+                  "name": "Долгота  геозоны",
+                  "type": "argument",
+                  "description": "Восточное полушарие +, западное -",
+                  "unit": "angle-degree",
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "geo_lon",
+                  "linear": true,
+                  "factor": 1e-06,
+                  "children": [],
+                  "_inactive": false,
+                  "_parentId": "settings"
+                },
+                {
+                  "id": "geo_radius",
+                  "active": true,
+                  "name": "Радиус  геозоны",
+                  "type": "argument",
+                  "description": null,
+                  "unit": "length-meter",
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "geo_radius",
+                  "linear": true,
+                  "factor": 1,
+                  "children": [],
+                  "_inactive": false,
+                  "_parentId": "settings"
+                }
+              ],
+              "_inactive": false,
+              "_parentId": "params"
+            },
+            {
+              "id": "state",
+              "name": "Состояние",
+              "active": true,
+              "type": "subsystem",
+              "children": [
+                {
+                  "id": "state_reason",
+                  "name": "Причина пакета",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "description": "Причина формирования пакета",
+                  "factor": 1,
+                  "linear": true,
+                  "reference": "state_reason",
+                  "_inactive": false,
+                  "_parentId": "state"
+                },
+                {
+                  "id": "alarm1",
+                  "name": "Будильник 1",
+                  "active": true,
+                  "type": "subsystem",
+                  "dataType": "number",
+                  "description": null,
+                  "factor": 1,
+                  "linear": true,
+                  "reference": "state_time",
+                  "children": [
+                    {
+                      "id": "alarm1_time",
+                      "name": "Время срабатывания",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "string",
+                      "factor": 1,
+                      "linear": true,
+                      "reference": "alarm1_time",
+                      "unit": null,
+                      "_inactive": false,
+                      "_parentId": "alarm1"
+                    },
+                    {
+                      "id": "alarm1_period",
+                      "name": "Период срабатывания",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "factor": 1,
+                      "linear": true,
+                      "reference": "alarm1_period",
+                      "unit": "duration-minute",
+                      "children": [],
+                      "description": "Значение периода 0 означает, что установка будильника при срабатывании не изменяется - в результате он будет срабатывать в один и тот же день и время каждого месяца. ",
+                      "_inactive": false,
+                      "_parentId": "alarm1"
+                    }
+                  ],
+                  "unit": "duration-millisecond",
+                  "_inactive": false,
+                  "_parentId": "state"
+                },
+                {
+                  "id": "alarm2",
+                  "name": "Будильник 2",
+                  "active": true,
+                  "type": "subsystem",
+                  "dataType": "number",
+                  "description": null,
+                  "factor": 1,
+                  "linear": true,
+                  "reference": "state_time",
+                  "children": [
+                    {
+                      "id": "alarm2_time",
+                      "name": "Время срабатывания",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "string",
+                      "factor": 1,
+                      "linear": true,
+                      "reference": "alarm2_time",
+                      "unit": null,
+                      "children": [],
+                      "_inactive": false,
+                      "_parentId": "alarm2"
+                    },
+                    {
+                      "id": "alarm2_period",
+                      "name": "Период срабатывания",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "factor": 1,
+                      "linear": true,
+                      "reference": "alarm2_period",
+                      "unit": "duration-minute",
+                      "children": [],
+                      "description": "Значение периода 0 означает, что установка будильника при срабатывании не изменяется - в результате он будет срабатывать в один и тот же день и время каждого месяца. ",
+                      "_inactive": false,
+                      "_parentId": "alarm2"
+                    }
+                  ],
+                  "unit": "duration-millisecond",
+                  "_inactive": false,
+                  "_parentId": "state"
+                },
+                {
+                  "id": "battery_percentage",
+                  "name": "Уровень батареи",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "description": "Уровень батареи (аккумулятора) ",
+                  "factor": 1,
+                  "linear": true,
+                  "reference": "battery_percentage",
+                  "unit": "percent",
+                  "_inactive": false,
+                  "_parentId": "state"
+                },
+                {
+                  "id": "battery_voltage",
+                  "name": "Батарея",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "description": "Напряжение батареи (аккумулятора)",
+                  "factor": 0.001,
+                  "linear": true,
+                  "reference": "battery_voltage",
+                  "unit": "electric-volt",
+                  "children": [],
+                  "_inactive": false,
+                  "_parentId": "state"
+                },
+                {
+                  "id": "output_voltage",
+                  "name": "Внешнее питание",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "description": "Напряжение внешнего питания",
+                  "factor": 0.001,
+                  "linear": true,
+                  "reference": "output_voltage",
+                  "unit": "electric-volt",
+                  "children": [],
+                  "_inactive": false,
+                  "_parentId": "state"
+                },
+                {
+                  "id": "luminosity",
+                  "name": "Уровень освещенности",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "description": "Уровень освещенности в попугаях",
+                  "factor": 1,
+                  "linear": true,
+                  "reference": "luminosity",
+                  "unit": null,
+                  "children": [],
+                  "_inactive": false,
+                  "_parentId": "state"
+                },
+                {
+                  "id": "energy",
+                  "name": "Потребленная энергия",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "description": null,
+                  "factor": 1,
+                  "linear": true,
+                  "reference": "energy",
+                  "unit": "electric-milliampere-hour",
+                  "children": [],
+                  "_inactive": false,
+                  "_parentId": "state"
+                },
+                {
+                  "id": "measurement_time",
+                  "name": "Время замера энергии",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "description": "Время, за которое замерялась потребленная энергия",
+                  "factor": 1,
+                  "linear": true,
+                  "reference": "measurement_time",
+                  "unit": "duration-minute",
+                  "children": [],
+                  "_inactive": false,
+                  "_parentId": "state"
+                },
+                {
+                  "id": "temperature",
+                  "name": "Температура",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "description": null,
+                  "factor": 1,
+                  "linear": true,
+                  "reference": "temperature",
+                  "unit": "temperature-celsius",
+                  "children": [],
+                  "levels": {
+                    "type": "numeric",
+                    "value": [
+                      {
+                        "color": "#f16059",
+                        "name": "Ошибка замера",
+                        "value": -100
+                      }
+                    ]
+                  },
+                  "_inactive": false,
+                  "_parentId": "state"
+                },
+                {
+                  "id": "params_",
+                  "name": "Параметры",
+                  "active": true,
+                  "type": "subsystem",
+                  "description": "Состояние кнопки, входов, выходов, и других параметров маяка на момент формирования пакета",
+                  "children": [
+                    {
+                      "id": "button_state",
+                      "name": "Нажата кнопка",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "boolean",
+                      "factor": 1,
+                      "linear": true,
+                      "reference": "params.0",
+                      "unit": null,
+                      "_inactive": false,
+                      "_parentId": "params_"
+                    },
+                    {
+                      "id": "input_plus_state",
+                      "name": "Активен вход +",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "boolean",
+                      "factor": 1,
+                      "linear": true,
+                      "reference": "params.1",
+                      "unit": null,
+                      "children": [],
+                      "_inactive": false,
+                      "_parentId": "params_"
+                    },
+                    {
+                      "id": "input_minus_state",
+                      "name": "Активен вход -",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "boolean",
+                      "factor": 1,
+                      "linear": true,
+                      "reference": "params.2",
+                      "unit": null,
+                      "children": [],
+                      "_inactive": false,
+                      "_parentId": "params_"
+                    },
+                    {
+                      "id": "out_power_state",
+                      "name": "Наличие внешнего питания",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "boolean",
+                      "factor": 1,
+                      "linear": true,
+                      "reference": "params.3",
+                      "unit": null,
+                      "children": [],
+                      "_inactive": false,
+                      "_parentId": "params_"
+                    },
+                    {
+                      "id": "usb_power_state",
+                      "name": "Наличие питания USB",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "boolean",
+                      "factor": 1,
+                      "linear": true,
+                      "reference": "params.4",
+                      "unit": null,
+                      "children": [],
+                      "_inactive": false,
+                      "_parentId": "params_"
+                    },
+                    {
+                      "id": "usb_state",
+                      "name": "Наличие соединения по USB",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "boolean",
+                      "factor": 1,
+                      "linear": true,
+                      "reference": "params.5",
+                      "unit": null,
+                      "children": [],
+                      "_inactive": false,
+                      "_parentId": "params_"
+                    },
+                    {
+                      "id": "move_info_state",
+                      "name": "Информация о движении",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "boolean",
+                      "factor": 1,
+                      "linear": true,
+                      "reference": "params.6",
+                      "unit": null,
+                      "children": [],
+                      "description": "Наличие информации о движении/покое",
+                      "_inactive": false,
+                      "_parentId": "params_"
+                    },
+                    {
+                      "id": "move_state",
+                      "name": "Наличие движения",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "boolean",
+                      "factor": 1,
+                      "linear": true,
+                      "reference": "params.7",
+                      "unit": null,
+                      "children": [],
+                      "description": null,
+                      "_inactive": false,
+                      "_parentId": "params_"
+                    },
+                    {
+                      "id": "output_state",
+                      "name": "Состояние выходного канала",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "boolean",
+                      "factor": 1,
+                      "linear": true,
+                      "reference": "params.8",
+                      "unit": null,
+                      "children": [],
+                      "description": null,
+                      "_inactive": false,
+                      "_parentId": "params_"
+                    },
+                    {
+                      "id": "heating_state",
+                      "name": "Состояние обогрева",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "boolean",
+                      "factor": 1,
+                      "linear": true,
+                      "reference": "params.9",
+                      "unit": null,
+                      "children": [],
+                      "description": null,
+                      "_inactive": false,
+                      "_parentId": "params_"
+                    }
+                  ],
+                  "_inactive": false,
+                  "_parentId": "state"
+                },
+                {
+                  "id": "sim_data1",
+                  "name": "Данные сим-карты 1",
+                  "active": true,
+                  "type": "subsystem",
+                  "children": [
+                    {
+                      "id": "sim_data1_level",
+                      "name": "Уровень сигнала GSM",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "factor": 1,
+                      "linear": true,
+                      "reference": "sim_data1_level",
+                      "unit": "decibel",
+                      "_inactive": false,
+                      "_parentId": "sim_data1"
+                    },
+                    {
+                      "id": "sim_data1_level_request_time",
+                      "name": "Время с момента запроса уровня",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "factor": 1,
+                      "linear": true,
+                      "reference": "sim_data1_level_request_time",
+                      "unit": "duration-second",
+                      "children": [],
+                      "description": "Время, прошедшее с момента запроса уровня сигнала (в секундах)",
+                      "_inactive": false,
+                      "_parentId": "sim_data1"
+                    },
+                    {
+                      "id": "sim_data1_is_balance",
+                      "name": "Информация о балансе",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "boolean",
+                      "description": "Наличие информации о балансе сим-карты",
+                      "factor": 1,
+                      "linear": true,
+                      "reference": "sim_data1_is_balance",
+                      "unit": null,
+                      "_inactive": false,
+                      "_parentId": "sim_data1"
+                    },
+                    {
+                      "id": "sim_data1_balance",
+                      "name": "Баланс сим-карты",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "factor": 0.01,
+                      "linear": true,
+                      "reference": "sim_data1_balance",
+                      "unit": "currency-rub",
+                      "children": [],
+                      "description": "Если парсинг баланса неудачный, то значение равно нулю.",
+                      "_inactive": false,
+                      "_parentId": "sim_data1"
+                    },
+                    {
+                      "id": "sim_data1_balance_request_time",
+                      "name": "Время с момента запроса баланса",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "factor": 1,
+                      "linear": true,
+                      "reference": "sim_data1_balance_request_time",
+                      "unit": "duration-second",
+                      "children": [],
+                      "description": "Время, прошедшее с момента запроса баланса (в секундах). Даже при неудачном парсинге",
+                      "_inactive": false,
+                      "_parentId": "sim_data1"
+                    }
+                  ],
+                  "_inactive": false,
+                  "_parentId": "state"
+                },
+                {
+                  "id": "sim_data2",
+                  "name": "Данные сим-карты 2",
+                  "active": true,
+                  "type": "subsystem",
+                  "children": [
+                    {
+                      "id": "sim_data2_level",
+                      "name": "Уровень сигнала GSM",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "factor": 1,
+                      "linear": true,
+                      "reference": "sim_data2_level",
+                      "unit": "decibel",
+                      "children": [],
+                      "_inactive": false,
+                      "_parentId": "sim_data2"
+                    },
+                    {
+                      "id": "sim_data2_level_request_time",
+                      "name": "Время с момента запроса уровня",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "factor": 1,
+                      "linear": true,
+                      "reference": "sim_data2_level_request_time",
+                      "unit": "duration-second",
+                      "children": [],
+                      "description": "Время, прошедшее с момента запроса уровня сигнала (в секундах)",
+                      "_inactive": false,
+                      "_parentId": "sim_data2"
+                    },
+                    {
+                      "id": "sim_data2_is_balance",
+                      "name": "Информация о балансе",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "boolean",
+                      "description": "Наличие информации о балансе сим-карты",
+                      "factor": 1,
+                      "linear": true,
+                      "reference": "sim_data2_is_balance",
+                      "unit": null,
+                      "children": [],
+                      "_inactive": false,
+                      "_parentId": "sim_data2"
+                    },
+                    {
+                      "id": "sim_data2_balance",
+                      "name": "Баланс сим-карты",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "factor": 0.01,
+                      "linear": true,
+                      "reference": "sim_data2_balance",
+                      "unit": "currency-rub",
+                      "children": [],
+                      "description": "Если парсинг баланса неудачный, то значение равно нулю.",
+                      "_inactive": false,
+                      "_parentId": "sim_data2"
+                    },
+                    {
+                      "id": "sim_data2_balance_request_time",
+                      "name": "Время с момента запроса баланса",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "factor": 1,
+                      "linear": true,
+                      "reference": "sim_data2_balance_request_time",
+                      "unit": "duration-second",
+                      "children": [],
+                      "description": "Время, прошедшее с момента запроса баланса (в секундах). Даже при неудачном парсинге",
+                      "_inactive": false,
+                      "_parentId": "sim_data2"
+                    }
+                  ],
+                  "_inactive": false,
+                  "_parentId": "state"
+                },
+                {
+                  "id": "black_size",
+                  "name": "Количество страниц  ЧЯ",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "description": "Количество заполненных страниц «черного ящика»",
+                  "factor": 1,
+                  "linear": true,
+                  "reference": "black_size",
+                  "_inactive": false,
+                  "_parentId": "state"
+                },
+                {
+                  "id": "black_reserve_total",
+                  "name": "Резерв. указатели (общее)",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "description": "Резерв перезаписи «черного ящика» (общее количество резервных указателей).",
+                  "factor": 1,
+                  "linear": true,
+                  "reference": "black_reserve_total",
+                  "children": [],
+                  "_inactive": false,
+                  "_parentId": "state"
+                },
+                {
+                  "id": "black_reserve_used",
+                  "name": "Резерв. указатели (исп.)",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "description": "Резерв перезаписи «черного ящика» (использованное количество резервных указателей).",
+                  "factor": 1,
+                  "linear": true,
+                  "reference": "black_reserve_used",
+                  "children": [],
+                  "_inactive": false,
+                  "_parentId": "state"
+                },
+                {
+                  "id": "bluetooth_count",
+                  "name": "Bluetooth-устройства",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "description": "Общее количество Bluetooth-устройств  в памяти",
+                  "factor": 1,
+                  "linear": true,
+                  "reference": "bluetooth_count",
+                  "children": [],
+                  "_inactive": false,
+                  "_parentId": "state"
+                },
+                {
+                  "id": "rf_count",
+                  "name": "RF-метки",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "description": "Общее количество RF-меток в памяти",
+                  "factor": 1,
+                  "linear": true,
+                  "reference": "rf_count",
+                  "children": [],
+                  "_inactive": false,
+                  "_parentId": "state"
+                },
+                {
+                  "id": "events",
+                  "name": "События",
+                  "active": true,
+                  "type": "subsystem",
+                  "children": [
+                    {
+                      "id": "event1_time",
+                      "name": "Нажатие кнопки",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "string",
+                      "description": "Дата и время возникновения события",
+                      "factor": 1,
+                      "linear": true,
+                      "reference": "event1_time",
+                      "children": [],
+                      "unit": null,
+                      "_inactive": false,
+                      "_parentId": "events"
+                    },
+                    {
+                      "id": "event2_time",
+                      "name": "Отпускание кнопки",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "string",
+                      "description": "Дата и время возникновения события",
+                      "factor": 1,
+                      "linear": true,
+                      "reference": "event2_time",
+                      "children": [],
+                      "unit": null,
+                      "_inactive": false,
+                      "_parentId": "events"
+                    }
+                  ],
+                  "_inactive": false,
+                  "_parentId": "state"
+                }
+              ],
+              "_inactive": false,
+              "_parentId": "params"
+            },
+            {
+              "id": "stations",
+              "name": "БС сотового оператора",
+              "active": true,
+              "type": "subsystem",
+              "children": [
+                {
+                  "id": "stations_reason",
+                  "name": "Причина пакета",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "description": "Причина формирования пакета",
+                  "factor": 1,
+                  "linear": true,
+                  "reference": "stations_reason",
+                  "children": [],
+                  "_inactive": false,
+                  "_parentId": "stations"
+                },
+                {
+                  "id": "stations_data_time",
+                  "name": "Время с получения данных",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "description": "Время с момента получения данных",
+                  "factor": 1,
+                  "linear": true,
+                  "reference": "stations_data_time",
+                  "children": [],
+                  "unit": "duration-second",
+                  "_inactive": false,
+                  "_parentId": "stations"
+                },
+                {
+                  "id": "level_sim1",
+                  "name": "Сигнал сим-карты 1",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "description": "Уровень сигнала GSM (-dB) 1-й сим-карты",
+                  "factor": 1,
+                  "linear": true,
+                  "reference": "level_sim1",
+                  "children": [],
+                  "unit": "decibel",
+                  "_inactive": false,
+                  "_parentId": "stations"
+                },
+                {
+                  "id": "level_sim2",
+                  "name": "Сигнал сим-карты 2",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "description": "Уровень сигнала GSM (-dB) 2-й сим-карты",
+                  "factor": 1,
+                  "linear": true,
+                  "reference": "level_sim2",
+                  "children": [],
+                  "unit": "decibel",
+                  "_inactive": false,
+                  "_parentId": "stations"
+                },
+                {
+                  "id": "network_status",
+                  "name": "Статус сети",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "description": null,
+                  "factor": 1,
+                  "linear": true,
+                  "reference": "network_status",
+                  "children": [],
+                  "unit": null,
+                  "levels": {
+                    "type": "numeric",
+                    "value": [
+                      {
+                        "color": "#2d3945",
+                        "name": "нет регистрации",
+                        "value": 0
+                      },
+                      {
+                        "color": "#2d3945",
+                        "name": "домашняя сеть",
+                        "value": 1
+                      },
+                      {
+                        "color": "#2d3945",
+                        "name": "идет регистрация",
+                        "value": 2
+                      },
+                      {
+                        "color": "#2d3945",
+                        "name": "регистрация отклонена",
+                        "value": 3
+                      },
+                      {
+                        "color": "#2d3945",
+                        "name": "неизвестный оператор",
+                        "value": 4
+                      },
+                      {
+                        "color": "#2d3945",
+                        "name": "роуминг",
+                        "value": 5
+                      }
+                    ]
+                  },
+                  "_inactive": false,
+                  "_parentId": "stations"
+                },
+                {
+                  "id": "operator1",
+                  "name": "Оператор 1",
+                  "active": true,
+                  "type": "subsystem",
+                  "children": [
+                    {
+                      "id": "operator1_status",
+                      "name": "Статус",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "factor": 1,
+                      "levels": {
+                        "type": "numeric",
+                        "value": [
+                          {
+                            "color": "#2d3945",
+                            "name": "неизвестен",
+                            "value": 0
+                          },
+                          {
+                            "color": "#2d3945",
+                            "name": "доступен",
+                            "value": 1
+                          },
+                          {
+                            "color": "#2d3945",
+                            "name": "текущий",
+                            "value": 2
+                          },
+                          {
+                            "color": "#2d3945",
+                            "name": "запрещенный",
+                            "value": 3
+                          }
+                        ]
+                      },
+                      "linear": true,
+                      "reference": "operator1_status",
+                      "_inactive": false,
+                      "_parentId": "operator1"
+                    },
+                    {
+                      "id": "operator1_mcc",
+                      "name": "MCC БС",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "factor": 1,
+                      "linear": true,
+                      "reference": "operator1_mcc",
+                      "_inactive": false,
+                      "_parentId": "operator1"
+                    },
+                    {
+                      "id": "operator1_mnc",
+                      "name": "MNC БС",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "factor": 1,
+                      "linear": true,
+                      "reference": "operator1_mnc",
+                      "children": [],
+                      "_inactive": false,
+                      "_parentId": "operator1"
+                    },
+                    {
+                      "id": "operator1_bs1",
+                      "name": "Базовая станция 1",
+                      "active": true,
+                      "type": "subsystem",
+                      "children": [
+                        {
+                          "id": "operator1_lac1",
+                          "name": "LAC",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "string",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "operator1_lac1",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "operator1_bs1"
+                        },
+                        {
+                          "id": "operator1_cid1",
+                          "name": "CID",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "string",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "operator1_cid1",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "operator1_bs1"
+                        },
+                        {
+                          "id": "operator1_level1",
+                          "name": "Уровень сигнала",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "number",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "operator1_level1",
+                          "children": [],
+                          "unit": "decibel",
+                          "levels": {
+                            "type": null
+                          },
+                          "_inactive": false,
+                          "_parentId": "operator1_bs1"
+                        }
+                      ],
+                      "_inactive": false,
+                      "_parentId": "operator1"
+                    },
+                    {
+                      "id": "operator1_bs2",
+                      "name": "Базовая станция 2",
+                      "active": true,
+                      "type": "subsystem",
+                      "children": [
+                        {
+                          "id": "operator1_lac2",
+                          "name": "LAC",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "string",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "operator1_lac2",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "operator1_bs2"
+                        },
+                        {
+                          "id": "operator1_cid2",
+                          "name": "CID",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "string",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "operator1_cid2",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "operator1_bs2"
+                        },
+                        {
+                          "id": "operator1_level2",
+                          "name": "Уровень сигнала",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "number",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "operator1_level2",
+                          "children": [],
+                          "unit": "decibel",
+                          "levels": {
+                            "type": null
+                          },
+                          "_inactive": false,
+                          "_parentId": "operator1_bs2"
+                        }
+                      ],
+                      "_inactive": false,
+                      "_parentId": "operator1"
+                    },
+                    {
+                      "id": "operator1_bs3",
+                      "name": "Базовая станция 3",
+                      "active": true,
+                      "type": "subsystem",
+                      "children": [
+                        {
+                          "id": "operator1_lac3",
+                          "name": "LAC",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "string",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "operator1_lac3",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "operator1_bs3"
+                        },
+                        {
+                          "id": "operator1_cid3",
+                          "name": "CID",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "string",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "operator1_cid3",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "operator1_bs3"
+                        },
+                        {
+                          "id": "operator1_level3",
+                          "name": "Уровень сигнала",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "number",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "operator1_level3",
+                          "children": [],
+                          "unit": "decibel",
+                          "levels": {
+                            "type": null
+                          },
+                          "_inactive": false,
+                          "_parentId": "operator1_bs3"
+                        }
+                      ],
+                      "_inactive": false,
+                      "_parentId": "operator1"
+                    },
+                    {
+                      "id": "operator1_bs4",
+                      "name": "Базовая станция 4",
+                      "active": true,
+                      "type": "subsystem",
+                      "children": [
+                        {
+                          "id": "operator1_lac4",
+                          "name": "LAC",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "string",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "operator1_lac4",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "operator1_bs4"
+                        },
+                        {
+                          "id": "operator1_cid4",
+                          "name": "CID",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "string",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "operator1_cid4",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "operator1_bs4"
+                        },
+                        {
+                          "id": "operator1_level4",
+                          "name": "Уровень сигнала",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "number",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "operator1_level4",
+                          "children": [],
+                          "unit": "decibel",
+                          "levels": {
+                            "type": null
+                          },
+                          "_inactive": false,
+                          "_parentId": "operator1_bs4"
+                        }
+                      ],
+                      "_inactive": false,
+                      "_parentId": "operator1"
+                    }
+                  ],
+                  "_inactive": false,
+                  "_parentId": "stations"
+                },
+                {
+                  "id": "operator2",
+                  "name": "Оператор 2",
+                  "active": true,
+                  "type": "subsystem",
+                  "children": [
+                    {
+                      "id": "operator2_status",
+                      "name": "Статус",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "factor": 1,
+                      "levels": {
+                        "type": "numeric",
+                        "value": [
+                          {
+                            "color": "#2d3945",
+                            "name": "неизвестен",
+                            "value": 0
+                          },
+                          {
+                            "color": "#2d3945",
+                            "name": "доступен",
+                            "value": 1
+                          },
+                          {
+                            "color": "#2d3945",
+                            "name": "текущий",
+                            "value": 2
+                          },
+                          {
+                            "color": "#2d3945",
+                            "name": "запрещенный",
+                            "value": 3
+                          }
+                        ]
+                      },
+                      "linear": true,
+                      "reference": "operator2_status",
+                      "children": [],
+                      "_inactive": false,
+                      "_parentId": "operator2"
+                    },
+                    {
+                      "id": "operator2_mcc",
+                      "name": "MCC БС",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "factor": 1,
+                      "linear": true,
+                      "reference": "operator2_mcc",
+                      "children": [],
+                      "_inactive": false,
+                      "_parentId": "operator2"
+                    },
+                    {
+                      "id": "operator2_mnc",
+                      "name": "MNC БС",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "factor": 1,
+                      "linear": true,
+                      "reference": "operator2_mnc",
+                      "children": [],
+                      "_inactive": false,
+                      "_parentId": "operator2"
+                    },
+                    {
+                      "id": "operator2_bs1",
+                      "name": "Базовая станция 1",
+                      "active": true,
+                      "type": "subsystem",
+                      "children": [
+                        {
+                          "id": "operator2_lac1",
+                          "name": "LAC",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "string",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "operator2_lac1",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "operator2_bs1"
+                        },
+                        {
+                          "id": "operator2_cid1",
+                          "name": "CID",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "string",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "operator2_cid1",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "operator2_bs1"
+                        },
+                        {
+                          "id": "operator2_level1",
+                          "name": "Уровень сигнала",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "number",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "operator2_level1",
+                          "children": [],
+                          "unit": "decibel",
+                          "levels": {
+                            "type": null
+                          },
+                          "_inactive": false,
+                          "_parentId": "operator2_bs1"
+                        }
+                      ],
+                      "_inactive": false,
+                      "_parentId": "operator2"
+                    },
+                    {
+                      "id": "operator2_bs2",
+                      "name": "Базовая станция 2",
+                      "active": true,
+                      "type": "subsystem",
+                      "children": [
+                        {
+                          "id": "operator2_lac2",
+                          "name": "LAC",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "string",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "operator2_lac2",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "operator2_bs2"
+                        },
+                        {
+                          "id": "operator2_cid2",
+                          "name": "CID",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "string",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "operator2_cid2",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "operator2_bs2"
+                        },
+                        {
+                          "id": "operator2_level2",
+                          "name": "Уровень сигнала",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "number",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "operator2_level2",
+                          "children": [],
+                          "unit": "decibel",
+                          "levels": {
+                            "type": null
+                          },
+                          "_inactive": false,
+                          "_parentId": "operator2_bs2"
+                        }
+                      ],
+                      "_inactive": false,
+                      "_parentId": "operator2"
+                    },
+                    {
+                      "id": "operator2_bs3",
+                      "name": "Базовая станция 3",
+                      "active": true,
+                      "type": "subsystem",
+                      "children": [
+                        {
+                          "id": "operator2_lac3",
+                          "name": "LAC",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "string",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "operator2_lac3",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "operator2_bs3"
+                        },
+                        {
+                          "id": "operator2_cid3",
+                          "name": "CID",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "string",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "operator2_cid3",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "operator2_bs3"
+                        },
+                        {
+                          "id": "operator2_level3",
+                          "name": "Уровень сигнала",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "number",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "operator2_level3",
+                          "children": [],
+                          "unit": "decibel",
+                          "levels": {
+                            "type": null
+                          },
+                          "_inactive": false,
+                          "_parentId": "operator2_bs3"
+                        }
+                      ],
+                      "_inactive": false,
+                      "_parentId": "operator2"
+                    },
+                    {
+                      "id": "operator2_bs4",
+                      "name": "Базовая станция 4",
+                      "active": true,
+                      "type": "subsystem",
+                      "children": [
+                        {
+                          "id": "operator2_lac4",
+                          "name": "LAC",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "string",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "operator2_lac4",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "operator2_bs4"
+                        },
+                        {
+                          "id": "operator2_cid4",
+                          "name": "CID",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "string",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "operator2_cid4",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "operator2_bs4"
+                        },
+                        {
+                          "id": "operator2_level4",
+                          "name": "Уровень сигнала",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "number",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "operator2_level4",
+                          "children": [],
+                          "unit": "decibel",
+                          "levels": {
+                            "type": null
+                          },
+                          "_inactive": false,
+                          "_parentId": "operator2_bs4"
+                        }
+                      ],
+                      "_inactive": false,
+                      "_parentId": "operator2"
+                    }
+                  ],
+                  "_inactive": false,
+                  "_parentId": "stations"
+                },
+                {
+                  "id": "operator3",
+                  "name": "Оператор 3",
+                  "active": true,
+                  "type": "subsystem",
+                  "children": [
+                    {
+                      "id": "operator3_status",
+                      "name": "Статус",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "factor": 1,
+                      "levels": {
+                        "type": "numeric",
+                        "value": [
+                          {
+                            "color": "#2d3945",
+                            "name": "неизвестен",
+                            "value": 0
+                          },
+                          {
+                            "color": "#2d3945",
+                            "name": "доступен",
+                            "value": 1
+                          },
+                          {
+                            "color": "#2d3945",
+                            "name": "текущий",
+                            "value": 2
+                          },
+                          {
+                            "color": "#2d3945",
+                            "name": "запрещенный",
+                            "value": 3
+                          }
+                        ]
+                      },
+                      "linear": true,
+                      "reference": "operator3_status",
+                      "children": [],
+                      "_inactive": false,
+                      "_parentId": "operator3"
+                    },
+                    {
+                      "id": "operator3_mcc",
+                      "name": "MCC БС",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "factor": 1,
+                      "linear": true,
+                      "reference": "operator3_mcc",
+                      "children": [],
+                      "_inactive": false,
+                      "_parentId": "operator3"
+                    },
+                    {
+                      "id": "operator3_mnc",
+                      "name": "MNC БС",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "factor": 1,
+                      "linear": true,
+                      "reference": "operator3_mnc",
+                      "children": [],
+                      "_inactive": false,
+                      "_parentId": "operator3"
+                    },
+                    {
+                      "id": "operator3_bs1",
+                      "name": "Базовая станция 1",
+                      "active": true,
+                      "type": "subsystem",
+                      "children": [
+                        {
+                          "id": "operator3_lac1",
+                          "name": "LAC",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "string",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "operator3_lac1",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "operator3_bs1"
+                        },
+                        {
+                          "id": "operator3_cid1",
+                          "name": "CID",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "string",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "operator3_cid1",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "operator3_bs1"
+                        },
+                        {
+                          "id": "operator3_level1",
+                          "name": "Уровень сигнала",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "number",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "operator3_level1",
+                          "children": [],
+                          "unit": "decibel",
+                          "levels": {
+                            "type": null
+                          },
+                          "_inactive": false,
+                          "_parentId": "operator3_bs1"
+                        }
+                      ],
+                      "_inactive": false,
+                      "_parentId": "operator3"
+                    },
+                    {
+                      "id": "operator3_bs2",
+                      "name": "Базовая станция 2",
+                      "active": true,
+                      "type": "subsystem",
+                      "children": [
+                        {
+                          "id": "operator3_lac2",
+                          "name": "LAC",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "string",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "operator3_lac2",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "operator3_bs2"
+                        },
+                        {
+                          "id": "operator3_cid2",
+                          "name": "CID",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "string",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "operator3_cid2",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "operator3_bs2"
+                        },
+                        {
+                          "id": "operator3_level2",
+                          "name": "Уровень сигнала",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "number",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "operator3_level2",
+                          "children": [],
+                          "unit": "decibel",
+                          "levels": {
+                            "type": null
+                          },
+                          "_inactive": false,
+                          "_parentId": "operator3_bs2"
+                        }
+                      ],
+                      "_inactive": false,
+                      "_parentId": "operator3"
+                    },
+                    {
+                      "id": "operator3_bs3",
+                      "name": "Базовая станция 3",
+                      "active": true,
+                      "type": "subsystem",
+                      "children": [
+                        {
+                          "id": "operator3_lac3",
+                          "name": "LAC",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "string",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "operator3_lac3",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "operator3_bs3"
+                        },
+                        {
+                          "id": "operator3_cid3",
+                          "name": "CID",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "string",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "operator3_cid3",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "operator3_bs3"
+                        },
+                        {
+                          "id": "operator3_level3",
+                          "name": "Уровень сигнала",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "number",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "operator3_level3",
+                          "children": [],
+                          "unit": "decibel",
+                          "levels": {
+                            "type": null
+                          },
+                          "_inactive": false,
+                          "_parentId": "operator3_bs3"
+                        }
+                      ],
+                      "_inactive": false,
+                      "_parentId": "operator3"
+                    },
+                    {
+                      "id": "operator4_bs2",
+                      "name": "Базовая станция 4",
+                      "active": true,
+                      "type": "subsystem",
+                      "children": [
+                        {
+                          "id": "operator3_lac4",
+                          "name": "LAC",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "string",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "operator3_lac4",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "operator4_bs2"
+                        },
+                        {
+                          "id": "operator3_cid4",
+                          "name": "CID",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "string",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "operator3_cid4",
+                          "children": [],
+                          "unit": null,
+                          "_inactive": false,
+                          "_parentId": "operator4_bs2"
+                        },
+                        {
+                          "id": "operator3_level4",
+                          "name": "Уровень сигнала",
+                          "active": true,
+                          "type": "argument",
+                          "dataType": "number",
+                          "factor": 1,
+                          "linear": true,
+                          "reference": "operator3_level4",
+                          "children": [],
+                          "unit": "decibel",
+                          "levels": {
+                            "type": null
+                          },
+                          "_inactive": false,
+                          "_parentId": "operator4_bs2"
+                        }
+                      ],
+                      "_inactive": false,
+                      "_parentId": "operator3"
+                    }
+                  ],
+                  "_inactive": false,
+                  "_parentId": "stations"
+                }
+              ],
+              "_inactive": false,
+              "_parentId": "params"
+            },
+            {
+              "id": "navigation",
+              "name": "Навигация",
+              "active": true,
+              "type": "subsystem",
+              "children": [
+                {
+                  "id": "navigation_reason",
+                  "name": "Причина пакета",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "description": "Причина формирования пакета",
+                  "factor": 1,
+                  "linear": true,
+                  "reference": "navigation_reason",
+                  "children": [],
+                  "_inactive": false,
+                  "_parentId": "navigation"
+                },
+                {
+                  "id": "navigation_data_time",
+                  "name": "Время с получения данных",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "description": "Время с момента получения данных",
+                  "factor": 1,
+                  "linear": true,
+                  "reference": "navigation_data_time",
+                  "children": [],
+                  "unit": "duration-second",
+                  "_inactive": false,
+                  "_parentId": "navigation"
+                },
+                {
+                  "id": "move",
+                  "name": "Движение",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "factor": 1,
+                  "levels": {
+                    "type": "numeric",
+                    "value": [
+                      {
+                        "color": "#2d3945",
+                        "name": "нет",
+                        "value": 0
+                      },
+                      {
+                        "color": "#2d3945",
+                        "name": "есть",
+                        "value": 1
+                      },
+                      {
+                        "color": "#2d3945",
+                        "name": "не определено",
+                        "value": 2
+                      }
+                    ]
+                  },
+                  "linear": true,
+                  "reference": "move",
+                  "_inactive": false,
+                  "_parentId": "navigation"
+                },
+                {
+                  "id": "search_time",
+                  "name": "Время поиска местоположения",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "factor": 1,
+                  "levels": {
+                    "type": null
+                  },
+                  "linear": true,
+                  "reference": "search_time",
+                  "children": [],
+                  "description": "Актуально только при выполнении задач («данные NAVI»).",
+                  "unit": "duration-second",
+                  "_inactive": false,
+                  "_parentId": "navigation"
+                },
+                {
+                  "id": "gnss",
+                  "name": "Спутники GNSS",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "factor": 1,
+                  "levels": {
+                    "type": null
+                  },
+                  "linear": true,
+                  "reference": "gnss",
+                  "children": [],
+                  "description": "Видимые спутники GNSS",
+                  "unit": null,
+                  "_inactive": false,
+                  "_parentId": "navigation"
+                },
+                {
+                  "id": "gps",
+                  "name": "Спутники GPS",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "factor": 1,
+                  "levels": {
+                    "type": null
+                  },
+                  "linear": true,
+                  "reference": "gps",
+                  "children": [],
+                  "description": "Видимые спутники GPS",
+                  "unit": null,
+                  "_inactive": false,
+                  "_parentId": "navigation"
+                },
+                {
+                  "id": "used_gnss",
+                  "name": "Используемые GNSS",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "factor": 1,
+                  "levels": {
+                    "type": null
+                  },
+                  "linear": true,
+                  "reference": "used_gnss",
+                  "children": [],
+                  "description": "Используемые спутники GNSS",
+                  "unit": null,
+                  "_inactive": false,
+                  "_parentId": "navigation"
+                },
+                {
+                  "id": "used_gps",
+                  "name": "Используемые GPS",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "factor": 1,
+                  "levels": {
+                    "type": null
+                  },
+                  "linear": true,
+                  "reference": "used_gps",
+                  "children": [],
+                  "description": "Используемые спутники GPS",
+                  "unit": null,
+                  "_inactive": false,
+                  "_parentId": "navigation"
+                },
+                {
+                  "id": "navigation_time",
+                  "name": "Дата и время",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "string",
+                  "description": "Дата и время по навигационным данным",
+                  "factor": 1,
+                  "linear": true,
+                  "reference": "navigation_time",
+                  "children": [],
+                  "unit": null,
+                  "_inactive": false,
+                  "_parentId": "navigation"
+                },
+                {
+                  "id": "lat",
+                  "active": true,
+                  "name": "Широта",
+                  "type": "argument",
+                  "description": "Северное полушарие +, южное -",
+                  "unit": "angle-degree",
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "lat",
+                  "linear": true,
+                  "factor": 1e-06,
+                  "children": [],
+                  "_inactive": false,
+                  "_parentId": "navigation"
+                },
+                {
+                  "id": "lon",
+                  "active": true,
+                  "name": "Долгота",
+                  "type": "argument",
+                  "description": "Восточное полушарие +, западное -",
+                  "unit": "angle-degree",
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "lon",
+                  "linear": true,
+                  "factor": 1e-06,
+                  "children": [],
+                  "_inactive": false,
+                  "_parentId": "navigation"
+                },
+                {
+                  "id": "hdop",
+                  "active": true,
+                  "name": "HDOP",
+                  "type": "argument",
+                  "description": null,
+                  "unit": null,
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "hdop",
+                  "linear": true,
+                  "factor": 0.1,
+                  "children": [],
+                  "_inactive": false,
+                  "_parentId": "navigation"
+                },
+                {
+                  "id": "speed",
+                  "active": true,
+                  "name": "Скорость",
+                  "type": "argument",
+                  "description": null,
+                  "unit": "speed-kilometer-per-hour",
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "speed",
+                  "linear": true,
+                  "factor": 1,
+                  "children": [],
+                  "_inactive": false,
+                  "_parentId": "navigation"
+                },
+                {
+                  "id": "angle",
+                  "active": true,
+                  "name": "Направление",
+                  "type": "argument",
+                  "description": null,
+                  "unit": "angle-degree",
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "angle",
+                  "linear": true,
+                  "factor": 1,
+                  "children": [],
+                  "_inactive": false,
+                  "_parentId": "navigation"
+                },
+                {
+                  "id": "height",
+                  "active": true,
+                  "name": "Высота",
+                  "type": "argument",
+                  "description": null,
+                  "unit": "length-meter",
+                  "source": "state",
+                  "dataType": "number",
+                  "reference": "height",
+                  "linear": true,
+                  "factor": 1,
+                  "children": [],
+                  "_inactive": false,
+                  "_parentId": "navigation"
+                }
+              ],
+              "_inactive": false,
+              "_parentId": "params"
+            },
+            {
+              "id": "wifi_location",
+              "name": "Wi-Fi локация",
+              "active": true,
+              "type": "subsystem",
+              "children": [
+                {
+                  "id": "wifi_reason",
+                  "name": "Причина пакета",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "description": "Причина формирования пакета",
+                  "factor": 1,
+                  "linear": true,
+                  "reference": "wifi_reason",
+                  "children": [],
+                  "_inactive": false,
+                  "_parentId": "wifi_location"
+                },
+                {
+                  "id": "wifi_data_time",
+                  "name": "Время с получения данных",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "description": "Время с момента получения данных",
+                  "factor": 1,
+                  "linear": true,
+                  "reference": "wifi_data_time",
+                  "children": [],
+                  "unit": "duration-second",
+                  "_inactive": false,
+                  "_parentId": "wifi_location"
+                },
+                {
+                  "id": "point1",
+                  "name": "Точка доступа 1",
+                  "active": true,
+                  "type": "subsystem",
+                  "children": [
+                    {
+                      "id": "point1_mac",
+                      "name": "MAC",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "string",
+                      "factor": 1,
+                      "linear": true,
+                      "reference": "point1_mac",
+                      "display": {
+                        "hints": [
+                          "hex"
+                        ]
+                      },
+                      "unit": null,
+                      "_inactive": false,
+                      "_parentId": "point1"
+                    },
+                    {
+                      "id": "point1_level",
+                      "name": "Уровень сигнала",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "factor": 1,
+                      "linear": true,
+                      "reference": "point1_level",
+                      "display": {
+                        "hints": [
+                          "hex"
+                        ]
+                      },
+                      "unit": "decibel",
+                      "children": [],
+                      "_inactive": false,
+                      "_parentId": "point1"
+                    }
+                  ],
+                  "_inactive": false,
+                  "_parentId": "wifi_location"
+                },
+                {
+                  "id": "point2",
+                  "name": "Точка доступа 2",
+                  "active": true,
+                  "type": "subsystem",
+                  "children": [
+                    {
+                      "id": "point2_mac",
+                      "name": "MAC",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "string",
+                      "factor": 1,
+                      "linear": true,
+                      "reference": "point2_mac",
+                      "display": {
+                        "hints": [
+                          "hex"
+                        ]
+                      },
+                      "unit": null,
+                      "children": [],
+                      "_inactive": false,
+                      "_parentId": "point2"
+                    },
+                    {
+                      "id": "point2_level",
+                      "name": "Уровень сигнала",
+                      "active": true,
+                      "type": "argument",
+                      "dataType": "number",
+                      "factor": 1,
+                      "linear": true,
+                      "reference": "point2_level",
+                      "unit": "decibel",
+                      "children": [],
+                      "_inactive": false,
+                      "_parentId": "point2"
+                    }
+                  ],
+                  "_inactive": false,
+                  "_parentId": "wifi_location"
+                }
+              ],
+              "_inactive": false,
+              "_parentId": "params"
+            },
+            {
+              "id": "service",
+              "name": "Служебное",
+              "active": true,
+              "type": "subsystem",
+              "children": [
+                {
+                  "id": "packet_type",
+                  "name": "Тип пакета",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "description": "0: закрытие gprs-соединения\n1: результат проверки наличия прошивки на ftp-сервере\n2: результат попытки обновления прошивки\n3: разряд батареи\n4: произведена коррекция даты/времени\n5: подтверждение приема команды от сервера\n6: изменение установок",
+                  "factor": 1,
+                  "linear": true,
+                  "reference": "packet_type",
+                  "_inactive": false,
+                  "_parentId": "service"
+                },
+                {
+                  "id": "status",
+                  "name": "Cтатус",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "factor": 1,
+                  "linear": true,
+                  "reference": "status",
+                  "_inactive": false,
+                  "_parentId": "service"
+                },
+                {
+                  "id": "battery_voltage_check",
+                  "name": "Напряжение (проверка)",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "factor": 0.001,
+                  "linear": true,
+                  "reference": "battery_voltage_check",
+                  "children": [],
+                  "description": "Напряжение батареи (на момент проверки)",
+                  "unit": "electric-volt",
+                  "_inactive": false,
+                  "_parentId": "service"
+                },
+                {
+                  "id": "battery_voltage_packet",
+                  "name": "Напряжение (формирование)",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "factor": 0.001,
+                  "linear": true,
+                  "reference": "battery_voltage_packet",
+                  "children": [],
+                  "description": "Напряжение батареи (на момент формирования пакета)",
+                  "unit": "electric-volt",
+                  "_inactive": false,
+                  "_parentId": "service"
+                },
+                {
+                  "id": "cmd_number",
+                  "name": "Номер команды",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "number",
+                  "factor": 1,
+                  "linear": true,
+                  "reference": "cmd_number",
+                  "children": [],
+                  "_inactive": false,
+                  "_parentId": "service"
+                }
+              ],
+              "_inactive": false,
+              "_parentId": "params"
+            },
+            {
+              "id": "text_msg",
+              "name": "Текстовое",
+              "active": true,
+              "type": "subsystem",
+              "children": [
+                {
+                  "id": "text",
+                  "name": "Cообщение",
+                  "active": true,
+                  "type": "argument",
+                  "dataType": "string",
+                  "factor": 1,
+                  "linear": true,
+                  "reference": "text",
+                  "unit": null,
+                  "_inactive": false,
+                  "_parentId": "text_msg"
+                }
+              ],
+              "_inactive": false,
+              "_parentId": "params"
+            }
+          ],
+          "_inactive": false,
+          "_parentId": "root"
+        }
+      ],
+      "base": "wialon-ips",
+      "_inactive": false
+    },
+    "props": {
+      "bots": false,
+      "hardwareEvents": false,
+      "helper": "",
+      "prefix": "autofon8:",
+      "order": 8.2,
+      "typeInput": {
+        "hidden": false
+      },
+      "statusInput": {
+        "hidden": false
+      },
+      "descriptionInput": {
+        "hidden": false
+      },
+      "protocol": "autofon8",
+      "idPattern": "autofon8:<imei>"
+    },
+    "owner": "000000000000000000000000",
+    "group": "000000000000000000000000",
+    "time": 1794808404021
+  }
+}
