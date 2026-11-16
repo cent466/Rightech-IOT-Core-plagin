@@ -108,7 +108,7 @@
 | `config` | `id`, `name`, `type`, `active`, `_inactive`, `dataType`, `ctrl`, `opts`, `source: "config"` | `defaultValue`, `_dataPath` (служебное) |
 | `level` | `id`, `name`, `type`, `active`, `_inactive`, `index`, `value`, `color` | — |
 
-Узел `event-logic` встречался в других рабочих моделях, но ни в одной из 16 базовых нет. Узел `event` не подтверждён нигде — не создавай его.
+Узел `event-logic` встречался в других рабочих моделях, но ни в одной из 16 базовых нет. Узел `event` не существует в платформе (проверено на живом аккаунте 2026-11-16): событие модели задаётся `event-logic` с полями `id`, `name`, `active`, `children`.
 
 ### Аргумент
 

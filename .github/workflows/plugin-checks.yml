@@ -35,6 +35,9 @@ jobs:
       - name: Validate ready-to-import files
         run: python3 rightech-plugin/scripts/validate.py import-ready --quiet
 
+      - name: Validator tests
+        run: python3 -m unittest discover -s tests -v
+
       - name: Validate manifest JSON
         run: python3 scripts/check_manifests.py
 

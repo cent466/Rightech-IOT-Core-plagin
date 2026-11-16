@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Локальная проверка JSON сущностей Rightech IoT Core до отправки в API.
 
-Правила взяты из references/rules.md (выведены из 25 рабочих образцов и созданной модели smart_well_mqtt).
+Правила взяты из references/rules.md (выведены из 25 рабочих образцов, созданной модели smart_well_mqtt
+и проверок на живом аккаунте 2026-11-16: круглая геозона, узлы event-logic, сценарий без processId).
 Скрипт не обращается к сети и не требует зависимостей.
 
 Режимы:
@@ -37,7 +38,12 @@ BASE_VALUES = {
 ACTION_SERVICES = {"ric-gate", "ric-logic-v3.user-event"}
 LANGUAGES = {"javascript", "typescript"}
 STATE_TYPES = {"init", "state", "final"}
-GEOFENCE_SHAPES = {"polygon"}
+# Формы подтверждены запросами к API живого аккаунта 2026-11-16: полигон и круг созданы
+# через интерфейс и прочитаны из GET /api/v1/geofences; multiPolygon и marker — из кода
+# фронтенда платформы (shape.union[].points и shape.center).
+GEOFENCE_SHAPES = {"polygon", "multiPolygon", "circle", "marker"}
+# processId необязателен; у старых сценариев это 8 символов [a-z0-9] (например, w1ub6xm2).
+PROCESS_ID = re.compile(r"[a-z0-9]{8}")
 EXTERNAL_MODULE_IDS = {"external-software-modules", "external_software_modules"}
 SNAKE_CASE_ID = re.compile(r"[a-z][a-z0-9_]*")
 LEVEL_ID = re.compile(r"[a-z][a-z0-9_]*\.[a-z][a-z0-9_]*\.\d+")
@@ -155,7 +161,12 @@ def validate_model(entity: dict, mode: str, report: Report) -> None:
             report.error(f"models: {path} — узел не объект")
             return
         node_type = node.get("type")
-        if node_type not in NODE_TYPES:
+        if node_type == "event":
+            report.error(
+                f"models: {path} — типа event в платформе нет: событие модели задаётся узлом "
+                "type=event-logic (только id, name, active, children), на его id ссылаются переходы сценария"
+            )
+        elif node_type not in NODE_TYPES:
             report.error(f"models: {path} — неизвестный type={node_type!r}")
         for key in ("id", "type", "active"):
             if key not in node:
@@ -484,9 +495,14 @@ def validate_scenario(entity: dict, mode: str, report: Report) -> None:
                     report.error(f"automatons: маршруты переходов {transition_id!r} и {other_id!r} пересекаются или идут по одному участку")
 
     if mode == "new":
+        # Проверено 2026-11-16: сценарий, созданный в интерфейсе (тип «По кросс-элементам»),
+        # и сценарий, импортированный из файла без processId, сохраняются платформой без этого поля.
         process_id = entity.get("processId")
-        if not isinstance(process_id, str) or not process_id.strip():
-            report.warn("automatons: нет processId — он есть во всех экспортированных сценариях, но способ получения неизвестен; не подставляй случайное значение, уточни формат создания")
+        if process_id is not None:
+            if not isinstance(process_id, str) or not process_id.strip():
+                report.warn("automatons: processId пустой — удали поле, платформа создаёт сценарий и без него")
+            elif not PROCESS_ID.fullmatch(process_id):
+                report.info(f"automatons: processId={process_id!r} не вида <8 символов a-z0-9> — у платформенных сценариев так")
 
 
 # --------------------------------------------------------------------------- геозоны
@@ -506,31 +522,57 @@ def validate_geofence(entity: dict, mode: str, report: Report) -> None:
     shape_type = shape.get("type")
     if shape_type not in GEOFENCE_SHAPES:
         report.error(
-            f"geofences: shape.type={shape_type!r}; в образцах подтверждён только polygon, "
-            "для других форм нужен эталон из аккаунта"
+            f"geofences: shape.type={shape_type!r}; подтверждены {', '.join(sorted(GEOFENCE_SHAPES))}. "
+            "Прямоугольник и маршрут из интерфейса сохраняются как polygon; для другой формы нужен эталон из аккаунта"
         )
+
+    def check_point(point: object, path: str) -> None:
+        if (
+            not isinstance(point, list)
+            or len(point) != 2
+            or not all(is_number(value) for value in point)
+        ):
+            report.error(f"geofences: {path} должен быть парой чисел [широта, долгота]")
+            return
+        lat, lon = point
+        if not -90 <= lat <= 90:
+            report.error(f"geofences: {path} широта {lat} вне -90..90")
+        if not -180 <= lon <= 180:
+            report.error(f"geofences: {path} долгота {lon} вне -180..180")
 
     def check_ring(points: object, path: str) -> None:
         if not isinstance(points, list) or not points:
             report.error(f"geofences: {path} должен быть непустым списком точек")
             return
         for index, point in enumerate(points):
-            if (
-                not isinstance(point, list)
-                or len(point) != 2
-                or not all(is_number(value) for value in point)
-            ):
-                report.error(f"geofences: {path}[{index}] должен быть парой чисел [широта, долгота]")
-                continue
-            lat, lon = point
-            if not -90 <= lat <= 90:
-                report.error(f"geofences: {path}[{index}] широта {lat} вне -90..90")
-            if not -180 <= lon <= 180:
-                report.error(f"geofences: {path}[{index}] долгота {lon} вне -180..180")
+            check_point(point, f"{path}[{index}]")
         if len(points) < 3:
             report.warn(f"geofences: {path} содержит меньше трёх точек")
 
-    check_ring(shape.get("points"), "shape.points")
+    if shape_type == "polygon":
+        check_ring(shape.get("points"), "shape.points")
+    elif shape_type == "multiPolygon":
+        union = shape.get("union")
+        if not isinstance(union, list) or not union:
+            report.error("geofences: shape.union должен быть непустым списком полигонов")
+        else:
+            for index, part in enumerate(union):
+                if not isinstance(part, dict) or part.get("type") != "polygon":
+                    report.error(f"geofences: shape.union[{index}] должен быть polygon")
+                    continue
+                check_ring(part.get("points"), f"shape.union[{index}].points")
+    elif shape_type == "circle":
+        check_point(shape.get("center"), "shape.center")
+        radius = shape.get("radius")
+        if not is_number(radius) or radius <= 0:
+            report.error("geofences: shape.radius должен быть положительным числом метров")
+        if "points" in shape:
+            report.warn("geofences: у круга есть shape.points — платформа хранит только center и radius")
+    elif shape_type == "marker":
+        check_point(shape.get("center"), "shape.center")
+        if "radius" in shape:
+            report.warn("geofences: у маркера нет shape.radius")
+
     cutouts = shape.get("cutouts", [])
     if not isinstance(cutouts, list):
         report.error("geofences: shape.cutouts должен быть списком")
