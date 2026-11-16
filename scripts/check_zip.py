@@ -26,6 +26,18 @@ PLUGIN_DIR = REPO_ROOT / "rightech-plugin"
 ARCHIVE = REPO_ROOT / "rightech-plugin-claude.zip"
 IGNORED_PARTS = {"__pycache__"}
 IGNORED_NAMES = {".DS_Store", "Thumbs.db"}
+# Текстовые файлы в репозитории хранятся с LF, а рабочая копия на Windows может
+# иметь CRLF. Архив собирается в LF, сравнение тоже идёт по LF, иначе CI на Linux
+# ругается на переводы строк вместо реальных расхождений.
+TEXT_SUFFIXES = {
+    ".md", ".json", ".jsonc", ".py", ".js", ".ts", ".txt", ".yml", ".yaml", ".sh", ".svg",
+}
+
+
+def normalize(name: str, data: bytes) -> bytes:
+    if Path(name).suffix.lower() in TEXT_SUFFIXES:
+        return data.replace(b"\r\n", b"\n")
+    return data
 
 
 def collect_files() -> list[Path]:
@@ -52,19 +64,23 @@ def archive_members() -> dict[str, bytes]:
 def write_archive(files: list[Path]) -> None:
     with ZipFile(ARCHIVE, "w", ZIP_DEFLATED) as archive:
         for path in files:
-            archive.write(path, path.relative_to(REPO_ROOT).as_posix())
+            name = path.relative_to(REPO_ROOT).as_posix()
+            archive.writestr(name, normalize(name, path.read_bytes()))
 
 
 def check(files: list[Path]) -> list[str]:
     members = archive_members()
-    expected = {path.relative_to(REPO_ROOT).as_posix(): path.read_bytes() for path in files}
+    expected = {}
+    for path in files:
+        name = path.relative_to(REPO_ROOT).as_posix()
+        expected[name] = normalize(name, path.read_bytes())
     problems: list[str] = []
     for name in sorted(set(members) - set(expected)):
         problems.append(f"лишний файл в архиве: {name}")
     for name in sorted(set(expected) - set(members)):
         problems.append(f"нет в архиве: {name}")
     for name in sorted(set(expected) & set(members)):
-        if expected[name] != members[name]:
+        if expected[name] != normalize(name, members[name]):
             problems.append(f"устаревшее содержимое в архиве: {name}")
     return problems
 
