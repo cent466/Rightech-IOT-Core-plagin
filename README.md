@@ -167,8 +167,13 @@ python3 rightech-plugin/scripts/geojson_zone.py zone.json -o rightech-zone.json
 ### Проверки проекта
 
 ```bash
-claude plugin validate ./rightech-plugin
+claude plugin validate ./rightech-plugin   # манифест Claude
+python3 scripts/check_manifests.py         # манифесты плагина и маркетплейсов
+python3 scripts/check_zip.py               # ZIP совпадает с rightech-plugin/
+python3 rightech-plugin/scripts/validate.py import-ready
 ```
+
+Если правили навыки, скрипты или README плагина, пересоберите архив: `python3 scripts/check_zip.py --write`. Те же проверки выполняет GitHub Actions (`.github/workflows/plugin-checks.yml`) на каждый push в `main` и pull request.
 
 Проверки на 25 эталонных образцах и 64 теста выполняются в закрытой части плагина: образцы не публикуются.
 

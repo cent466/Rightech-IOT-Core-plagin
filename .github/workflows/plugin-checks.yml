@@ -1,0 +1,44 @@
+name: Plugin checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: ZIP matches rightech-plugin
+        run: python3 scripts/check_zip.py
+
+      - name: Validate ready-to-import files
+        run: python3 rightech-plugin/scripts/validate.py import-ready --quiet
+
+      - name: Validate manifest JSON
+        run: python3 scripts/check_manifests.py
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Validate Claude plugin manifest
+        env:
+          CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC: "1"
+          DISABLE_AUTOUPDATER: "1"
+        run: |
+          npm install -g @anthropic-ai/claude-code
+          claude plugin validate ./rightech-plugin
