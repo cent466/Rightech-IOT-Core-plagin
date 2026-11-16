@@ -456,5 +456,6 @@ python3 rightech-plugin/scripts/geojson_zone.py multi.geojson --polygon-index 0 
 
 - [README](./README.md) — установка и обзор.
 - [`rightech-plugin/references/import-guide.md`](./rightech-plugin/references/import-guide.md) — что и как импортируется.
+- [`rightech-plugin/references/base-models.md`](./rightech-plugin/references/base-models.md) — 16 протоколов платформы: пары `base`/`protocol`, каркас модели, команды, единицы.
 - [`rightech-plugin/references/rules.md`](./rightech-plugin/references/rules.md) — правила формата, выведенные из рабочих экспортов.
 - [`rightech-plugin/references/open-questions.md`](./rightech-plugin/references/open-questions.md) — что пока не подтверждено.

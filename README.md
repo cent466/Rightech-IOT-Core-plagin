@@ -29,7 +29,7 @@
 
 ### Claude Desktop / Claude.ai — загрузка ZIP
 
-1. Скачайте [готовый архив `rightech-plugin-claude.zip`](https://github.com/cent466/Rightech-IOT-Core-plagin/raw/refs/heads/main/rightech-plugin-claude.zip).
+1. Скачайте [готовый архив `rightech-plugin-claude.zip`](https://github.com/cent466/Rightech-IOT-Core-plugin/raw/refs/heads/main/rightech-plugin-claude.zip).
 2. В Claude откройте **Персонализация → Плагины → Добавить → Загрузить плагин**.
 3. Выберите скачанный ZIP (внутри лежит папка `rightech-plugin/` с манифестом).
 4. Включите **Code execution and file creation** в **Настройки → Возможности** — без этого недоступны проверка и сохранение файлов.
@@ -40,7 +40,7 @@
 ### Claude Code
 
 ```bash
-claude plugin marketplace add cent466/Rightech-IOT-Core-plagin
+claude plugin marketplace add cent466/Rightech-IOT-Core-plugin
 claude plugin install rightech@rightech-plugins
 ```
 
@@ -49,7 +49,7 @@ claude plugin install rightech@rightech-plugins
 ### Codex
 
 ```bash
-codex plugin marketplace add cent466/Rightech-IOT-Core-plagin --ref main
+codex plugin marketplace add cent466/Rightech-IOT-Core-plugin --ref main
 codex plugin add rightech@rightech-plugins
 ```
 
@@ -60,8 +60,8 @@ codex plugin add rightech@rightech-plugins
 ### Локально из клона
 
 ```bash
-git clone https://github.com/cent466/Rightech-IOT-Core-plagin.git
-cd Rightech-IOT-Core-plagin
+git clone https://github.com/cent466/Rightech-IOT-Core-plugin.git
+cd Rightech-IOT-Core-plugin
 claude plugin marketplace add .
 claude plugin install rightech@rightech-plugins
 ```

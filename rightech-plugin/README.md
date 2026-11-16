@@ -16,7 +16,7 @@
 
 ### Claude Desktop / Claude.ai
 
-Скачайте [готовый `rightech-plugin-claude.zip`](https://github.com/cent466/Rightech-IOT-Core-plagin/raw/refs/heads/main/rightech-plugin-claude.zip). В Claude откройте **Персонализация → Плагины → Добавить → Загрузить плагин** и выберите архив. ZIP содержит папку плагина с `.claude-plugin/plugin.json`, образцы и скрипты, встроенные внутрь навыков для песочницы Claude. Для запуска скриптов включите **Code execution and file creation** в **Настройки → Возможности**. После установки включите навыки на странице **Персонализация → Навыки** и начните новый чат.
+Скачайте [готовый `rightech-plugin-claude.zip`](https://github.com/cent466/Rightech-IOT-Core-plugin/raw/refs/heads/main/rightech-plugin-claude.zip). В Claude откройте **Персонализация → Плагины → Добавить → Загрузить плагин** и выберите архив. ZIP содержит папку плагина с `.claude-plugin/plugin.json`, образцы и скрипты, встроенные внутрь навыков для песочницы Claude. Для запуска скриптов включите **Code execution and file creation** в **Настройки → Возможности**. После установки включите навыки на странице **Персонализация → Навыки** и начните новый чат.
 
 ### Claude Code
 
@@ -39,7 +39,7 @@ claude --plugin-dir ./rightech-plugin
 
 ```bash
 # из GitHub
-codex plugin marketplace add cent466/Rightech-IOT-Core-plagin --ref main
+codex plugin marketplace add cent466/Rightech-IOT-Core-plugin --ref main
 codex plugin add rightech@rightech-plugins
 
 # из локального клона
