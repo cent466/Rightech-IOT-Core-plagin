@@ -143,16 +143,63 @@ class ModelTests(unittest.TestCase):
         report = validate.validate_entity("models", entity, "new")
         self.assertTrue(any("dataType" in message for message in report.errors))
 
-    def test_event_node_is_rejected_with_hint(self) -> None:
+    def test_event_node_is_accepted_with_event_params(self) -> None:
         entity = model_entity()
         entity["data"]["children"].append(
-            {"id": "device_online", "name": "Устройство онлайн", "type": "event", "active": True}
+            {
+                "id": "device_online",
+                "name": "Устройство онлайн",
+                "type": "event",
+                "active": True,
+                "eventParams": [{"id": "value", "name": "Значение", "dataType": "number"}],
+            }
         )
         report = validate.validate_entity("models", entity, "new")
-        event_errors = [message for message in report.errors if "event-logic" in message]
-        self.assertEqual(len(event_errors), 1, report.errors)
+        self.assertEqual(report.errors, [])
 
-    def test_event_logic_node_is_accepted(self) -> None:
+    def test_event_param_requires_id(self) -> None:
+        entity = model_entity()
+        entity["data"]["children"].append(
+            {
+                "id": "device_online",
+                "name": "Устройство онлайн",
+                "type": "event",
+                "active": True,
+                "eventParams": [{"name": "Значение", "dataType": "number"}],
+            }
+        )
+        report = validate.validate_entity("models", entity, "new")
+        self.assertTrue(any("id параметра события" in message for message in report.errors))
+
+    def test_event_param_rejects_unknown_data_type(self) -> None:
+        entity = model_entity()
+        entity["data"]["children"].append(
+            {
+                "id": "device_online",
+                "name": "Устройство онлайн",
+                "type": "event",
+                "active": True,
+                "eventParams": [{"id": "value", "dataType": "number[]"}],
+            }
+        )
+        report = validate.validate_entity("models", entity, "new")
+        self.assertTrue(any("dataType" in message for message in report.errors))
+
+    def test_event_param_rejects_duplicate_ids(self) -> None:
+        entity = model_entity()
+        entity["data"]["children"].append(
+            {
+                "id": "device_online",
+                "name": "Устройство онлайн",
+                "type": "event",
+                "active": True,
+                "eventParams": [{"id": "value"}, {"id": "value"}],
+            }
+        )
+        report = validate.validate_entity("models", entity, "new")
+        self.assertTrue(any("повторяющийся id параметра" in message for message in report.errors))
+
+    def test_event_logic_node_is_accepted_with_info(self) -> None:
         entity = model_entity()
         entity["data"]["children"].append(
             {
@@ -165,6 +212,7 @@ class ModelTests(unittest.TestCase):
         )
         report = validate.validate_entity("models", entity, "new")
         self.assertEqual(report.errors, [])
+        self.assertTrue(any("event-logic" in message for message in report.infos))
 
     def test_duplicate_node_ids(self) -> None:
         entity = model_entity()

@@ -107,8 +107,10 @@
 | `action` | `id`, `name`, `type`, `active`, `_inactive`, `service`, `command`, `params` | `source`, `dataType`, `description`, `children` |
 | `config` | `id`, `name`, `type`, `active`, `_inactive`, `dataType`, `ctrl`, `opts`, `source: "config"` | `defaultValue`, `_dataPath` (служебное) |
 | `level` | `id`, `name`, `type`, `active`, `_inactive`, `index`, `value`, `color` | — |
+| `event` | `id`, `name`, `type`, `active`, `_inactive` | `eventParams` — параметры события `{id, name?, dataType?}`; `dataType`: `number`, `boolean`, `string`, `object` |
+| `event-logic` | `id`, `name`, `type`, `active` | унаследованный тип старых моделей, обычно пустой `children` |
 
-Узел `event-logic` встречался в других рабочих моделях, но ни в одной из 16 базовых нет. Узел `event` не существует в платформе (проверено на живом аккаунте 2026-11-16): событие модели задаётся `event-logic` с полями `id`, `name`, `active`, `children`.
+Ни в одной из 16 базовых моделей нет ни `event`, ни `event-logic`. `event` — штатный тип события модели: проверен на живом аккаунте 2026-11-16 через `POST /api/v1/models/<id>/nodes?attachTo=root`, `GET` и редактор; параметры лежат в `eventParams`. `event-logic` — унаследованный тип: встречается в старых рабочих моделях, API его принимает, но редактор моделей его не создаёт; для новых моделей используй `event`.
 
 ### Аргумент
 

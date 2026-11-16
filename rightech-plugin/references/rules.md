@@ -83,17 +83,26 @@
 | `action` | 34 | `id`, `name`, `type`, `active`, `service`, `command`, `params`; иногда `confirm`, `dataType`, `description`, `source`, `children` |
 | `config` | 6 | `id`, `name`, `type`, `active`, `dataType`, `ctrl`, `opts`, `source`, `defaultValue` (3), `_dataPath`, `_inactive`, `_parentId`; в базовых моделях — настройки LoRaWAN `@lora.*` |
 | `level` | 4 | `id` вида `<argument_id>.levels.<n>`, `name`, `type`, `index`, `value`, `color`, `_inactive`, `_parentId`; дочерний узел числового аргумента (шкала) |
-| `event-logic` | 4 | только `id`, `name`, `type`, `active` (`primer_model/model_smart_home.json`) |
+| `event` | 0 в образцах; проверен в аккаунте | `id`, `name`, `type`, `active`, `eventParams` (`[{id, name?, dataType?}]`) |
+| `event-logic` | 4 | только `id`, `name`, `type`, `active` (`primer_model/model_smart_home.json`); унаследованный тип |
 
-### Событие модели — это `event-logic`, а не `event` (проверено 2026-11-16)
+### Событие модели: `event` — штатный тип, `event-logic` — унаследованный (проверено 2026-11-16)
 
-Типа `event` в платформе нет: он не встретился ни в 25 образцах, ни в 7 моделях живого аккаунта. Событие модели — узел `type: "event-logic"` с полями `id`, `name`, `active` (и пустым `children`), без `dataType`, `reference` и `service`. Сценарий ссылается на его `id` в `transitions.<id>.data.event`.
+`event` документирован (`EventNode = BaseNode & { type: "event" }`, https://rightech.io/ru/developers/http/models) и принимается платформой. Проверено на живом аккаунте: `POST /api/v1/models/<id>/nodes?attachTo=root` с `{"id":"device_online","type":"event","name":"Устройство онлайн","active":true}` вернул 200, узел сохранился в `GET /api/v1/models/<id>` и отобразился в дереве редактора. В редакторе модели он создаётся пунктом «Событие»; в свойствах есть секция «Параметры события» с пометкой «Используются в сценариях».
+
+Параметры события лежат в `eventParams`, а не в `children`:
 
 ```
-{"active": true, "id": "yandex_turn_right", "name": "Движение вправо", "type": "event-logic", "children": []}
+{"id": "device_online", "type": "event", "name": "Устройство онлайн", "active": true,
+ "_inactive": false,
+ "eventParams": [{"id": "value", "name": "Значение", "dataType": "number"}]}
 ```
 
-Валидатор отклоняет узел `type: "event"` и подсказывает `event-logic`. Системные события сценария (`init`, `immediate-transition`, `es-recive-device-data`) — не узлы модели.
+`id` параметра обязателен; `name` и `dataType` необязательны в хранении, но генерировать их нужно. `dataType`: `number`, `boolean`, `string`, `object`. Массивов среди типов параметров события в редакторе нет.
+
+`event-logic` — унаследованный тип: встречается в старых моделях (`id`, `name`, `active`, пустой `children`, без `eventParams`), API его принимает, но в меню создания редактора моделей его нет и панель свойств для него не открывается. Существующие модели с ним можно читать и импортировать; в новых моделях генерировать `event`, а `event-logic` не создавать.
+
+Валидатор принимает оба типа; для `event` проверяет `eventParams`, а `event-logic` в режиме `new` отмечает информационным сообщением. Системные события сценария (`init`, `immediate-transition`, `es-recive-device-data`) — не узлы модели.
 
 ### Допустимые значения (наблюдались)
 
@@ -121,7 +130,7 @@
 - Каркас под конкретный протокол (16 базовых моделей платформы, пары `base`/`protocol`, формы команд) — [`base-models.md`](./base-models.md).
 - Простейшая модель для разбора: `primer_model/model_avton_a845_a855_thermometer_nidd.json` (15 узлов).
 - Модель с действиями MQTT: `primer_model/model_automatic_aqwa.json`.
-- Модель с `config`/`event-logic`: `primer_model/model_smart_home.json`.
+- Модель с `config` и унаследованным `event-logic`: `primer_model/model_smart_home.json`.
 
 ### Запрещено / опасно
 
@@ -143,7 +152,7 @@
 1. `props.helper`: `dict` или `str`? Оба варианта в рабочих моделях; в созданной модели — пустая строка.
 2. `props.protocol` совпадает с `base` не всегда: `http-ric` → `http`, `navtelecom` → `ntcb`, `wialon-ips`/`wialon-combine` → `wialon` (16 базовых моделей, 2026-11-16). Остальные значения каталога совпадают; полного списка допустимых `protocol` для протоколов вне каталога по-прежнему нет.
 3. Нужны ли `_parentId`/`_inactive`/`copy`/`_isRoot` в `POST /models`, или дерево собирается только через `/nodes?attachTo=`? ТЗ описывает оба пути. В созданной модели `_inactive` и `copy` присутствуют, поэтому плагин сохраняет эти два поля в импортируемом файле, а `_parentId`/`_isRoot`/`_levels`/`_dataPath` — по-прежнему убирает.
-4. ~~Формат узла `event`~~ — снято 2026-11-16: типа `event` нет, событие модели — `event-logic`.
+4. ~~Формат узла `event`~~ — снято 2026-11-16: `event` принимается платформой, параметры хранятся в `eventParams`; `event-logic` — унаследованный тип.
 5. ~~Язык `name`/`description` модели~~ — решено 2026-11-15: русский. Валидатор сценариев требует русские имена всех новых состояний; язык узлов модели задаётся специализированным навыком.
 
 ---
@@ -436,10 +445,10 @@ Legacy-режим «По параметрам из модели» выбирай
 | № | ТЗ утверждает | Образцы показывают | Что делать |
 |---|---|---|---|
 | 1 | Контур геозоны должен быть замкнут | Внутренний `shape` незамкнут; GeoJSON в Code — замкнутый Polygon (проверено пользователем) | Применять правило по конкретному формату: `shape` не замыкать; GeoJSON Polygon сохранять замкнутым |
-| 2 | Тип узла `event` | Ни одного `event`; событие модели — `event-logic` (подтверждено на живом аккаунте) | Создавать `event-logic`, тип `event` отклонять |
+| 2 | Тип узла `event` | `event` документирован и принят API (проверено на аккаунте); `event-logic` встречается в старых моделях | Генерировать `event` с `eventParams`; `event-logic` принимать только при импорте существующих моделей |
 | 3 | `base`: mqtt, lorawan, http и др. | Подтверждены 16 значений: `lora` (не `lorawan`), `http-ric` (не `http`), `nidd`, `teltonika`, `wialon-ips`, `wialon-combine`, `coap`, `lwm2m`, `egts`, `websocket`, `smpp`, `navtelecom`, `arnavi3`, `autofon8` | Список и пары с `props.protocol` — `base-models.md` |
 | 4 | Сценарий — JSON со `states`/`transitions` | `data` — строка с вложенным JSON | Валидировать дважды (строка → JSON) |
-| 5 | Минимальный узел модели: `type`, `id`, `name`, `active` | У `argument` ещё `dataType`; у `action` — `service`, `command`, `params`; есть `config`, `event-logic` | Расширить правила по типам |
+| 5 | Минимальный узел модели: `type`, `id`, `name`, `active` | У `argument` ещё `dataType`; у `action` — `service`, `command`, `params`; есть `config`, `event` и унаследованный `event-logic` | Расширить правила по типам |
 | 6 | Образцы — эталон структуры | Внутри есть `_parentId`, `_inactive`, `copy`, `_isRoot` | Решить до `POST`, что удаляется |
 | 7 | Обработчик: `name` + `userCode` | Также `language` и `props` во всех 6 | Считать `language`/`props` практически обязательными |
 | 8 | Геозона: круг или многоугольник | Подтверждены `polygon`, `multiPolygon`, `circle` (`center`+`radius` в метрах), `marker`; прямоугольник хранится как `polygon` | Использовать подтверждённые `shape.type` |

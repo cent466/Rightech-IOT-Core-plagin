@@ -79,9 +79,12 @@ description: Создание и правка JSON моделей Rightech (де
 | `action` | `id`, `name`, `type`, `active`, `_inactive`, `service`, `command`, `params` | `source: "state"`, `dataType`, `description`, `confirm`, `children: []` |
 | `config` | `id`, `type`, `active`, `dataType`, `ctrl`, `opts`, `source: "config"` | `defaultValue`, `name`, `description`; `id` вида `@lora.<key>` |
 | `level` | `id`, `name`, `type`, `active`, `index`, `value`, `color` | дочерний узел числового аргумента, `id` вида `<argument_id>.levels.<n>` |
-| `event-logic` | `id`, `type`, `active` | `name` (в базовых моделях не встречался) |
+| `event` | `id`, `name`, `type`, `active` | `eventParams` — параметры события `{id, name?, dataType?}`, `dataType`: `number`, `boolean`, `string`, `object` |
+| `event-logic` | `id`, `name`, `type`, `active` | унаследованный тип старых моделей; в новых моделях не использовать |
 
 `dataType`: `number`, `string`, `boolean`, `object`, `number[]` (массив чисел, подтверждён у Navtelecom). Команды — обычные дочерние узлы подсистемы (например, «Команды управления»), а не массив верхнего уровня.
+
+Событие модели — `type: "event"` с параметрами в `eventParams` (не в `children`). Пример: `{"id": "device_online", "type": "event", "name": "Устройство онлайн", "active": true, "_inactive": false, "eventParams": [{"id": "value", "name": "Значение", "dataType": "number"}]}`. `event-logic` — унаследованный тип: принимай его в импортируемых старых моделях, но в новых не создавай.
 
 `config` добавляй только протоколам с настройками устройства (в базовых моделях — `lora`); `level` — только если нужна шкала отображения числового параметра, с подтверждёнными границами и цветами.
 

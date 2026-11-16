@@ -2,7 +2,8 @@
 """Локальная проверка JSON сущностей Rightech IoT Core до отправки в API.
 
 Правила взяты из references/rules.md (выведены из 25 рабочих образцов, созданной модели smart_well_mqtt
-и проверок на живом аккаунте 2026-11-16: круглая геозона, узлы event-logic, сценарий без processId).
+и проверок на живом аккаунте 2026-11-16: круглая геозона, узел event с eventParams,
+унаследованный event-logic, сценарий без processId).
 Скрипт не обращается к сети и не требует зависимостей.
 
 Режимы:
@@ -28,8 +29,10 @@ from pathlib import Path
 
 SERVICE_FIELDS = ("_id", "_at", "owner", "group", "time", "user", "store", "origin")
 NODE_SERVICE_FIELDS = ("_parentId", "_isRoot", "_levels", "_dataPath")
-NODE_TYPES = {"subsystem", "argument", "action", "config", "level", "event-logic"}
+NODE_TYPES = {"subsystem", "argument", "action", "config", "level", "event", "event-logic"}
 DATA_TYPES = {"number", "string", "boolean", "object", "number[]"}
+# dataType параметра события в редакторе: number, boolean, string, object (2026-11-16).
+EVENT_PARAM_TYPES = {"number", "boolean", "string", "object"}
 # Пары base/props.protocol и остальные значения — references/base-models.md (16 базовых моделей, 2026-11-16).
 BASE_VALUES = {
     "arnavi3", "autofon8", "coap", "egts", "galileosky", "http-ric", "lora", "lwm2m",
@@ -164,10 +167,36 @@ def validate_model(entity: dict, mode: str, report: Report) -> None:
             return
         node_type = node.get("type")
         if node_type == "event":
-            report.error(
-                f"models: {path} — типа event в платформе нет: событие модели задаётся узлом "
-                "type=event-logic (только id, name, active, children), на его id ссылаются переходы сценария"
-            )
+            params = node.get("eventParams")
+            if params is not None and not isinstance(params, list):
+                report.error(f"models: {path} — eventParams должен быть списком")
+                params = []
+            seen_params: set[str] = set()
+            for index, param in enumerate(params or []):
+                param_path = f"{path}.eventParams[{index}]"
+                if not isinstance(param, dict):
+                    report.error(f"models: {param_path} — параметр события не объект")
+                    continue
+                param_id = param.get("id")
+                if not isinstance(param_id, str) or not param_id.strip():
+                    report.error(f"models: {param_path} — нет id параметра события")
+                elif param_id in seen_params:
+                    report.error(f"models: {param_path} — повторяющийся id параметра {param_id!r}")
+                else:
+                    seen_params.add(param_id)
+                if "name" in param and not isinstance(param["name"], str):
+                    report.error(f"models: {param_path} — name должен быть строкой")
+                if param.get("dataType") is not None and param["dataType"] not in EVENT_PARAM_TYPES:
+                    report.error(
+                        f"models: {param_path} — dataType={param['dataType']!r} "
+                        f"вне {sorted(EVENT_PARAM_TYPES)}"
+                    )
+        elif node_type == "event-logic":
+            if mode == "new":
+                report.info(
+                    f"models: {path} — type=event-logic унаследован; "
+                    "для новых моделей используй type=event"
+                )
         elif node_type not in NODE_TYPES:
             report.error(f"models: {path} — неизвестный type={node_type!r}")
         for key in ("id", "type", "active"):
