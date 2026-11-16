@@ -27,15 +27,21 @@ from pathlib import Path
 
 SERVICE_FIELDS = ("_id", "_at", "owner", "group", "time", "user", "store", "origin")
 NODE_SERVICE_FIELDS = ("_parentId", "_isRoot", "_levels", "_dataPath")
-NODE_TYPES = {"subsystem", "argument", "action", "config", "event-logic"}
-DATA_TYPES = {"number", "string", "boolean", "object"}
-BASE_VALUES = {"mqtt", "nidd", "teltonika", "lora"}
+NODE_TYPES = {"subsystem", "argument", "action", "config", "level", "event-logic"}
+DATA_TYPES = {"number", "string", "boolean", "object", "number[]"}
+# Пары base/props.protocol и остальные значения — references/base-models.md (16 базовых моделей, 2026-11-16).
+BASE_VALUES = {
+    "arnavi3", "autofon8", "coap", "egts", "galileosky", "http-ric", "lora", "lwm2m",
+    "mqtt", "navtelecom", "nidd", "smpp", "teltonika", "websocket", "wialon-combine", "wialon-ips",
+}
 ACTION_SERVICES = {"ric-gate", "ric-logic-v3.user-event"}
 LANGUAGES = {"javascript", "typescript"}
 STATE_TYPES = {"init", "state", "final"}
 GEOFENCE_SHAPES = {"polygon"}
 EXTERNAL_MODULE_IDS = {"external-software-modules", "external_software_modules"}
 SNAKE_CASE_ID = re.compile(r"[a-z][a-z0-9_]*")
+LEVEL_ID = re.compile(r"[a-z][a-z0-9_]*\.[a-z][a-z0-9_]*\.\d+")
+CONFIG_ID = re.compile(r"@[a-z0-9]+\.[A-Za-z0-9_]+")
 VAGUE_ID = re.compile(r"(?:param|arg|argument|value|val|data|field|node|item|p|a)\d*", re.IGNORECASE)
 CYRILLIC_TEXT = re.compile(r"[\u0400-\u04FF]")
 
@@ -176,10 +182,19 @@ def validate_model(entity: dict, mode: str, report: Report) -> None:
         if mode == "new" and "_inactive" not in node:
             report.warn(f"models: {path} — нет _inactive (в генерируемых моделях ставится false)")
         if mode == "new" and isinstance(node_id, str) and node_id not in EXTERNAL_MODULE_IDS | {"root"}:
-            if not SNAKE_CASE_ID.fullmatch(node_id):
-                report.warn(f"models: {path} — id={node_id!r} не в snake_case")
-            if VAGUE_ID.fullmatch(node_id):
-                report.warn(f"models: {path} — id={node_id!r} невнятный: назови параметр по смыслу")
+            if node_type == "level":
+                if not LEVEL_ID.fullmatch(node_id):
+                    report.warn(f"models: {path} — id={node_id!r}; для шкалы ожидается <argument_id>.levels.<n>")
+            elif node_type == "config":
+                if not CONFIG_ID.fullmatch(node_id):
+                    report.warn(f"models: {path} — id={node_id!r}; для настройки ожидается @<protocol>.<key>")
+            elif node_type == "subsystem" and node_id.startswith("@"):
+                pass
+            else:
+                if not SNAKE_CASE_ID.fullmatch(node_id):
+                    report.warn(f"models: {path} — id={node_id!r} не в snake_case")
+                if VAGUE_ID.fullmatch(node_id):
+                    report.warn(f"models: {path} — id={node_id!r} невнятный: назови параметр по смыслу")
         if node_type == "argument":
             if node.get("dataType") not in DATA_TYPES:
                 report.error(
@@ -205,7 +220,7 @@ def validate_model(entity: dict, mode: str, report: Report) -> None:
                 elif "topic" not in params and "command" not in params:
                     report.info(f"models: {path} — params без topic/command (встречается в экспортах)")
                 if mode == "new" and node.get("source") != "state":
-                    report.warn(f"models: {path} — у действия ожидается source=\"state\"")
+                    report.info(f"models: {path} — у действия нет source=\"state\" (в базовых моделях встречается и без него)")
             if not isinstance(node.get("params", {}), dict):
                 report.error(f"models: {path} — params должен быть объектом")
 

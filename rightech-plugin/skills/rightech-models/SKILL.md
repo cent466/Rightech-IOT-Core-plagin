@@ -17,6 +17,29 @@ description: Создание и правка JSON моделей Rightech (де
 
 Не при каких условиях не выдумывай параметры, `reference`, единицы, диапазоны и команды: без подтверждения — вопрос, а не догадка. Если пользователь говорит «документации нет, делай как знаешь» — собери минимальную модель только из подтверждённых полей и явно перечисли, что осталось неподтверждённым.
 
+## Протокол: `base`, `props.protocol` и каркас
+
+`base` — протокол обмена устройства с платформой, а не производитель и не тип устройства. Полный каталог 16 платформенных базовых моделей (точные пары `base`/`protocol`, `idPattern`, `prefix`, `order`, `root.base`, протокольные добавки в `props`, формы команд) — в `references/base-models.md`. Открывай его перед сборкой и бери каркас оттуда.
+
+| Семейство | `base` | `props.protocol` |
+|---|---|---|
+| MQTT | `mqtt` | `mqtt` |
+| HTTP-интеграция | `http-ric` | `http` |
+| LoRaWAN | `lora` | `lora` |
+| NB-IoT NIDD | `nidd` | `nidd` |
+| CoAP / LwM2M | `coap`, `lwm2m` | `coap`, `lwm2m` |
+| WebSocket / SMPP | `websocket`, `smpp` | `websocket`, `smpp` |
+| Wialon IPS / Combine | `wialon-ips`, `wialon-combine` | `wialon` |
+| EGTS / Teltonika / Galileosky | `egts`, `teltonika`, `galileosky` | совпадает с `base` |
+| Arnavi3 / Автофон / Navtelecom | `arnavi3`, `autofon8`, `navtelecom` | `arnavi3`, `autofon8`, `ntcb` |
+
+- `base` и `props.protocol` **не всегда совпадают** (`http-ric`→`http`, `navtelecom`→`ntcb`, `wialon-*`→`wialon`). Не «исправляй» пару и не подставляй `base` в `protocol`.
+- В моделях именно `lora`, а не `lorawan`; HTTP — `http-ric`, а не `http`.
+- `props`: общие `bots`, `hardwareEvents`, `helper`, `prefix`, `order`, `protocol`, `idPattern`, `typeInput`, `statusInput`, `descriptionInput`. Протокольные добавки (`auth`, `x509`, `parserParams`, `defaultNode`, `disableOnline`, `idInput`, `idValidate`, `namePattern`, `defaultGateCommandTimeout`, `icon`) — только из строки своего протокола. `mixins: []`, кроме `smpp` (`["smpp-mixin"]`). `bots: true` только у `mqtt` и `wialon-ips`.
+- `root.base` — отдельное поле, не копия `base` модели: `base`, `wialon-ips`, `galileosky`, `navtelecom`, `smpp` или отсутствует. Бери значение по протоколу из справочника.
+- Протокол вне каталога — не подставляй похожий: запроси экспорт модели этого протокола из аккаунта.
+- Базовые модели — эталон **структуры**, а не набор параметров: не копируй их каталоги (313–500 аргументов), чужие `reference` (`tag_5C`, `in_out_81`), английские `name` и `description: null`.
+
 ## Оболочка файла
 
 Модель отдаётся файлом-экспортом с обёрткой:
@@ -54,10 +77,13 @@ description: Создание и правка JSON моделей Rightech (де
 | `subsystem` | `id`, `type`, `active`, `children`, `_inactive` | `name`, `description` |
 | `argument` | `id`, `name`, `type`, `active`, `_inactive`, `source: "state"`, `dataType`, `reference` | `unit`, `factor`, `linear`, `description`, `usage`, `levels`, `display`, `decimalPlaces` |
 | `action` | `id`, `name`, `type`, `active`, `_inactive`, `service`, `command`, `params` | `source: "state"`, `dataType`, `description`, `confirm`, `children: []` |
-| `config` | `id`, `type`, `active`, `dataType`, `ctrl`, `opts`, `source` | `defaultValue`, `name`, `description` |
-| `event-logic` | `id`, `type`, `active` | `name` |
+| `config` | `id`, `type`, `active`, `dataType`, `ctrl`, `opts`, `source: "config"` | `defaultValue`, `name`, `description`; `id` вида `@lora.<key>` |
+| `level` | `id`, `name`, `type`, `active`, `index`, `value`, `color` | дочерний узел числового аргумента, `id` вида `<argument_id>.levels.<n>` |
+| `event-logic` | `id`, `type`, `active` | `name` (в базовых моделях не встречался) |
 
-`dataType`: `number`, `string`, `boolean`, `object`. Команды — обычные дочерние узлы подсистемы (например, «Команды управления»), а не массив верхнего уровня.
+`dataType`: `number`, `string`, `boolean`, `object`, `number[]` (массив чисел, подтверждён у Navtelecom). Команды — обычные дочерние узлы подсистемы (например, «Команды управления»), а не массив верхнего уровня.
+
+`config` добавляй только протоколам с настройками устройства (в базовых моделях — `lora`); `level` — только если нужна шкала отображения числового параметра, с подтверждёнными границами и цветами.
 
 ## Аргумент
 
@@ -103,7 +129,7 @@ description: Создание и правка JSON моделей Rightech (де
 
 - Копировать служебные поля экспорта: `_parentId`, `_isRoot`, `_levels`, `_dataPath`, `user`, `group`, `owner`, `time`.
 - Придумывать `reference`, `unit`, `base` или тело команды: только подтверждённые значения либо вопрос пользователю.
-- Менять `base` на «похожий» протокол: подтверждены `mqtt`, `nidd`, `teltonika`, `lora`; для остальных нужен эталон или документация.
+- Менять `base` на «похожий» протокол и подставлять `base` в `props.protocol`: пары и допустимые значения — в `references/base-models.md`; для протокола вне каталога нужен подтверждённый экспорт.
 - Удалять блок `external-software-modules` и складывать в него параметры.
 - Оставлять безымянные или невнятные узлы (`param1`, `value`, `data`, имя копирующее `id`): по имени должно быть понятно, что это за параметр.
 - Переименовывать документированный ключ в `reference`, если документация даёт его явно.

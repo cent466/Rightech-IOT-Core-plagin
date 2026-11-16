@@ -30,6 +30,8 @@
 
 ## 1. Модели (`store = "models"`)
 
+Каталог протоколов (`base`, `props.protocol`, `idPattern`, `prefix`, `order`, `root.base`, протокольные добавки в `props`, формы команд) и правила сборки каркаса — в [`base-models.md`](./base-models.md), составлен по 16 базовым моделям платформы (2026-11-16). Ниже — общие правила структуры модели.
+
 ### Порядок работы (обязателен)
 
 1. Запросить у пользователя документацию по устройству: руководство/паспорт, спецификацию протокола (топики, JSON-payload, регистры), таблицу параметров с ключами, типами и единицами, команды, примеры сообщений.
@@ -79,15 +81,16 @@
 | `subsystem` | 96 | `id`, `name`, `type`, `active`, `children`, иногда `description`, `_inactive`, `_parentId`, `copy`, `_isRoot` |
 | `argument` | 439 | обязательно `id`, `name`, `type`, `active`, `dataType`; часто `children`, `unit`, `reference`, `source`, `factor`, `linear`, `levels`, `display`, `decimalPlaces`, `description` |
 | `action` | 34 | `id`, `name`, `type`, `active`, `service`, `command`, `params`; иногда `confirm`, `dataType`, `description`, `source`, `children` |
-| `config` | 6 | `id`, `name`, `type`, `active`, `dataType`, `ctrl`, `opts`, `source`, `defaultValue` (3), `_dataPath`, `_inactive`, `_parentId` |
+| `config` | 6 | `id`, `name`, `type`, `active`, `dataType`, `ctrl`, `opts`, `source`, `defaultValue` (3), `_dataPath`, `_inactive`, `_parentId`; в базовых моделях — настройки LoRaWAN `@lora.*` |
+| `level` | 4 | `id` вида `<argument_id>.levels.<n>`, `name`, `type`, `index`, `value`, `color`, `_inactive`, `_parentId`; дочерний узел числового аргумента (шкала) |
 | `event-logic` | 4 | только `id`, `name`, `type`, `active` (`primer_model/model_smart_home.json`) |
 
 **Тип `event`, упомянутый в ТЗ, в образцах не встретился ни разу.** События в сценариях ссылаются на узлы по `id`, но узел-событие надо получить эталоном.
 
 ### Допустимые значения (наблюдались)
 
-- `base`: `mqtt` (5), `nidd` (3), `teltonika` (1), `lora` (1). В ТЗ упомянуты `lorawan`, `http` — в образцах их нет; **не подтверждено**. Обратите внимание: в образцах именно `lora`, а не `lorawan`.
-- `dataType` аргументов: `number` (366), `string` (54), `boolean` (29), `object` (4).
+- `base`: каталог из 16 значений — `arnavi3`, `autofon8`, `coap`, `egts`, `galileosky`, `http-ric`, `lora`, `lwm2m`, `mqtt`, `navtelecom`, `nidd`, `smpp`, `teltonika`, `websocket`, `wialon-combine`, `wialon-ips` (базовые модели платформы, 2026-11-16). Именно `lora`, а не `lorawan`; HTTP — `http-ric`; `props.protocol` совпадает с `base` не всегда. Пары и особенности — в `base-models.md`.
+- `dataType` аргументов: `number` (366), `string` (54), `boolean` (29), `object` (4); в базовых моделях также `number[]` (9, Navtelecom).
 - `source`: `state` (305), `config` (5).
 - `action.service`: `ric-gate` (30), `ric-logic-v3.user-event` (4).
 - `action.command` для `ric-gate`: `publish` (27), `text_command` (5) + устройства-специфичные `getinfo`, `getio`, `setdigout …` (Teltonika).
@@ -107,6 +110,7 @@
 
 ### Типовые шаблоны
 
+- Каркас под конкретный протокол (16 базовых моделей платформы, пары `base`/`protocol`, формы команд) — [`base-models.md`](./base-models.md).
 - Простейшая модель для разбора: `primer_model/model_avton_a845_a855_thermometer_nidd.json` (15 узлов).
 - Модель с действиями MQTT: `primer_model/model_automatic_aqwa.json`.
 - Модель с `config`/`event-logic`: `primer_model/model_smart_home.json`.
@@ -129,7 +133,7 @@
 ### Нерешённые вопросы
 
 1. `props.helper`: `dict` или `str`? Оба варианта в рабочих моделях; в созданной модели — пустая строка.
-2. `props.protocol` в образцах повторяет `base` (`mqtt`, `nidd`, `teltonika`, `lora`); совпадает ли он с `base` всегда и какие ещё значения допустимы — неизвестно.
+2. `props.protocol` совпадает с `base` не всегда: `http-ric` → `http`, `navtelecom` → `ntcb`, `wialon-ips`/`wialon-combine` → `wialon` (16 базовых моделей, 2026-11-16). Остальные значения каталога совпадают; полного списка допустимых `protocol` для протоколов вне каталога по-прежнему нет.
 3. Нужны ли `_parentId`/`_inactive`/`copy`/`_isRoot` в `POST /models`, или дерево собирается только через `/nodes?attachTo=`? ТЗ описывает оба пути. В созданной модели `_inactive` и `copy` присутствуют, поэтому плагин сохраняет эти два поля в импортируемом файле, а `_parentId`/`_isRoot`/`_levels`/`_dataPath` — по-прежнему убирает.
 4. Формат узла `event` отсутствует в образцах.
 5. ~~Язык `name`/`description` модели~~ — решено 2026-11-15: русский. Валидатор сценариев требует русские имена всех новых состояний; язык узлов модели задаётся специализированным навыком.
@@ -372,7 +376,7 @@ Legacy-режим «По параметрам из модели» выбирай
 |---|---|---|---|
 | 1 | Контур геозоны должен быть замкнут | Внутренний `shape` незамкнут; GeoJSON в Code — замкнутый Polygon (проверено пользователем) | Применять правило по конкретному формату: `shape` не замыкать; GeoJSON Polygon сохранять замкнутым |
 | 2 | Тип узла `event` | Ни одного `event` | Получить эталон или убрать из поддерживаемых |
-| 3 | `base`: mqtt, lorawan, http и др. | `lora`, а не `lorawan`; есть `nidd`, `teltonika` | Список `base` брать из документации/аккаунта |
+| 3 | `base`: mqtt, lorawan, http и др. | Подтверждены 16 значений: `lora` (не `lorawan`), `http-ric` (не `http`), `nidd`, `teltonika`, `wialon-ips`, `wialon-combine`, `coap`, `lwm2m`, `egts`, `websocket`, `smpp`, `navtelecom`, `arnavi3`, `autofon8` | Список и пары с `props.protocol` — `base-models.md` |
 | 4 | Сценарий — JSON со `states`/`transitions` | `data` — строка с вложенным JSON | Валидировать дважды (строка → JSON) |
 | 5 | Минимальный узел модели: `type`, `id`, `name`, `active` | У `argument` ещё `dataType`; у `action` — `service`, `command`, `params`; есть `config`, `event-logic` | Расширить правила по типам |
 | 6 | Образцы — эталон структуры | Внутри есть `_parentId`, `_inactive`, `copy`, `_isRoot` | Решить до `POST`, что удаляется |

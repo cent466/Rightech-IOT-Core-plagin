@@ -143,6 +143,8 @@ claude plugin install rightech@rightech-plugins
 
 В комплект входят офлайн-валидатор, который проверяет структуру, ссылки, координаты сценариев и секреты в коде, и правила, выведенные из рабочих экспортов. Сами экспорты и тесты на них в публичный репозиторий не входят — они лежат в закрытой части.
 
+Каталог из 16 протоколов платформы — MQTT, HTTP, LoRaWAN, NIDD, CoAP, LwM2M, WebSocket, SMPP, Wialon IPS и Combine, EGTS, Teltonika, Galileosky, Arnavi3, Автофон, Navtelecom — с точными парами `base`/`props.protocol`, `idPattern`, протокольными настройками и формами команд: [`rightech-plugin/references/base-models.md`](./rightech-plugin/references/base-models.md). Модель под неподтверждённый протокол плагин не собирает.
+
 ---
 
 ## Ручные команды
@@ -197,7 +199,7 @@ claude plugin validate ./rightech-plugin
 ├── .claude-plugin/marketplace.json   каталог Claude Code
 ├── .agents/plugins/marketplace.json  каталог Codex
 ├── import-ready/                     готовые файлы для импорта по ссылке
-├── references/                       правила и открытые вопросы
+├── references/                       прежние правила (актуальные — в rightech-plugin/references/)
 ├── rightech-plugin-claude.zip        архив для Claude Desktop
 └── rightech-plugin/                  устанавливаемый плагин
     ├── skills/                       семь навыков
@@ -216,4 +218,5 @@ MIT.
 - [Устанавливаемый плагин](./rightech-plugin/README.md)
 - [Что и как импортируется](./rightech-plugin/references/import-guide.md)
 - [Правила, выведенные из образцов](./rightech-plugin/references/rules.md)
+- [Протоколы платформы и правила сборки модели](./rightech-plugin/references/base-models.md)
 - [Открытые вопросы](./rightech-plugin/references/open-questions.md)

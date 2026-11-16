@@ -11,6 +11,7 @@
 - Сценарий хранит `data` строкой с вложенным JSON `states`/`transitions` (6/6 образцов).
 - Геозона — полигон, пары `[широта, долгота]`, контур не замкнут (2/2 образца).
 - Язык `name`/`description` в моделях — русский (подтверждено пользователем 2026-11-15); валидатор язык не проверяет.
+- Каталог протоколов подтверждён 16 базовыми моделями платформы (2026-11-16): `arnavi3`, `autofon8`, `coap`, `egts`, `galileosky`, `http-ric`, `lora`, `lwm2m`, `mqtt`, `navtelecom`, `nidd`, `smpp`, `teltonika`, `websocket`, `wialon-combine`, `wialon-ips`. `props.protocol` совпадает с `base` не всегда (`http`→`http-ric`, `ntcb`→`navtelecom`, `wialon`→`wialon-ips`/`wialon-combine`). Подробности — `references/base-models.md`.
 
 ## Поиск документации
 
