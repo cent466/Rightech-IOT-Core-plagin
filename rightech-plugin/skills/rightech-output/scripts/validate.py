@@ -513,6 +513,14 @@ def validate_scenario(entity: dict, mode: str, report: Report) -> None:
         if isinstance(data.get("userCode"), str):
             for name in scan_secrets(data["userCode"]):
                 report.error(f"automatons: transitions.{transition_key}.userCode содержит секрет ({name})")
+        for field_name in ("condition", "userCode"):
+            expression = data.get(field_name)
+            if isinstance(expression, str) and "transitionEvent.payload" in expression:
+                report.warn(
+                    f"automatons: transitions.{transition_key}.{field_name} использует transitionEvent.payload; "
+                    "в условии перехода параметры события доступны как event.payload.<param-id> "
+                    "(проверено 2026-11-16)"
+                )
 
     if mode == "new":
         block_items = list(transition_block_rects.items())

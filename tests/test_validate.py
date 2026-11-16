@@ -272,6 +272,33 @@ class ScenarioTests(unittest.TestCase):
         report = validate.validate_entity("automatons", entity, "new")
         self.assertTrue(any("отсутствует в states" in message for message in report.errors))
 
+    def test_transition_condition_event_payload_is_accepted(self) -> None:
+        entity = scenario_entity()
+        scene = json.loads(entity["data"])
+        scene["transitions"]["0"]["data"]["event"] = "device_online"
+        scene["transitions"]["0"]["data"]["userCode"] = "event.payload.value === 42"
+        entity["data"] = json.dumps(scene, ensure_ascii=False)
+        report = validate.validate_entity("automatons", entity, "new")
+        self.assertEqual(report.errors, [])
+        self.assertFalse(any("transitionEvent.payload" in message for message in report.warnings))
+
+    def test_transition_condition_transition_event_payload_warns(self) -> None:
+        for field in ("userCode", "condition"):
+            with self.subTest(field=field):
+                entity = scenario_entity()
+                scene = json.loads(entity["data"])
+                scene["transitions"]["0"]["data"]["event"] = "device_online"
+                scene["transitions"]["0"]["data"][field] = "transitionEvent.payload.value === 42"
+                entity["data"] = json.dumps(scene, ensure_ascii=False)
+                report = validate.validate_entity("automatons", entity, "new")
+                self.assertEqual(report.errors, [])
+                self.assertTrue(
+                    any(
+                        "transitionEvent.payload" in message and "event.payload" in message
+                        for message in report.warnings
+                    )
+                )
+
 
 class GeofenceTests(unittest.TestCase):
     def test_polygon_is_valid(self) -> None:
