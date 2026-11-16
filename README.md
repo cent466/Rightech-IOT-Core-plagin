@@ -170,6 +170,7 @@ python3 rightech-plugin/scripts/geojson_zone.py zone.json -o rightech-zone.json
 claude plugin validate ./rightech-plugin   # манифест Claude
 python3 scripts/check_manifests.py         # манифесты плагина и маркетплейсов
 python3 scripts/check_zip.py               # ZIP совпадает с rightech-plugin/
+python3 scripts/check_script_copies.py     # копии скриптов в навыке совпадают с scripts/
 python3 rightech-plugin/scripts/validate.py import-ready
 ```
 

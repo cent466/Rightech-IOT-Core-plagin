@@ -9,20 +9,28 @@ on:
 permissions:
   contents: read
 
+env:
+  # Мажорная версия закреплена: новая мажорная ветка CLI может изменить правила
+  # валидации плагинов, и сборка не должна ломаться от чужого обновления.
+  CLAUDE_CODE_VERSION: "2"
+
 jobs:
   checks:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: "3.12"
 
       - name: ZIP matches rightech-plugin
         run: python3 scripts/check_zip.py
+
+      - name: Skill script copies match rightech-plugin/scripts
+        run: python3 scripts/check_script_copies.py
 
       - name: Validate ready-to-import files
         run: python3 rightech-plugin/scripts/validate.py import-ready --quiet
@@ -31,14 +39,15 @@ jobs:
         run: python3 scripts/check_manifests.py
 
       - name: Set up Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
-          node-version: "20"
+          node-version: "22"
 
       - name: Validate Claude plugin manifest
         env:
           CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC: "1"
           DISABLE_AUTOUPDATER: "1"
         run: |
-          npm install -g @anthropic-ai/claude-code
+          npm install -g "@anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}"
+          claude --version
           claude plugin validate ./rightech-plugin
