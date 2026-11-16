@@ -115,6 +115,21 @@ POLYGON = {
     "points": [[55.70, 37.60], [55.70, 37.70], [55.80, 37.70], [55.80, 37.60]],
 }
 
+ROUTE = {
+    "type": "route",
+    "trips": [
+        {
+            "tripId": "tripdirect",
+            "type": "direct",
+            "points": [[55.75, 37.60], [55.755, 37.61], [55.76, 37.62]],
+            "waypoints": [
+                {"pointId": "p1", "center": [55.75, 37.60], "name": "Точка 1"},
+                {"pointId": "p2", "center": [55.76, 37.62], "name": "Точка 2"},
+            ],
+        }
+    ],
+}
+
 
 class ModelTests(unittest.TestCase):
     def test_valid_model_has_no_findings(self) -> None:
@@ -271,6 +286,51 @@ class GeofenceTests(unittest.TestCase):
         shape = {"type": "rectangle", "points": POLYGON["points"]}
         report = validate.validate_entity("geofences", geofence_entity(shape), "new")
         self.assertTrue(any("polygon" in message for message in report.errors))
+
+    def test_route_with_two_trips_is_valid(self) -> None:
+        return_trip = {
+            "tripId": "tripreturn",
+            "type": "return",
+            "points": list(reversed(ROUTE["trips"][0]["points"])),
+            "waypoints": list(reversed(ROUTE["trips"][0]["waypoints"])),
+        }
+        shape = {"type": "route", "trips": [ROUTE["trips"][0], return_trip]}
+        report = validate.validate_entity("geofences", geofence_entity(shape), "new")
+        self.assertEqual(report.errors, [])
+        self.assertEqual(report.warnings, [])
+
+    def test_route_requires_trips(self) -> None:
+        report = validate.validate_entity("geofences", geofence_entity({"type": "route"}), "new")
+        self.assertTrue(any("trips" in message for message in report.errors))
+
+    def test_route_trip_requires_two_points(self) -> None:
+        shape = {"type": "route", "trips": [{"tripId": "a", "type": "direct", "points": [[55.75, 37.60]], "waypoints": ROUTE["trips"][0]["waypoints"]}]}
+        report = validate.validate_entity("geofences", geofence_entity(shape), "new")
+        self.assertTrue(any("points" in message for message in report.errors))
+
+    def test_route_waypoint_center_is_checked(self) -> None:
+        shape = {
+            "type": "route",
+            "trips": [
+                {
+                    "tripId": "a",
+                    "type": "direct",
+                    "points": [[55.75, 37.60], [55.76, 37.62]],
+                    "waypoints": [
+                        {"pointId": "p1", "center": [55.75, 210.0], "name": "Точка 1"},
+                        {"pointId": "p2", "center": [55.76, 37.62], "name": "Точка 2"},
+                    ],
+                }
+            ],
+        }
+        report = validate.validate_entity("geofences", geofence_entity(shape), "new")
+        self.assertTrue(any("долгота" in message for message in report.errors))
+
+    def test_route_with_shape_points_warns(self) -> None:
+        shape = dict(ROUTE)
+        shape["points"] = POLYGON["points"]
+        report = validate.validate_entity("geofences", geofence_entity(shape), "new")
+        self.assertTrue(any("trips" in message and "points" in message for message in report.warnings))
 
 
 class HandlerTests(unittest.TestCase):

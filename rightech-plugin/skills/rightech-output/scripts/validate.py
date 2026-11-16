@@ -38,10 +38,12 @@ BASE_VALUES = {
 ACTION_SERVICES = {"ric-gate", "ric-logic-v3.user-event"}
 LANGUAGES = {"javascript", "typescript"}
 STATE_TYPES = {"init", "state", "final"}
-# Формы подтверждены запросами к API живого аккаунта 2026-11-16: полигон и круг созданы
-# через интерфейс и прочитаны из GET /api/v1/geofences; multiPolygon и marker — из кода
-# фронтенда платформы (shape.union[].points и shape.center).
-GEOFENCE_SHAPES = {"polygon", "multiPolygon", "circle", "marker"}
+# Формы подтверждены запросами к API живого аккаунта 2026-11-16: полигон, круг и маршрут
+# прочитаны из GET /api/v1/geofences; multiPolygon и marker — из кода фронтенда
+# платформы (shape.union[].points, shape.center).
+GEOFENCE_SHAPES = {"polygon", "multiPolygon", "circle", "marker", "route"}
+# trips[].type маршрута: прямой и обратный рейсы (код редактора и проверка на аккаунте).
+ROUTE_TRIP_TYPES = {"direct", "return"}
 # processId необязателен; у старых сценариев это 8 символов [a-z0-9] (например, w1ub6xm2).
 PROCESS_ID = re.compile(r"[a-z0-9]{8}")
 EXTERNAL_MODULE_IDS = {"external-software-modules", "external_software_modules"}
@@ -523,7 +525,7 @@ def validate_geofence(entity: dict, mode: str, report: Report) -> None:
     if shape_type not in GEOFENCE_SHAPES:
         report.error(
             f"geofences: shape.type={shape_type!r}; подтверждены {', '.join(sorted(GEOFENCE_SHAPES))}. "
-            "Прямоугольник и маршрут из интерфейса сохраняются как polygon; для другой формы нужен эталон из аккаунта"
+            "Прямоугольник из интерфейса сохраняется как polygon; для другой формы нужен эталон из аккаунта"
         )
 
     def check_point(point: object, path: str) -> None:
@@ -572,6 +574,40 @@ def validate_geofence(entity: dict, mode: str, report: Report) -> None:
         check_point(shape.get("center"), "shape.center")
         if "radius" in shape:
             report.warn("geofences: у маркера нет shape.radius")
+    elif shape_type == "route":
+        trips = shape.get("trips")
+        if not isinstance(trips, list) or not trips:
+            report.error("geofences: shape.trips должен быть непустым списком маршрутов")
+        else:
+            for index, trip in enumerate(trips):
+                path = f"shape.trips[{index}]"
+                if not isinstance(trip, dict):
+                    report.error(f"geofences: {path} должен быть объектом")
+                    continue
+                if trip.get("type") not in ROUTE_TRIP_TYPES:
+                    report.warn(f"geofences: {path}.type={trip.get('type')!r} вне {sorted(ROUTE_TRIP_TYPES)}")
+                points = trip.get("points")
+                if not isinstance(points, list) or len(points) < 2:
+                    report.error(f"geofences: {path}.points должен содержать минимум две точки [широта, долгота]")
+                else:
+                    for point_index, point in enumerate(points):
+                        check_point(point, f"{path}.points[{point_index}]")
+                waypoints = trip.get("waypoints")
+                if not isinstance(waypoints, list) or len(waypoints) < 2:
+                    report.error(f"geofences: {path}.waypoints должен содержать минимум две точки")
+                else:
+                    for waypoint_index, waypoint in enumerate(waypoints):
+                        waypoint_path = f"{path}.waypoints[{waypoint_index}]"
+                        if not isinstance(waypoint, dict):
+                            report.error(f"geofences: {waypoint_path} должен быть объектом")
+                            continue
+                        check_point(waypoint.get("center"), f"{waypoint_path}.center")
+                        if not str(waypoint.get("name") or "").strip():
+                            report.warn(f"geofences: {waypoint_path}.name пустой — в интерфейсе точка называется по умолчанию")
+                        if not str(waypoint.get("pointId") or "").strip():
+                            report.warn(f"geofences: {waypoint_path}.pointId пустой — интерфейс сопоставляет точки по нему")
+        if "points" in shape:
+            report.warn("geofences: у маршрута нет shape.points — геометрия лежит в shape.trips[].points")
 
     cutouts = shape.get("cutouts", [])
     if not isinstance(cutouts, list):
